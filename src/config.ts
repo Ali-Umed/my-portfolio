@@ -9,7 +9,7 @@ import { LinkPreset } from "./types/config";
 
 export const siteConfig: SiteConfig = {
   title: "Ali",
-  subtitle: "Demo Site",
+  subtitle: "",
   lang: "en", // 'en', 'zh_CN', 'zh_TW', 'ja', 'ko', 'es', 'th'
   themeColor: {
     hue: 250, // Default hue for the theme color, from 0 to 360. e.g. red: 0, teal: 200, cyan: 250, pink: 345
@@ -32,10 +32,10 @@ export const siteConfig: SiteConfig = {
   favicon: [
     // Leave this array empty to use the default favicon
     // {
-    //   src: '/favicon/icon.png',    // Path of the favicon, relative to the /public directory
-    //   theme: 'light',              // (Optional) Either 'light' or 'dark', set only if you have different favicons for light and dark mode
-    //   sizes: '32x32',              // (Optional) Size of the favicon, set only if you have favicons of different sizes
-    // }
+    //   src: "/favicon/icon.png", // Path of the favicon, relative to the /public directory
+    //   theme: "light", // (Optional) Either 'light' or 'dark', set only if you have different favicons for light and dark mode
+    //   sizes: "32x32", // (Optional) Size of the favicon, set only if you have favicons of different sizes
+    // },
   ],
 };
 
@@ -44,11 +44,11 @@ export const navBarConfig: NavBarConfig = {
     LinkPreset.Home,
     LinkPreset.Archive,
     LinkPreset.About,
-    {
-      name: "GitHub",
-      url: "https://github.com/saicaca/fuwari", // Internal links should not include the base path, as it is automatically added
-      external: true, // Show an external link icon and will open in a new tab
-    },
+    // {
+    //   name: "GitHub",
+    //   url: "https://github.com/Ali-Umed", // Internal links should not include the base path, as it is automatically added
+    //   external: true, // Show an external link icon and will open in a new tab
+    // },
   ],
 };
 
@@ -59,21 +59,19 @@ export const profileConfig: ProfileConfig = {
   bio: "Fast builds. Clean UX. Modern code for modern screens.",
   links: [
     {
-      name: "Twitter",
-      icon: "fa6-brands:twitter", // Visit https://icones.js.org/ for icon codes
-      // You will need to install the corresponding icon set if it's not already included
-      // `pnpm add @iconify-json/<icon-set-name>`
-      url: "https://twitter.com",
-    },
-    {
-      name: "Steam",
-      icon: "fa6-brands:steam",
-      url: "https://store.steampowered.com",
-    },
-    {
       name: "GitHub",
       icon: "fa6-brands:github",
-      url: "https://github.com/saicaca/fuwari",
+      url: "https://github.com/Ali-Umed",
+    },
+    {
+      name: "LinkedIn",
+      icon: "fa6-brands:linkedin", // Iconify icon set: Font Awesome 6 Brands
+      url: "https://www.linkedin.com/in/ali-umed-076854286", // Replace with your actual LinkedIn URL
+    },
+    {
+      name: "Email",
+      icon: "fa6-solid:envelope", // Font Awesome 6 Solid set
+      url: "mailto:aliumed844@gmail.com", // Replace with your actual email
     },
   ],
 };
