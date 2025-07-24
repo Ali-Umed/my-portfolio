@@ -1,7 +1,7 @@
 ---
 title: Calculator App
 published: 2022-07-01
-tags: [Web, UI/UX, React, TailwindCss]
+tags: [React, TailwindCss, Calculator Website]
 category: Examples
 draft: false
 ---

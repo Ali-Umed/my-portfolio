@@ -1,7 +1,7 @@
 ---
 title: Fast Order
 published: 2022-07-01
-tags: [React, UI/UX, Pizza App]
+tags: [React, UI/UX, Pizza Website]
 category: Examples
 draft: false
 ---
@@ -25,7 +25,7 @@ Fast Order is a **responsive pizza ordering app** built with **React.js**, featu
 
 ## 🚀 Live Demo
 
-👉 _[https://main--fast-order1.netlify.app/]_
+👉 [Try it here](https://main--fast-order1.netlify.app/)
 
 ---
 
