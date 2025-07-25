@@ -65,8 +65,8 @@ The frontend is designed to offer **clarity, speed, and interaction**, using:
 
 ## 👨‍💻 Author
 
+Made Backend by [Mustafa Salah](https://github.com/mustafa-salah-1)
 Made Frontend by [Ali Umed](https://github.com/Ali-Umed)
-Made Backend by [Ali Umed](https://github.com/mustafa-salah-1)
 
 ---
 
