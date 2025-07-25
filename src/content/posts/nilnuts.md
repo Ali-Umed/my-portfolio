@@ -13,6 +13,12 @@ Built with a **Laravel** API backend and a **Next.js** frontend, it offers a fas
 
 ---
 
+## 🚀 Live Demo
+
+👉 [Try the Live Demo](https://nilnuts.com/)
+
+---
+
 ## ✨ Key Features
 
 - **Product Catalog** – Organized by categories and subcategories
