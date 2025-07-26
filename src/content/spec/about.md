@@ -55,12 +55,11 @@ I'm self-driven, detail-oriented, and love building digital products that make a
 - Firebase
 - React.js  
 - Next.js  
-- React Native  
 - JavaScript / TypeScript  
-- Tailwind CSS, Sass  
+- Tailwind CSS  
+- React Native  
 - Redux / Redux Toolkit  
 - Vite  
-- Shadcn
 
 ## 🤝 Let's Connect
 
