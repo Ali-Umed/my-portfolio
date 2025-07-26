@@ -4,6 +4,7 @@ published: 2025-03-12
 tags: [Next.js, Laravel, Website, Teamwork, Tailwind CSS, React, E-commerce, Multilingual, SEO, Full Stack, Responsive Design]
 category: Website
 draft: false
+pinned: true
 ---
 
 # nilnuts – Fresh Grocery & Nuts Web App

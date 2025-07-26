@@ -4,6 +4,7 @@ published: 2025-07-26
 tags: [Flutter, Quote App, Mobile Application]
 category: Mobile Application
 draft: false
+pinned: true
 ---
 
 # ✨ Flutter Quote Generator

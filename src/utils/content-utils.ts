@@ -18,7 +18,16 @@ async function getRawSortedPosts() {
 }
 
 export async function getSortedPosts() {
-  const sorted = await getRawSortedPosts();
+  const sorted = (await getRawSortedPosts()).sort((a, b) => {
+    // Pinned first
+    if ((b.data.pinned ? 1 : 0) !== (a.data.pinned ? 1 : 0)) {
+      return (b.data.pinned ? 1 : 0) - (a.data.pinned ? 1 : 0);
+    }
+    // Then by published date (newest first)
+    const dateA = new Date(a.data.published);
+    const dateB = new Date(b.data.published);
+    return dateA > dateB ? -1 : 1;
+  });
 
   for (let i = 1; i < sorted.length; i++) {
     sorted[i].data.nextSlug = sorted[i - 1].slug;
@@ -31,6 +40,7 @@ export async function getSortedPosts() {
 
   return sorted;
 }
+
 export type PostForList = {
   slug: string;
   data: CollectionEntry<"posts">["data"];

@@ -4,6 +4,7 @@ published: 2023-10-27
 tags: [Flutter, Firebase, Islamic App, Mobile Application, Education, Mobile Application, Dark Mode]
 category: Mobile Application
 draft: false
+pinned: true
 ---
 
 # 🕌 مانگ – Islamic Q&A App
