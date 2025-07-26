@@ -1,6 +1,6 @@
 # 👨‍💻 Ali Umed
 
-## 🧠 About Me
+## About Me
 
 As a software developer, I specialize in turning ideas into real-world applications.  
 My strengths are in crafting modern, scalable, and interactive UIs using **React.js**, **Flutter**, **Next.js**, and **React Native**.
@@ -13,8 +13,8 @@ I'm self-driven, detail-oriented, and love building digital products that make a
 
 ### 👨‍🎓 Self-Taught Developer (2019 – Present)  
 
-- Journeyed from beginner to **Full Stack Developer**  
-- Built numerous apps with **React**, **Flutter**, and **JavaScript**  
+- Built numerous apps with **Flutter**, **React Native**
+- Built Websites with **React**, **Next JS**, and **TailwindCss**  
 - Gained foundational knowledge in **OOP** with C++ and Java  
 - Passionate about learning, building, and improving continuously
 
