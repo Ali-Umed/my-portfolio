@@ -1,8 +1,8 @@
 ---
 title: Travel Airline Project ✈️
-published: 2022-07-01
-tags: [Modern, Website]
-category: Examples
+published: 2024-09-13
+tags: [Booking System, Responsive Design, Modern UI, JavaScript,Website]
+category: Website
 draft: false
 ---
 

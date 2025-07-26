@@ -1,8 +1,8 @@
 ---
 title: Fast Order
-published: 2022-07-01
-tags: [React, UI/UX, Pizza Website]
-category: Examples
+published: 2024-06-08
+tags: [React, Redux Toolkit, TailwindCSS, Pizza Website, Food Ordering, Responsive Design, Website]
+category: Website
 draft: false
 ---
 

@@ -1,8 +1,8 @@
 ---
 title: React Quiz App
-published: 2022-07-01
-tags: [React, Quiz, Tailwind, Website]
-category: Projects
+published: 2024-05-22
+tags: [React, Tailwind CSS, Quiz App, Responsive Design, Website]
+category: Website
 draft: false
 ---
 

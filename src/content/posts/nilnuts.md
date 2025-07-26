@@ -1,8 +1,8 @@
 ---
 title: Nilnuts
-published: 2022-07-01
-tags: [Next js, Website, Tailwind Css]
-category: Examples
+published: 2025-03-12
+tags: [Next.js, Laravel, Website, Teamwork, Tailwind CSS, React, E-commerce, Multilingual, SEO, Full Stack, Responsive Design]
+category: Website
 draft: false
 ---
 

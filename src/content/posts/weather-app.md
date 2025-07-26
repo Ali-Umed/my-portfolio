@@ -1,8 +1,8 @@
 ---
 title: Weather App
-published: 2022-07-01
-tags: [React, Weather, Website]
-category: Examples
+published: 2024-03-14
+tags: [React, TypeScript, Tailwind CSS, Weather App, Responsive Design, Geolocation, API, Website]
+category: Website
 draft: false
 ---
 
