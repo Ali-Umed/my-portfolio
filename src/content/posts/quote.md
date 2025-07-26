@@ -19,10 +19,10 @@ A **beautiful, modern Flutter app** for daily inspiration. Instantly fetch rando
 <table>
   <tr>
     <td>
-      <img src="../../assets/images/screen.png" alt="App Screenshot 1" width="300"/>
+      <img src="/images/screen.png" alt="App Screenshot 1" width="300"/>
     </td>
     <td>
-      <img src="../../assets/images/screen2.png" alt="App Screenshot 2" width="300"/>
+      <img src="/images/screen2.png" alt="App Screenshot 2" width="300"/>
     </td>
   </tr>
 </table>
