@@ -51,13 +51,11 @@ I'm self-driven, detail-oriented, and love building digital products that make a
 
 ## 🛠️ Skills
 
-Flutter • Firebase • React.js • Next.js • JavaScript / TypeScript • Tailwind CSS • React Native • Redux / Redux
+Flutter  • Firebase  • React.js  • Next.js  • JavaScript / TypeScript  • Tailwind CSS  • React Native  • Redux / Redux
 
 ## 🤝 Let's Connect
 
-- [LinkedIn](https://www.linkedin.com/in/ali-umed-076854286/)  
-- [GitHub](https://github.com/Ali-Umed)  
-- [Email](mailto:aliumed844@gmail.com)
+- [LinkedIn](https://www.linkedin.com/in/ali-umed-076854286/)   - [GitHub](https://github.com/Ali-Umed)   - [Email](mailto:aliumed844@gmail.com)
 
 ---
 
