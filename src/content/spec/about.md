@@ -3,13 +3,20 @@
 ## 🧠 About Me
 
 As a software developer, I specialize in turning ideas into real-world applications.  
-My strengths lie in crafting modern, scalable, and interactive UIs using **React.js**, **Flutter**, **Next.js**, and **React Native**.
+My strengths are in crafting modern, scalable, and interactive UIs using **React.js**, **Flutter**, **Next.js**, and **React Native**.
 
 I'm self-driven, detail-oriented, and love building digital products that make an impact.
 
 ---
 
 ## 💼 Work Experience
+
+### 👨‍🎓 Self-Taught Developer (2019 – Present)  
+
+- Journeyed from beginner to **Full Stack Developer**  
+- Built numerous apps with **React**, **Flutter**, and **JavaScript**  
+- Gained foundational knowledge in **OOP** with C++ and Java  
+- Passionate about learning, building, and improving continuously
 
 ### 🟦 Moneta Gift (Aug 2024 – Jan 2025)  
 
@@ -33,13 +40,6 @@ I'm self-driven, detail-oriented, and love building digital products that make a
 
 - Gained practical experience in structured data processing and platform management  
 
-### 👨‍🎓 Self-Taught Developer (2020 – Present)  
-
-- Journeyed from beginner to **Full Stack Developer**  
-- Built numerous apps with **React**, **Flutter**, and **JavaScript**  
-- Gained foundational knowledge in **OOP** with C++ and Java  
-- Passionate about learning, building, and improving continuously
-
 ---
 
 ## 🎓 Education
@@ -51,15 +51,7 @@ I'm self-driven, detail-oriented, and love building digital products that make a
 
 ## 🛠️ Skills
 
-- Flutter
-- Firebase
-- React.js  
-- Next.js  
-- JavaScript / TypeScript  
-- Tailwind CSS  
-- React Native  
-- Redux / Redux Toolkit  
-- Vite  
+Flutter • Firebase • React.js • Next.js • JavaScript / TypeScript • Tailwind CSS • React Native • Redux / Redux
 
 ## 🤝 Let's Connect
 
