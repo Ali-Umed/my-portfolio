@@ -1,5 +1,5 @@
 ---
-title: Ship Fly - Package Tracker
+title: Dolphin Express - Package Tracker
 published: 2025-04-10
 tags: [Flutter, Track App, Mobile Application]
 category: Mobile Application
@@ -8,9 +8,9 @@ pinned: true
 ---
 
 
-# 📦 Ship Fly
+# 📦 Dolphin Express
 
-**Ship Fly** is a smart, modern Flutter application designed for **tracking packages** across **air (fly)**, **sea (container/ship)**, and **land (vehicle/truck)**.
+**Dolphin Express** is a smart, modern Flutter application designed for **tracking packages** across **air (fly)**, **sea (container/ship)**, and **land (vehicle/truck)**.
 
 Track your orders **live** with real-time updates on where your package is:  
 
@@ -27,12 +27,12 @@ Track your orders **live** with real-time updates on where your package is:
 
 <table>
   <tr>
-    <td><img src="/images/track1.png" alt="Tracking Page" width="300"/></td>
-    <td><img src="/images/track2.png" alt="Package Detail Page" width="300"/></td>
+    <td><img src="/images/1.png" alt="Tracking Page" width="300"/></td>
+    <td><img src="/images/2.png" alt="Package Detail Page" width="300"/></td>
   </tr>
   <tr>
-    <td><img src="/images/track3.png" alt="Map View" width="300"/></td>
-    <td><img src="/images/track4.png" alt="Profile & Settings" width="300"/></td>
+    <td><img src="/images/3.png" alt="Map View" width="300"/></td>
+    <td><img src="/images/5.png" alt="Profile & Settings" width="300"/></td>
   </tr>
 </table>
 
