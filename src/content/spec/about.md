@@ -2,52 +2,53 @@
 
 ## About Me
 
-As a software developer, I specialize in turning ideas into real-world applications.  
-My strengths are in crafting modern, scalable, and interactive UIs using **React.js**, **Flutter**, **Next.js**, and **React Native**.
+As a Software Developer, I build fast, intuitive applications using React.js, React Native, Flutter, and Next.js, turning ideas into polished digital products.
 
-I'm self-driven, detail-oriented, and love building digital products that make an impact.
+## � Professional Journey
 
----
+### 🎓 Self-Taught Developer (2020 - Present)
 
-## 💼 Work Experience
+**Starter → Full Stack Developer**  
 
-### 👨‍🎓 Self-Taught Developer (2019 – Present)  
+- Embarked on a self-learning journey in 2020, mastering mobile development with Flutter
+- Developed expertise in frontend development using React.js and JavaScript
+- Built and deployed multiple full-stack applications independently
+- Continuously expanding knowledge through personal projects and open-source contributions
 
-- Built numerous apps with **Flutter**, **React Native**
-- Built Websites with **React**, **Next JS**, and **TailwindCss**  
-- Gained foundational knowledge in **OOP** with C++ and Java  
-- Passionate about learning, building, and improving continuously
-
-### 🟦 Moneta Gift (Aug 2024 – Jan 2025)  
-
-**Full Stack Developer**  
-
-- Developed dynamic and user-friendly UIs using React.js  
-- Integrated **Firebase** for real-time database, auth, and performance  
-- Used **Next.js** for SSR and optimized frontend delivery  
-
-### 🟨 Gateway – Internship (Jul 2023 – Sep 2023)  
+### 🏢 Gateway (Jul 2023 - Sep 2023)
 
 **Frontend Developer Intern**  
 
-- Collaborated with developers/designers on multiple web apps  
-- Used **React.js**, **TypeScript**, Git, GitHub  
-- Followed Agile methodologies, including **Scrum**
+- Collaborated with cross-functional teams on client projects
+- Developed responsive UIs using React.js and TypeScript
+- Implemented version control with Git/GitHub
+- Practiced Agile methodologies including Scrum
 
-### 🟩 Noon_1968 (Nov 2024 – Aug 2025)  
+## � Technical Skills
 
-**Data Entry Specialist**  
+### Frontend
 
-- Gained practical experience in structured data processing and platform management  
+- Next.js | React | React Native | JavaScript | TypeScript
+- Redux/Redux Kit | Tailwind CSS | Sass
 
----
+### Mobile
+
+- Flutter | Dart | React Native
+
+### Backend & Databases
+
+- Node.js | Laravel | Firebase | Supabase | MySQL
+
+### Tools & Practices
+
+- Git/GitHub | Vite | Linux | Trello
+- Agile/Scrum | Team Collaboration
 
 ## 🎓 Education
 
 **Erbil Polytechnic University**  
 *Bachelor's Degree in Information Systems Engineering (2020 – 2024)*
 
----
 
 ## 🛠️ Skills
 
