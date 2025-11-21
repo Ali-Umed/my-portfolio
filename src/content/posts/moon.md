@@ -1,7 +1,7 @@
 ---
 title: مانگ Islamic Quiz App
 published: 2023-10-27
-tags: [Flutter, Firebase, Islamic App, Mobile Application, Education, Mobile Application, Dark Mode]
+tags: [Co-Founder, Flutter, Firebase, Islamic App, Mobile Application, Education, Mobile Application, Dark Mode]
 category: Mobile Application
 draft: false
 pinned: true
