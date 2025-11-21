@@ -4,6 +4,7 @@ published: 2024-03-09
 tags: [React, TypeScript, Tailwind CSS, Dark Mode ]
 category: Website
 draft: false
+weight: 88
 ---
 
 # 🧮 Calculator App

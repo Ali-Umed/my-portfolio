@@ -18,6 +18,7 @@ const postsCollection = defineCollection({
 		nextTitle: z.string().default(""),
 		nextSlug: z.string().default(""),
 		pinned: z.boolean().optional(),
+		weight: z.number().default(0),
 	}),
 });
 export const collections = {

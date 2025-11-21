@@ -4,6 +4,7 @@ published: 2024-06-08
 tags: [React, Redux, Tailwind CSS, E-commerce, Responsive Design]
 category: Website
 draft: false
+weight: 89
 ---
 
 # 🍕 Fast Order – Pizza Ordering App

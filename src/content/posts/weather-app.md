@@ -4,6 +4,7 @@ published: 2024-03-14
 tags: [React, TypeScript, Tailwind CSS, Responsive Design, API, Dark Mode, Multilingual]
 category: Website
 draft: false
+weight: 91
 ---
 
 # ⛅ Weather App

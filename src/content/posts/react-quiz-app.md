@@ -4,6 +4,7 @@ published: 2024-05-22
 tags: [React, Tailwind CSS, Quiz, Responsive Design, Dark Mode]
 category: Website
 draft: false
+weight: 90
 ---
 
 # 🎉 React Quiz App

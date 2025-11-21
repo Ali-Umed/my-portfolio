@@ -4,6 +4,7 @@ published: 2025-10-07
 tags: [Next.js, Industrial, Business Website, Responsive Design, Multilingual]
 category: Website
 draft: false
+weight: 95
 ---
 
 # ⚡ Panel Line Factory

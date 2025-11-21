@@ -5,6 +5,7 @@ tags: [Co-Founder, Flutter, E-commerce, Mobile Application, Dark Mode, Multiling
 category: Mobile Application
 draft: false
 pinned: true
+weight: 100
 ---
 
 # �️ Sawda Pro

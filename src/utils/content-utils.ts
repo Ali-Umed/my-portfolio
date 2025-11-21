@@ -3,30 +3,33 @@ import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import { getCategoryUrl } from "@utils/url-utils.ts";
 
-// // Retrieve posts and sort them by publication date
+// Retrieve all posts with draft filtering
 async function getRawSortedPosts() {
-  const allBlogPosts = await getCollection("posts", ({ data }) => {
+  return await getCollection("posts", ({ data }) => {
     return import.meta.env.PROD ? data.draft !== true : true;
   });
-
-  const sorted = allBlogPosts.sort((a, b) => {
-    const dateA = new Date(a.data.published);
-    const dateB = new Date(b.data.published);
-    return dateA > dateB ? -1 : 1;
-  });
-  return sorted;
 }
 
 export async function getSortedPosts() {
-  const sorted = (await getRawSortedPosts()).sort((a, b) => {
-    // Pinned first
-    if ((b.data.pinned ? 1 : 0) !== (a.data.pinned ? 1 : 0)) {
-      return (b.data.pinned ? 1 : 0) - (a.data.pinned ? 1 : 0);
+  const posts = await getRawSortedPosts();
+  
+  const sorted = [...posts].sort((a, b) => {
+    // First sort by weight (highest first)
+    if (a.data.weight !== b.data.weight) {
+      return (b.data.weight || 0) - (a.data.weight || 0);
     }
-    // Then by published date (newest first)
+    
+    // Then by pinned status (pinned first)
+    const pinnedA = a.data.pinned ? 1 : 0;
+    const pinnedB = b.data.pinned ? 1 : 0;
+    if (pinnedA !== pinnedB) {
+      return pinnedB - pinnedA;
+    }
+    
+    // Finally by published date (newest first)
     const dateA = new Date(a.data.published);
     const dateB = new Date(b.data.published);
-    return dateA > dateB ? -1 : 1;
+    return dateB.getTime() - dateA.getTime();
   });
 
   for (let i = 1; i < sorted.length; i++) {

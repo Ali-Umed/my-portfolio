@@ -5,6 +5,7 @@ tags: [ Next.js, Laravel, E-commerce, Full Stack, Multilingual, Responsive Desig
 category: Website
 draft: false
 pinned: true
+weight: 96
 ---
 
 # nilnuts – Fresh Grocery & Nuts Web App

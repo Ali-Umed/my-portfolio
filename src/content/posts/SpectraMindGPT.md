@@ -5,6 +5,7 @@ tags: [Flutter, AI, Mobile App, Multi-language, Dark Mode, Multilingual]
 category: AI Application
 draft: false
 pinned: true
+weight: 99
 ---
 
 # 🤖 SpectraMindGPT

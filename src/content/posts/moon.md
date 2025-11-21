@@ -5,6 +5,7 @@ tags: [Co-Founder, Flutter, Firebase, Education, Mobile App, Dark Mode]
 category: Mobile Application
 pinned: true
 draft: false
+weight: 98
 ---
 
 # 🕌 مانگ – Islamic Q&A App

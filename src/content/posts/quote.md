@@ -4,6 +4,7 @@ published: 2025-07-26
 tags: [Flutter, Mobile App, Dark Mode]
 category: Mobile Application
 draft: false
+weight: 93
 ---
 
 # ✨ Flutter Quote Generator

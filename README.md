@@ -49,7 +49,6 @@ As a Software Developer, I build fast, intuitive applications using React.js, Re
 **Erbil Polytechnic University**  
 *Bachelor's Degree in Information Systems Engineering (2020 – 2024)*
 
-
 ## 🛠️ Skills
 
 Flutter  • Firebase  • React.js  • Next.js  • JavaScript / TypeScript  • Tailwind CSS  • React Native  • Redux / Redux
