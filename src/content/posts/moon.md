@@ -3,8 +3,8 @@ title: مانگ Islamic Quiz App
 published: 2023-10-27
 tags: [Co-Founder, Flutter, Firebase, Islamic App, Mobile Application, Education, Mobile Application, Dark Mode]
 category: Mobile Application
-draft: false
 pinned: true
+draft: false
 ---
 
 # 🕌 مانگ – Islamic Q&A App
@@ -15,10 +15,25 @@ Built with **Flutter**, integrated with **Firebase** for real-time features and 
 
 ---
 
-## 🚀 Live Demo
+## 🚀 Download Now
 
 👉 [Play Store](https://play.google.com/store/apps/details?id=com.moon_project.moon_project&hl=ar)  
 👉 [App Store](https://apps.apple.com/us/app/%D9%85%D8%A7%D9%86%DA%AF/id6502869446)
+
+---
+
+## 📱 App Previews
+
+<table>
+  <tr>
+    <td><img src="/images/moon1.png" alt="Chat Interface" width="300"/></td>
+    <td><img src="/images/moon2.png" alt="Document Analysis" width="300"/></td>
+  </tr>
+  <tr>
+    <td><img src="/images/moon3.png" alt="Image Generation" width="300"/></td>
+    <td><img src="/images/moon4.png" alt="Settings & Preferences" width="300"/></td>
+  </tr>
+</table>
 
 ---
 
