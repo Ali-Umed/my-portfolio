@@ -1,7 +1,7 @@
 ---
 title: Sawda Pro - Modern Shopping & Social Experience
 published: 2025-11-10
-tags: [Co-Founder, Flutter, E-commerce, Mobile Application, Social Shopping]
+tags: [Co-Founder, Flutter, E-commerce, Mobile Application, Dark Mode, Multilingual]
 category: Mobile Application
 draft: false
 pinned: true

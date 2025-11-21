@@ -1,7 +1,7 @@
 ---
 title: Travel Airline Project ✈️
 published: 2024-09-13
-tags: [Booking System, Responsive Design, Modern UI, JavaScript,Website]
+tags: [React, JavaScript, Booking System, Responsive Design]
 category: Website
 draft: false
 ---

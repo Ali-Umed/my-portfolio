@@ -1,7 +1,7 @@
 ---
 title: Calculator App
 published: 2024-03-09
-tags: [React, TypeScript, TailwindCSS, Calculator, Website]
+tags: [React, TypeScript, Tailwind CSS, Dark Mode ]
 category: Website
 draft: false
 ---

@@ -1,7 +1,7 @@
 ---
 title: Flutter Quote Generator
 published: 2025-07-26
-tags: [Flutter, Quote App, Mobile Application]
+tags: [Flutter, Mobile App, Dark Mode]
 category: Mobile Application
 draft: false
 ---

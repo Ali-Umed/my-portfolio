@@ -1,7 +1,7 @@
 ---
 title: Dolphin Express - Package Tracker
 published: 2025-04-10
-tags: [Flutter, Track App, Mobile Application]
+tags: [Flutter, Track App, Mobile Application, Dark Mode, Multilingual]
 category: Mobile Application
 draft: false
 pinned: true

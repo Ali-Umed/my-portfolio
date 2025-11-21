@@ -1,7 +1,7 @@
 ---
 title: React Quiz App
 published: 2024-05-22
-tags: [React, Tailwind CSS, Quiz App, Responsive Design, Website]
+tags: [React, Tailwind CSS, Quiz, Responsive Design, Dark Mode]
 category: Website
 draft: false
 ---

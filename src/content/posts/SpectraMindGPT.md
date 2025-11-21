@@ -1,7 +1,7 @@
 ---
 title: SpectraMindGPT - Your AI Assistant
 published: 2025-11-19
-tags: [Flutter, AI Assistant, Multi-language, Cross-platform, Productivity]
+tags: [Flutter, AI, Mobile App, Multi-language, Dark Mode, Multilingual]
 category: AI Application
 draft: false
 pinned: true

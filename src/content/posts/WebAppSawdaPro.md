@@ -1,7 +1,7 @@
 ---
 title: Sawda Pro - Web Application
 published: 2025-11-21
-tags: [Co-Founder, Web Development, E-commerce, Landing Page, Responsive Design]
+tags: [Co-Founder, Web Development, E-commerce, Landing Page, Responsive Design, Dark Mode, Multilingual]
 category: Website
 draft: false
 ---

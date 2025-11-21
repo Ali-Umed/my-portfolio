@@ -1,7 +1,7 @@
 ---
 title: Panel Line Factory - Industrial Electrical Panels
 published: 2025-10-07
-tags: [ Electrical Panels, Manufacturing, Control Systems]
+tags: [Next.js, Industrial, Business Website, Responsive Design, Multilingual]
 category: Website
 draft: false
 ---

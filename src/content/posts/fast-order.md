@@ -1,7 +1,7 @@
 ---
 title: Fast Order
 published: 2024-06-08
-tags: [React, Redux Toolkit, TailwindCSS, Pizza Website, Food Ordering, Responsive Design, Website]
+tags: [React, Redux, Tailwind CSS, E-commerce, Responsive Design]
 category: Website
 draft: false
 ---
