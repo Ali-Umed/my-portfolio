@@ -1,0 +1,73 @@
+---
+import { getCollection } from "astro:content";
+import MainGridLayout from "../../layouts/MainGridLayout.astro";
+import Markdown from "../../components/misc/Markdown.astro";
+
+export async function getStaticPaths() {
+  const blogPosts = await getCollection("blogs");
+  return blogPosts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+const { title, description, published, updated, image } = post.data;
+---
+
+<MainGridLayout title={title} description={description || ""}>
+  <article class="prose dark:prose-invert mx-auto max-w-4xl px-4 py-8">
+    <header class="mb-8">
+      <h1 class="text-4xl font-bold mb-2">{title}</h1>
+      <div class="text-sm text-gray-500 dark:text-gray-400">
+        <time datetime={published.toISOString()}>
+          Published: {published.toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' })}
+        </time>
+        {updated && updated.getTime() !== published.getTime() && (
+          <span class="ml-4">
+            Updated: {updated.toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' })}
+          </span>
+        )}
+      </div>
+      {image && (
+        <img
+          src={image}
+          alt={title}
+          class="mt-6 rounded-lg w-full h-64 object-cover"
+        />
+      )}
+    </header>
+
+    <div class="markdown-content">
+      <Content />
+    </div>
+  </article>
+</MainGridLayout>
+
+<style>
+  .markdown-content {
+    @apply space-y-4;
+  }
+  .markdown-content h2 {
+    @apply text-2xl font-bold mt-8 mb-4;
+  }
+  .markdown-content h3 {
+    @apply text-xl font-semibold mt-6 mb-3;
+  }
+  .markdown-content p {
+    @apply text-gray-700 dark:text-gray-300 leading-relaxed;
+  }
+  .markdown-content a {
+    @apply text-blue-500 hover:underline;
+  }
+  .markdown-content ul, .markdown-content ol {
+    @apply list-disc pl-6 space-y-2 my-4;
+  }
+  .markdown-content code {
+    @apply bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded text-sm;
+  }
+  .markdown-content pre {
+    @apply bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto my-4;
+  }
+</style>
