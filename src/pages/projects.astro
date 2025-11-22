@@ -1,0 +1,75 @@
+---
+import { getCollection } from "astro:content";
+import MainGridLayout from "../layouts/MainGridLayout.astro";
+import PostCard from "../components/PostCard.astro";
+import Pagination from "../components/control/Pagination.astro";
+import { getPostUrlBySlug } from "../utils/url-utils";
+import { getSortedPosts } from "../utils/content-utils";
+
+// Get all posts using the same sorting logic as home page
+const allPosts = await getSortedPosts();
+
+// Filter to only show projects
+const projectPosts = allPosts.filter(post => 
+  post.data.category && 
+  typeof post.data.category === 'string'  
+);
+
+// Pagination
+const pageSize = 8; // Same as home page
+const currentPage = Number(Astro.url.searchParams.get('page') || 1);
+const totalPages = Math.ceil(projectPosts.length / pageSize);
+const startIndex = (currentPage - 1) * pageSize;
+const paginatedPosts = projectPosts.slice(startIndex, startIndex + pageSize);
+
+// Create pagination object for the Pagination component
+const pagination = {
+    currentPage,
+    lastPage: totalPages,
+    url: {
+        prev: currentPage > 1 ? `?page=${currentPage - 1}` : undefined,
+        next: currentPage < totalPages ? `?page=${currentPage + 1}` : undefined,
+        current: `?page=${currentPage}`
+    },
+    size: pageSize,
+    total: projectPosts.length,
+    data: paginatedPosts
+};
+
+// Animation variables
+let delay = 0;
+const interval = 50;
+const len = paginatedPosts.length;
+---
+
+<MainGridLayout title="Projects" description="My featured projects and work">
+    <div class="transition flex flex-col rounded-[var(--radius-large)] bg-[var(--card-bg)] py-1 md:py-0 md:bg-transparent md:gap-4 mb-4">
+        {paginatedPosts.map((post) => {
+            const url = getPostUrlBySlug(post.slug);
+            return (
+                <PostCard 
+                    entry={post}
+                    title={post.data.title}
+                    url={url}
+                    published={post.data.published}
+                    updated={post.data.updated}
+                    tags={post.data.tags}
+                    category={post.data.category}
+                    image={post.data.image}
+                    description={post.data.description}
+                    draft={post.data.draft}
+                    class:list="onload-animation"
+                    style={`animation-delay: calc(var(--content-delay) + ${delay++ * interval}ms);`}
+                />
+            );
+        })}
+    </div>
+
+    {totalPages > 1 && (
+        <Pagination 
+            page={pagination} 
+            class="mx-auto onload-animation" 
+            style={`animation-delay: calc(var(--content-delay) + ${len * 50}ms);`} 
+        />
+    )}
+</MainGridLayout>
