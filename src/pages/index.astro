@@ -1,0 +1,24 @@
+---
+import { getEntry, render } from "astro:content";
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
+import { siteConfig } from "@/config";
+
+import "@/styles/main.css";
+import "@/styles/markdown.css";
+
+const homeEntry = await getEntry("spec", "home");
+if (!homeEntry) {
+  throw new Error("Home page content not found");
+}
+
+const { Content } = await render(homeEntry);
+const banner = siteConfig.banner.enable ? siteConfig.banner.src : undefined;
+---
+
+<MainGridLayout title="Home" description="Welcome to my portfolio" {banner}>
+  <div class="card-base p-6 md:p-8">
+    <article class="prose dark:prose-invert max-w-none">
+      <Content />
+    </article>
+  </div>
+</MainGridLayout>
