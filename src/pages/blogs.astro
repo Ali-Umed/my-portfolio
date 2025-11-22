@@ -1,0 +1,38 @@
+---
+import { getCollection } from "astro:content";
+import MainGridLayout from "../layouts/MainGridLayout.astro";
+import PostCard from "../components/PostCard.astro";
+
+const allBlogs = await getCollection("blogs");
+
+const publishedBlogs = allBlogs
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.published.getTime() - a.data.published.getTime());
+
+let delay = 0;
+const interval = 50;
+---
+
+<MainGridLayout title="Blog" description="Read our latest blog posts">
+    <div class="transition flex flex-col rounded-[var(--radius-large)] bg-[var(--card-bg)] py-1 md:py-0 md:bg-transparent md:gap-4 mb-4">
+        {publishedBlogs.map((blog) => {
+            const url = `/blogs/${blog.slug}/`;
+            return (
+                <PostCard 
+                    entry={blog}
+                    title={blog.data.title}
+                    url={url}
+                    published={blog.data.published}
+                    updated={blog.data.updated}
+                    tags={blog.data.tags}
+                    category={blog.data.category}
+                    image={blog.data.image}
+                    description={blog.data.description}
+                    draft={blog.data.draft}
+                    class:list="onload-animation"
+                    style={`animation-delay: calc(var(--content-delay) + ${delay++ * interval}ms);`}
+                />
+            );
+        })}
+    </div>
+</MainGridLayout>

@@ -3,6 +3,7 @@ title: SpectraMindGPT - Your AI Assistant
 published: 2025-11-19
 tags: [Flutter, AI, Mobile App, Multi-language, Dark Mode, Multilingual]
 category: Mobile Application
+# image: "/images/spectra1.png"  
 draft: false
 pinned: true
 weight: 99
