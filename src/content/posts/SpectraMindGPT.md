@@ -2,7 +2,7 @@
 title: SpectraMindGPT - Your AI Assistant
 published: 2025-11-19
 tags: [Flutter, AI, Mobile App, Multi-language, Dark Mode, Multilingual]
-category: AI Application
+category: Mobile Application
 draft: false
 pinned: true
 weight: 99
@@ -29,7 +29,6 @@ Experience the power of SpectraMindGPT today:
   </a>
 </div>
 
-
 ---
 
 ## 📱 App Previews
@@ -50,33 +49,34 @@ Experience the power of SpectraMindGPT today:
 ## 🌟 Key Features
 
 ### 💬 Natural Language Processing
+
 - Advanced text generation and completion
 - Context-aware responses
 - Multi-turn conversations
 - Code generation and explanation
 
 ### 🎙️ Voice Interaction
+
 - Speech-to-Text for hands-free control
 - Text-to-Speech for natural responses
 - Multiple voice options
 - Background audio processing
 
 ### 🎨 Creative Tools
+
 - AI Image Generation
 - Document analysis (PDF, DOCX, TXT)
 - File upload and processing
 
 ### 🌓 Smart Theme System
+
 - Light, Dark, and System themes
 - Automatic theme switching
 
 ### 🌐 Multi-language Support
+
 - Available in more than 15 languages:
   - English
   - Arabic
   - Kurdish
 - RTL support
-
-
-
-
