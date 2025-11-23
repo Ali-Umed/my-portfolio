@@ -4,6 +4,7 @@ published: 2025-11-10
 tags: [Co-Founder, Flutter, E-commerce, Mobile Application, Dark Mode, Multilingual]
 category: Mobile Application
 draft: false
+# image: "https://i.pinimg.com/736x/7d/97/e7/7d97e7e9d029e1a0c79af805b788ce32.jpg"  
 pinned: true
 weight: 100
 ---
@@ -62,7 +63,6 @@ Get the Sawda Pro app today and start your stylish shopping journey!
 - Compete with friends for exclusive rewards
 - Quicky ranking updates
 
-
 ### 🌓 Smart Theme System
 
 - Choose from three beautiful themes:
@@ -71,14 +71,10 @@ Get the Sawda Pro app today and start your stylish shopping journey!
   - 🌅 System Mode
 - Automatic theme switching based on system settings
 
-
 ### � Cross-Platform
 
 - Seamless experience on both iOS and Android
 - Optimized for most screen sizes
 - Fast and responsive interface
 
-
-
 ---
-
