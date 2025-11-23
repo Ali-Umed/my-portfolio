@@ -9,7 +9,7 @@ category: "iOS Development"
 lang: "en"
 ---
 
-Publishing an iOS app can be stressful, especially when the App Review team rejects your submission for avoidable issues. Here are four important tips to help you pass review smoothly and avoid unnecessary delays.
+Publishing an iOS app can be stressful, especially when the App Review team rejects your submission for avoidable issues. Here are five important tips to help you pass review smoothly and avoid unnecessary delays.
 
 ## 🔍 1. Use Correct Device Screenshots
 
@@ -42,3 +42,13 @@ If you offer third-party sign-in options, Apple requires you to include their au
 
 - Required if you offer other social logins (Google, Facebook, etc.)
 - Provides users with privacy-focused authentication
+
+## 💳 5. Add Apple In-App Purchase for Digital Content
+
+If your app includes any form of digital content, subscriptions, or premium features that can be purchased, you must use Apple's In-App Purchase system:
+
+- **Required** for all digital content (premium features, subscriptions, etc.)
+- **Not Allowed**: Direct links to external payment methods (PayPal, Stripe, etc.)
+
+
+> ⚠️ **Important**: Even if you use third-party payment processors like Stripe or PayPal for physical goods or services, any digital content must go through Apple's In-App Purchase system.
