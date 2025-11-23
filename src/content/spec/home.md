@@ -19,5 +19,3 @@ I'm a passionate developer who loves creating beautiful and functional web appli
 - [More blog posts coming soon...](/blogs/)
 
 ## Get In Touch
-
-Feel free to reach out to me for collaborations or just to say hi!
