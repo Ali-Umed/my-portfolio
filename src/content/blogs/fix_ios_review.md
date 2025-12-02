@@ -50,5 +50,24 @@ If your app includes any form of digital content, subscriptions, or premium feat
 - **Required** for all digital content (premium features, subscriptions, etc.)
 - **Not Allowed**: Direct links to external payment methods (PayPal, Stripe, etc.)
 
+## 🌍 6. Include English in "What's New" Section
+
+If your app supports non-Latin languages (Arabic, Kurdish, Chinese, etc.), Apple requires that the "What's New" section includes English or another Latin-based language:
+
+- **Always include English first**, followed by your native language
+- **Never use only non-Latin scripts** (Arabic, Kurdish, RTL languages, etc.) in release notes
+- App reviewers need to understand the changes you're making
+
+**Example format:**
+```
+✅ Correct: (English and Kurdish)
+- Bug fixes and performance improvements
+-  چاککردن وە باشترکردنی تواناکانی 
+
+❌ Wrong:
+- چاککردن وە باشترکردنی تواناکانی (only kurdish)
+```
+
+> 💡 **Pro Tip**: Even if your app is primarily for a specific region, always provide English translations in your release notes to ensure smooth review process.
 
 > ⚠️ **Important**: Even if you use third-party payment processors like Stripe or PayPal for physical goods or services, any digital content must go through Apple's In-App Purchase system.
