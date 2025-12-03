@@ -31,18 +31,18 @@ const readingMinutes = readingTime(post.body);
       <header class="mb-0">
         <div class="flex flex-wrap gap-2  mb-0">
           {category && (
-            <span class="px-3 py-1 text-sm font-medium rounded-full bg-[var(--primary)]/10 text-[var(--primary)]">
+            <span class="px-3 py-1 text-sm font-medium rounded-full bg-[var(--primary)]/10 text-black dark:text-white">
               {category}
             </span>
           )}
           {tags && tags.map(tag => (
-            <span class="px-3 py-1 text-sm font-medium rounded-full bg-gray-100 dark:bg-gray-800">
+            <span class="px-3 py-1 text-sm font-medium rounded-full bg-gray-100 dark:bg-gray-800 text-black dark:text-white">
               {tag}
             </span>
           ))}
         </div>
         
-        <h1 class="text-3xl md:text-4xl font-bold mb-4 pt-4">{title}</h1>
+        <h1 class="text-3xl md:text-4xl font-bold mb-4 pt-4 text-black dark:text-white">{title}</h1>
         
         <div class="flex flex-wrap items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
           <span>{readingMinutes} min read</span>

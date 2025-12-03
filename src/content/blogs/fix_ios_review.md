@@ -1,5 +1,5 @@
 ---
-title: "5 Ways to Avoid App Store Rejection When Publishing Your iOS App"
+title: "6 Ways to Avoid App Store Rejection When Publishing Your iOS App"
 published: 2025-11-23
 updated: 2025-11-23
 draft: false
