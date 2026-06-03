@@ -1,13 +1,13 @@
 ---
 import { getCollection } from "astro:content";
-import MainGridLayout from "../../layouts/MainGridLayout.astro";
 import PostCard from "../../components/PostCard.astro";
+import MainGridLayout from "../../layouts/MainGridLayout.astro";
 
 const allBlogs = await getCollection("blogs");
 
 const publishedBlogs = allBlogs
-  .filter((post) => !post.data.draft)
-  .sort((a, b) => b.data.published.getTime() - a.data.published.getTime());
+	.filter((post) => !post.data.draft)
+	.sort((a, b) => b.data.published.getTime() - a.data.published.getTime());
 
 let delay = 0;
 const interval = 50;

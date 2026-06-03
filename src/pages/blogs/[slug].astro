@@ -1,25 +1,26 @@
 ---
 import { getCollection } from "astro:content";
-import MainGridLayout from "../../layouts/MainGridLayout.astro";
 import Markdown from "../../components/misc/Markdown.astro";
+import MainGridLayout from "../../layouts/MainGridLayout.astro";
 
 export async function getStaticPaths() {
-  const blogPosts = await getCollection("blogs");
-  return blogPosts.map(post => ({
-    params: { slug: post.slug },
-    props: { post },
-  }));
+	const blogPosts = await getCollection("blogs");
+	return blogPosts.map((post) => ({
+		params: { slug: post.slug },
+		props: { post },
+	}));
 }
 
 const { post } = Astro.props;
 const { Content } = await post.render();
-const { title, description, published, updated, image, tags, category } = post.data;
+const { title, description, published, updated, image, tags, category } =
+	post.data;
 
 // Calculate reading time
 const readingTime = (content) => {
-  const wordsPerMinute = 200;
-  const wordCount = content.split(/\s+/).length;
-  return Math.ceil(wordCount / wordsPerMinute);
+	const wordsPerMinute = 200;
+	const wordCount = content.split(/\s+/).length;
+	return Math.ceil(wordCount / wordsPerMinute);
 };
 
 const readingMinutes = readingTime(post.body);

@@ -1,15 +1,15 @@
 ---
-import { getEntry, getCollection, render } from "astro:content";
-import MainGridLayout from "@/layouts/MainGridLayout.astro";
-import { siteConfig } from "@/config";
+import { getCollection, getEntry, render } from "astro:content";
 import ServiceCards from "@/components/ServiceCards.astro";
+import { siteConfig } from "@/config";
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
 
 import "@/styles/main.css";
 import "@/styles/markdown.css";
 
 const homeEntry = await getEntry("spec", "home");
 if (!homeEntry) {
-  throw new Error("Home page content not found");
+	throw new Error("Home page content not found");
 }
 
 const projects = await getCollection("posts");
@@ -17,7 +17,7 @@ const blogs = await getCollection("blogs");
 
 const totalProjects = 5;
 const totalBlogs = blogs.length;
-const totalWebsites = 9
+const totalWebsites = 9;
 
 const { Content } = await render(homeEntry);
 const banner = siteConfig.banner.enable ? siteConfig.banner.src : undefined;
