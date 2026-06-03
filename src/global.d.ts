@@ -1,9 +1,9 @@
-import type { AstroIntegration } from "@swup/astro";
+export {};
 
 declare global {
 	interface Window {
 		// type from '@swup/astro' is incorrect
-		swup: AstroIntegration;
+		swup: any;
 		pagefind: {
 			search: (query: string) => Promise<{
 				results: Array<{
