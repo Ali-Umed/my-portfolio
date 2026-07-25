@@ -4,7 +4,7 @@ published: 2026-01-12
 tags: [Next.js, Tailwind CSS, OCR, Tesseract, Kurdish, Sorani, Kurmanji, Arabic]
 category: Website
 draft: false
-weight: 101
+weight: 01
 ---
 
 # 🔍 Kurdish OCR – Advanced Text Recognition
