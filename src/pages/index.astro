@@ -14,13 +14,20 @@ if (!homeEntry) {
 	throw new Error("Home page content not found");
 }
 
-const projects = await getCollection("posts");
 const blogs = await getCollection("blogs");
 const sortedProjects = await getSortedPosts();
 
-const totalProjects = 5;
+const totalProjects = sortedProjects.filter(
+	(post) => post.data.category === "Mobile Application",
+).length;
 const totalBlogs = blogs.length;
-const totalWebsites = 9;
+const totalWebsites = sortedProjects.filter(
+	(post) => post.data.category === "Website",
+).length;
+
+// home.md is currently all commented out; skip its card until it has content
+const hasHomeContent =
+	(homeEntry.body ?? "").replace(/<!--[\s\S]*?-->/g, "").trim() !== "";
 
 const { Content } = await render(homeEntry);
 const banner = siteConfig.banner.enable ? siteConfig.banner.src : undefined;
@@ -36,10 +43,12 @@ const banner = siteConfig.banner.enable ? siteConfig.banner.src : undefined;
     
     <ProjectIconGrid projects={sortedProjects} />
 
-    <div class="card-base p-6 md:p-8">
-      <article class="prose dark:prose-invert max-w-none">
-        <Content />
-      </article>
-    </div>
+    {hasHomeContent && (
+      <div class="card-base p-6 md:p-8">
+        <article class="prose dark:prose-invert max-w-none">
+          <Content />
+        </article>
+      </div>
+    )}
   </div>
 </MainGridLayout>
