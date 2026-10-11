@@ -3,6 +3,7 @@ title: "گوڵە بەیبوون - Marketing & Landing Website"
 published: 2026-06-01
 tags: [Next.js, React, Tailwind CSS, Framer Motion, Multilingual, SEO, Dark Mode, Responsive Design]
 category: Website
+icon: /images/icons/gula-baibun.png
 draft: false
 pinned: true
 weight: 100

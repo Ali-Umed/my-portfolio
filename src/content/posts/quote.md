@@ -3,6 +3,7 @@ title: Flutter Quote Generator
 published: 2025-07-26
 tags: [Flutter, Mobile App, Dark Mode]
 category: Mobile Application
+icon: /images/icons/quote.png
 draft: false
 weight: 93
 ---

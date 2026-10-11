@@ -3,6 +3,7 @@ title: Ocean Road - Package Tracker
 published: 2025-04-10
 tags: [Flutter, Track App, Mobile Application, Dark Mode, Multilingual]
 category: Mobile Application
+icon: /images/icons/ocean-road.png
 draft: false
 pinned: true
 weight: 97

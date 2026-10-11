@@ -3,6 +3,7 @@ title: Calculator App
 published: 2024-03-09
 tags: [React, TypeScript, Tailwind CSS, Dark Mode ]
 category: Website
+icon: /images/icons/calculator.png
 draft: false
 weight: 88
 ---

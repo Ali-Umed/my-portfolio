@@ -3,6 +3,7 @@ title: Fast Order
 published: 2024-06-08
 tags: [React, Redux, Tailwind CSS, E-commerce, Responsive Design]
 category: Website
+icon: /images/icons/fast-order.png
 draft: false
 weight: 89
 ---

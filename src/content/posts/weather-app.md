@@ -3,6 +3,7 @@ title: Weather App
 published: 2024-03-14
 tags: [React, TypeScript, Tailwind CSS, Responsive Design, API, Dark Mode, Multilingual]
 category: Website
+icon: /images/icons/weather.png
 draft: false
 weight: 91
 ---

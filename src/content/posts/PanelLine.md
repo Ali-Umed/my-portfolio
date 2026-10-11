@@ -3,6 +3,7 @@ title: Panel Line Factory - Industrial Electrical Panels
 published: 2025-10-07
 tags: [Next.js, Industrial, Business Website, Responsive Design, Multilingual]
 category: Website
+icon: /images/icons/panel-line.png
 draft: false
 weight: 95
 ---

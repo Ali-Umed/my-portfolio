@@ -3,6 +3,7 @@ title: Travel Airline Project ✈️
 published: 2024-09-13
 tags: [React, JavaScript, Booking System, Responsive Design]
 category: Website
+icon: /images/icons/change-life-travels.png
 draft: false
 weight: 92
 ---

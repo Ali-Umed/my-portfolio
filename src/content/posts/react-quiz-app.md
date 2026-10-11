@@ -3,6 +3,7 @@ title: React Quiz App
 published: 2024-05-22
 tags: [React, Tailwind CSS, Quiz, Responsive Design, Dark Mode]
 category: Website
+icon: /images/icons/quiz.png
 draft: false
 weight: 90
 ---

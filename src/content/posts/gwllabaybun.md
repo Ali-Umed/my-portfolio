@@ -3,6 +3,7 @@ title: "گوڵە بەیبوون - Language Learning Mobile App"
 published: 2026-06-06
 tags: [Flutter, Next.js, Laravel, Gamification, Kurdish, Language Learning, Dark Mode]
 category: Mobile Application
+icon: /images/icons/gula-baibun.png
 draft: false
 pinned: true
 weight: 101
