@@ -1,12 +1,8 @@
 ---
-import { getCollection } from "astro:content";
-import Pagination from "../components/control/Pagination.astro";
-import PostCard from "../components/PostCard.astro";
+import ProjectCard from "../components/ProjectCard.astro";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
 import { getSortedPosts } from "../utils/content-utils";
-import { getPostUrlBySlug } from "../utils/url-utils";
 
-// Get all posts using the same sorting logic as home page
 const allPosts = await getSortedPosts();
 
 // Filter to only show projects
@@ -14,65 +10,75 @@ const projectPosts = allPosts.filter(
 	(post) => post.data.category && typeof post.data.category === "string",
 );
 
-// Pagination
-const pageSize = 8; // Same as home page
-const currentPage = Number(Astro.url.searchParams.get("page") || 1);
-const totalPages = Math.ceil(projectPosts.length / pageSize);
-const startIndex = (currentPage - 1) * pageSize;
-const paginatedPosts = projectPosts.slice(startIndex, startIndex + pageSize);
-
-// Create pagination object for the Pagination component
-const pagination = {
-	currentPage,
-	lastPage: totalPages,
-	url: {
-		prev: currentPage > 1 ? `?page=${currentPage - 1}` : undefined,
-		next: currentPage < totalPages ? `?page=${currentPage + 1}` : undefined,
-		current: `?page=${currentPage}`,
-		first: "?page=1",
-		last: `?page=${totalPages}`,
-	},
-	size: pageSize,
-	total: projectPosts.length,
-	data: paginatedPosts,
-	start: startIndex,
-	end: startIndex + paginatedPosts.length - 1,
-};
+const filters = [
+	{ id: "all", label: "All", category: null },
+	{ id: "mobile", label: "Mobile apps", category: "Mobile Application" },
+	{ id: "web", label: "Websites", category: "Website" },
+].map((filter) => ({
+	...filter,
+	count: filter.category
+		? projectPosts.filter((post) => post.data.category === filter.category)
+				.length
+		: projectPosts.length,
+}));
 
 // Animation variables
 let delay = 0;
-const interval = 50;
-const len = paginatedPosts.length;
+const interval = 40;
 ---
 
 <MainGridLayout title="Projects" description="My featured projects and work">
-    <div class="transition flex flex-col rounded-[var(--radius-large)] bg-[var(--card-bg)] py-1 md:py-0 md:bg-transparent md:gap-4 mb-4">
-        {paginatedPosts.map((post) => {
-            const url = getPostUrlBySlug(post.slug);
-            return (
-                <PostCard 
-                    entry={post}
-                    title={post.data.title}
-                    url={url}
-                    published={post.data.published}
-                    updated={post.data.updated}
-                    tags={post.data.tags}
-                    category={post.data.category}
-                    image={post.data.image}
-                    description={post.data.description}
-                    draft={post.data.draft}
-                    class:list="onload-animation"
-                    style={`animation-delay: calc(var(--content-delay) + ${delay++ * interval}ms);`}
-                />
-            );
-        })}
-    </div>
+    <div class="projects">
+        <!-- CSS-only filter: the checked radio hides the other categories -->
+        <input type="radio" name="project-filter" id="filter-all" class="sr-only" checked />
+        <input type="radio" name="project-filter" id="filter-mobile" class="sr-only" />
+        <input type="radio" name="project-filter" id="filter-web" class="sr-only" />
 
-    {totalPages > 1 && (
-        <Pagination 
-            page={pagination} 
-            class="mx-auto onload-animation" 
-            style={`animation-delay: calc(var(--content-delay) + ${len * 50}ms);`} 
-        />
-    )}
+        <div class="card-base onload-animation flex flex-wrap items-center justify-between gap-3 p-3 mb-4">
+            <div class="filter-tabs flex gap-1 p-1 rounded-xl bg-[var(--btn-regular-bg)]">
+                {filters.map((filter) => (
+                    <label for={`filter-${filter.id}`} data-filter={filter.id}
+                           class="cursor-pointer select-none px-4 py-1.5 rounded-lg text-sm font-bold text-[var(--btn-content)] transition">
+                        {filter.label}
+                        <span class="ml-1 text-xs opacity-60">{filter.count}</span>
+                    </label>
+                ))}
+            </div>
+            <div class="text-sm text-50 px-2 hidden sm:block">Tap a project to see screenshots and details</div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+            {projectPosts.map((post) => (
+                <div class="project-item" data-category={post.data.category === "Mobile Application" ? "mobile" : "web"}>
+                    <ProjectCard
+                        entry={post}
+                        class="onload-animation"
+                        style={`animation-delay: calc(var(--content-delay) + ${delay++ * interval}ms);`}
+                    />
+                </div>
+            ))}
+        </div>
+    </div>
 </MainGridLayout>
+
+<style>
+    .projects:has(#filter-all:checked) label[data-filter="all"],
+    .projects:has(#filter-mobile:checked) label[data-filter="mobile"],
+    .projects:has(#filter-web:checked) label[data-filter="web"] {
+        background: var(--primary);
+        color: white;
+    }
+    :global(.dark) .projects:has(#filter-all:checked) label[data-filter="all"],
+    :global(.dark) .projects:has(#filter-mobile:checked) label[data-filter="mobile"],
+    :global(.dark) .projects:has(#filter-web:checked) label[data-filter="web"] {
+        color: rgb(0 0 0 / 0.8);
+    }
+    .projects:has(#filter-mobile:checked) .project-item:not([data-category="mobile"]),
+    .projects:has(#filter-web:checked) .project-item:not([data-category="web"]) {
+        display: none;
+    }
+    .projects:has(input:focus-visible) .filter-tabs {
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+    }
+</style>
