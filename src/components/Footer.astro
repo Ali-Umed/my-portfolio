@@ -1,10 +1,59 @@
 ---
-
-import { profileConfig } from "../config";
+import { Icon } from "astro-icon/components";
+import { navBarConfig, profileConfig } from "../config";
+import { LinkPresets } from "../constants/link-presets";
+import { LinkPreset, type NavBarLink } from "../types/config";
 import { url } from "../utils/url-utils";
 
 const currentYear = new Date().getFullYear();
+
+const links: NavBarLink[] = navBarConfig.links.map(
+	(item: NavBarLink | LinkPreset): NavBarLink =>
+		typeof item === "number" ? LinkPresets[item] : item,
+);
+const email = profileConfig.links.find((link) =>
+	link.url.startsWith("mailto:"),
+);
 ---
 
-<!--<div class="border-t border-[var(&#45;&#45;primary)] mx-16 border-dashed py-8 max-w-[var(&#45;&#45;page-width)] flex flex-col items-center justify-center px-6">-->
-<!--<div class="transition bg-[oklch(92%_0.01_var(&#45;&#45;hue))] dark:bg-black rounded-2xl py-8 mt-4 mb-8 flex flex-col items-center justify-center px-6">-->
+<footer class="card-base mt-4 mb-8 p-6 md:p-8">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div>
+            <div class="font-bold text-xl text-90">Let's build something together</div>
+            <p class="text-sm text-50 mt-1">{profileConfig.bio}</p>
+        </div>
+        {email && (
+            <a href={email.url}
+               class="btn-regular shrink-0 rounded-xl h-11 px-5 gap-2 font-bold active:scale-95 self-start md:self-auto">
+                <Icon name="material-symbols:mail-outline-rounded" class="text-xl"></Icon>
+                Get in touch
+            </a>
+        )}
+    </div>
+
+    <div class="border-t border-dashed border-black/10 dark:border-white/[0.15] my-6"></div>
+
+    <div class="flex flex-col-reverse sm:flex-row sm:items-center justify-between gap-4">
+        <div class="text-sm text-50">
+            © {currentYear} {profileConfig.name}. All rights reserved.
+        </div>
+        <nav class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+            {links.map((link) => (
+                <a href={link.external ? link.url : url(link.url)}
+                   target={link.external ? "_blank" : null}
+                   class="text-75 hover:text-[var(--primary)] transition">
+                    {link.name}
+                </a>
+            ))}
+            <span class="hidden sm:block w-px h-4 bg-black/10 dark:bg-white/15"></span>
+            <div class="flex gap-1">
+                {profileConfig.links.map((link) => (
+                    <a href={link.url} target="_blank" rel="me" aria-label={link.name}
+                       class="btn-plain rounded-lg w-9 h-9 active:scale-90">
+                        <Icon name={link.icon} class="text-lg"></Icon>
+                    </a>
+                ))}
+            </div>
+        </nav>
+    </div>
+</footer>
