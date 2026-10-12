@@ -50,7 +50,7 @@ export const navBarConfig: NavBarConfig = {
 			name: "Blogs",
 			url: "/blogs/",
 		},
-		LinkPreset.Archive,
+		// LinkPreset.Archive, // hidden for now; /archive/ still serves tag and category filters
 		LinkPreset.About,
 		// {
 		//   name: "GitHub",
