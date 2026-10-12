@@ -1,0 +1,27 @@
+---
+import { Icon } from "astro-icon/components";
+import MainGridLayout from "../layouts/MainGridLayout.astro";
+import { url } from "../utils/url-utils";
+---
+
+<MainGridLayout title="Page not found" description="This page doesn't exist.">
+    <section class="card-base onload-animation p-8 md:p-12 mb-4 flex flex-col items-center text-center">
+        <span class="chip h-8 px-3 text-xs mb-6">
+            <Icon name="material-symbols:link-off-rounded" class="text-sm"></Icon>
+            Broken or old link
+        </span>
+        <div class="font-black tracking-tighter leading-none text-[7rem] md:text-[10rem] text-[var(--primary)]">404</div>
+        <h1 class="font-black tracking-tight text-3xl md:text-4xl text-[var(--ink)] mt-4">This page doesn't exist</h1>
+        <p class="text-base md:text-lg font-medium text-75 mt-3 max-w-md">
+            It may have moved or been removed. Try one of these instead.
+        </p>
+        <div class="flex flex-wrap justify-center gap-3 mt-8">
+            <a href={url("/")} class="btn-bold">
+                <Icon name="material-symbols:home-outline-rounded" class="text-xl"></Icon>
+                Go home
+            </a>
+            <a href={url("/projects/")} class="btn-outline">See projects</a>
+            <a href={url("/blogs/")} class="btn-outline">Read the blog</a>
+        </div>
+    </section>
+</MainGridLayout>
