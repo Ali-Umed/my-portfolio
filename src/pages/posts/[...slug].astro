@@ -4,7 +4,7 @@ import License from "@components/misc/License.astro";
 import Markdown from "@components/misc/Markdown.astro";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { getSortedPosts } from "@utils/content-utils";
-import { getDir, getPostUrlBySlug } from "@utils/url-utils";
+import { getDir, getPostUrlBySlug, url } from "@utils/url-utils";
 import { Icon } from "astro-icon/components";
 import { licenseConfig } from "src/config";
 import ImageWrapper from "../../components/misc/ImageWrapper.astro";
@@ -24,6 +24,20 @@ const { entry } = Astro.props;
 const { Content, headings } = await entry.render();
 
 const { remarkPluginFrontmatter } = await entry.render();
+
+// Neighbouring projects in list order, shown as icon cards under the post
+const allPosts = await getSortedPosts();
+const findPost = (slug: string) => allPosts.find((post) => post.slug === slug);
+const shortName = (title: string) => {
+	const dashIndex = title.indexOf(" - ");
+	return dashIndex > 0 ? title.slice(0, dashIndex) : title;
+};
+const previousPost = entry.data.nextSlug ? findPost(entry.data.nextSlug) : undefined;
+const nextPost = entry.data.prevSlug ? findPost(entry.data.prevSlug) : undefined;
+const neighbours = [
+	previousPost && { side: "prev" as const, post: previousPost },
+	nextPost && { side: "next" as const, post: nextPost },
+];
 
 const jsonLd = {
 	"@context": "https://schema.org",
@@ -69,26 +83,21 @@ const jsonLd = {
         </div>
     </div>
 
-    <div class="flex flex-col md:flex-row justify-between mb-4 gap-4 overflow-hidden w-full">
-        <a href={entry.data.nextSlug ? getPostUrlBySlug(entry.data.nextSlug) : "#"}
-           class:list={["w-full font-bold overflow-hidden active:scale-95", {"pointer-events-none": !entry.data.nextSlug}]}>
-            {entry.data.nextSlug && <div class="btn-card rounded-2xl w-full h-[3.75rem] max-w-full px-4 flex items-center !justify-start gap-4" >
-                <Icon name="material-symbols:chevron-left-rounded" class="text-[2rem] text-[var(--primary)]" />
-                <div class="overflow-hidden transition overflow-ellipsis whitespace-nowrap max-w-[calc(100%_-_3rem)] text-black/75 dark:text-white/75">
-                    {entry.data.nextTitle}
+    <nav class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        {neighbours.map((item) => item ? (
+            <a href={getPostUrlBySlug(item.post.slug)}
+               class:list={["card-base group flex items-center gap-3 p-4 active:scale-[0.98] transition", {"md:col-start-2 flex-row-reverse text-right": item.side === "next"}]}>
+                <Icon name={item.side === "prev" ? "material-symbols:chevron-left-rounded" : "material-symbols:chevron-right-rounded"}
+                      class="text-3xl shrink-0 text-[var(--primary)]" />
+                {item.post.data.icon
+                    ? <img src={url(item.post.data.icon)} alt="" width="44" height="44" class="w-11 h-11 shrink-0 rounded-xl border border-[var(--card-border)]" />
+                    : <div class="w-11 h-11 shrink-0 rounded-xl bg-[var(--primary-solid)] text-[var(--on-primary)] font-black text-lg flex items-center justify-center">{shortName(item.post.data.title).charAt(0)}</div>}
+                <div class="min-w-0">
+                    <div class="text-xs font-extrabold uppercase tracking-wider text-50">{item.side === "prev" ? "Previous" : "Next"}</div>
+                    <div class="font-extrabold tracking-tight text-[var(--ink)] truncate group-hover:text-[var(--primary)] transition">{shortName(item.post.data.title)}</div>
                 </div>
-            </div>}
-        </a>
-
-        <a href={entry.data.prevSlug ? getPostUrlBySlug(entry.data.prevSlug) : "#"}
-           class:list={["w-full font-bold overflow-hidden active:scale-95", {"pointer-events-none": !entry.data.prevSlug}]}>
-            {entry.data.prevSlug && <div class="btn-card rounded-2xl w-full h-[3.75rem] max-w-full px-4 flex items-center !justify-end gap-4">
-                <div class="overflow-hidden transition overflow-ellipsis whitespace-nowrap max-w-[calc(100%_-_3rem)] text-black/75 dark:text-white/75">
-                    {entry.data.prevTitle}
-                </div>
-                <Icon name="material-symbols:chevron-right-rounded" class="text-[2rem] text-[var(--primary)]" />
-            </div>}
-        </a>
-    </div>
+            </a>
+        ) : null)}
+    </nav>
 
 </MainGridLayout>
