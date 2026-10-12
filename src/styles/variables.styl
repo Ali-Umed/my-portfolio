@@ -39,6 +39,11 @@ define({
   --btn-regular-bg-hover: oklch(0.93 0.02 var(--hue)) oklch(0.31 0.008 var(--hue))
   --btn-regular-bg-active: oklch(0.9 0.03 var(--hue)) oklch(0.34 0.008 var(--hue))
 
+  // Chips: bold theme-colour text on a faint wash of the same colour
+  --chip-bg: unquote("color-mix(in oklch, var(--primary-solid) 12%, transparent)") unquote("color-mix(in oklch, var(--primary-solid) 18%, transparent)")
+  --chip-bg-hover: unquote("color-mix(in oklch, var(--primary-solid) 20%, transparent)") unquote("color-mix(in oklch, var(--primary-solid) 28%, transparent)")
+  --chip-text: oklch(0.55 0.18 var(--hue)) oklch(0.8 0.14 var(--hue))
+
   --btn-plain-bg-hover: oklch(0.95 0.015 var(--hue)) oklch(0.28 0.008 var(--hue))
   --btn-plain-bg-active: oklch(0.98 0.01 var(--hue)) oklch(0.26 0.008 var(--hue))
 

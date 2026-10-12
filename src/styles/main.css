@@ -65,11 +65,11 @@
         text-[var(--ink)] hover:text-[var(--primary)] active:scale-90;
     }
     .chip {
-        @apply transition inline-flex items-center gap-1 rounded-full border border-[var(--card-border)]
-        bg-[var(--btn-regular-bg)] text-[var(--btn-content)] dark:text-white/85 font-bold whitespace-nowrap;
+        @apply transition inline-flex items-center gap-1 rounded-full border border-transparent
+        bg-[var(--chip-bg)] text-[var(--chip-text)] font-extrabold whitespace-nowrap;
     }
     a.chip {
-        @apply hover:text-[var(--primary)] dark:hover:text-[var(--primary)];
+        @apply hover:bg-[var(--chip-bg-hover)];
     }
     .heading-bold {
         @apply font-extrabold tracking-tight text-[var(--ink)];
