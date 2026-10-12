@@ -13,7 +13,7 @@ const isPlainImage = avatar.startsWith("http") || avatar.startsWith("/");
     <a aria-label="Go to About Page" href={url('/about/')}
        class="group flex flex-col items-center text-center rounded-xl active:scale-[0.98] transition">
         <!-- Large round photo, like a GitHub / LinkedIn profile -->
-        <div class="relative w-32 h-32 shrink-0 rounded-full overflow-hidden border-4 border-[var(--card-bg)] outline outline-2 outline-[var(--primary-solid)] mb-3">
+        <div class="relative w-32 h-32 shrink-0 rounded-full overflow-hidden mb-3">
             {isPlainImage
                 ? <img src={avatar.startsWith("/") ? url(avatar) : avatar} alt="Profile Image of the Author"
                        width="128" height="128" class="w-full h-full object-cover" />
