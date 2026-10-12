@@ -22,11 +22,11 @@ weight: 99
 
 Experience the power of SpectraMindGPT today:
 
-<div style="display: flex; gap: 20px; margin: 20px 0;">
-  <a href="https://apps.apple.com/us/app/spectramindgpt/id6752674301" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: #000; color: white; border-radius: 8px; text-decoration: none; font-weight: 500;">
+<div style="display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0;">
+  <a href="https://apps.apple.com/us/app/spectramindgpt/id6752674301" target="_blank" class="no-styling btn-bold">
     <i class="fab fa-apple"></i> Download on App Store
   </a>
-  <a href="https://play.google.com/store/apps/details?id=com.spectramindgpt.app" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: #000; color: white; border-radius: 8px; text-decoration: none; font-weight: 500;">
+  <a href="https://play.google.com/store/apps/details?id=com.spectramindgpt.app" target="_blank" class="no-styling btn-outline">
     <i class="fab fa-google-play"></i> Get it on Google Play
   </a>
 </div>

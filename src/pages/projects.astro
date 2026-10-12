@@ -35,16 +35,16 @@ const interval = 40;
         <input type="radio" name="project-filter" id="filter-web" class="sr-only" />
 
         <div class="card-base onload-animation flex flex-wrap items-center justify-between gap-3 p-3 mb-4">
-            <div class="filter-tabs flex gap-1 p-1 rounded-xl bg-[var(--btn-regular-bg)]">
+            <div class="filter-tabs flex gap-1 p-1 rounded-full border border-[var(--card-border)]">
                 {filters.map((filter) => (
                     <label for={`filter-${filter.id}`} data-filter={filter.id}
-                           class="cursor-pointer select-none px-4 py-1.5 rounded-lg text-sm font-bold text-[var(--btn-content)] transition">
+                           class="cursor-pointer select-none px-4 h-10 inline-flex items-center rounded-full text-sm font-extrabold text-[var(--ink)] hover:text-[var(--primary)] transition">
                         {filter.label}
-                        <span class="ml-1 text-xs opacity-60">{filter.count}</span>
+                        <span class="ml-1.5 text-xs opacity-60">{filter.count}</span>
                     </label>
                 ))}
             </div>
-            <div class="text-sm text-50 px-2 hidden sm:block">Tap a project to see screenshots and details</div>
+            <div class="text-sm font-bold text-50 px-2 hidden sm:block">Tap a project to see screenshots and details</div>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
@@ -66,12 +66,7 @@ const interval = 40;
     .projects:has(#filter-mobile:checked) label[data-filter="mobile"],
     .projects:has(#filter-web:checked) label[data-filter="web"] {
         background: var(--primary);
-        color: white;
-    }
-    :global(.dark) .projects:has(#filter-all:checked) label[data-filter="all"],
-    :global(.dark) .projects:has(#filter-mobile:checked) label[data-filter="mobile"],
-    :global(.dark) .projects:has(#filter-web:checked) label[data-filter="web"] {
-        color: rgb(0 0 0 / 0.8);
+        color: var(--on-primary);
     }
     .projects:has(#filter-mobile:checked) .project-item:not([data-category="mobile"]),
     .projects:has(#filter-web:checked) .project-item:not([data-category="web"]) {

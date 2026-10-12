@@ -22,7 +22,7 @@ weight: 100
 Experience the Gula Baibun website now:
 
 <div style="margin: 30px 0;">
-  <a href="https://gullabaybun.com/" target="_blank" style="display: inline-flex; align-items: center; gap: 10px; padding: 12px 28px; background: #000; color: white; border-radius: 8px; font-weight: 600; font-size: 1.1em; text-decoration: none; ">
+  <a href="https://gullabaybun.com/" target="_blank" class="no-styling btn-bold">
     <i class="fas fa-external-link-alt"></i> View Live Demo
   </a>
 </div>

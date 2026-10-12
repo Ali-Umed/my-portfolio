@@ -2,7 +2,7 @@
 
 @layer components {
     .card-base {
-        @apply rounded-[var(--radius-large)] overflow-hidden bg-[var(--card-bg)] transition;
+        @apply rounded-[var(--radius-large)] overflow-hidden bg-[var(--card-bg)] border border-[var(--card-border)] transition;
     }
     h1, h2, h3, h4, h5, h6, p, a, span, li, ul, ol, blockquote, code, pre, table, th, td, strong {
         @apply transition;
@@ -21,7 +21,7 @@
         @apply transition rounded-md p-1.5 -m-1.5 expand-animation;
     }
     .float-panel {
-        @apply top-[5.25rem] rounded-[var(--radius-large)] overflow-hidden bg-[var(--float-panel-bg)] transition shadow-xl dark:shadow-none
+        @apply top-[5.25rem] rounded-[var(--radius-large)] overflow-hidden bg-[var(--float-panel-bg)] border border-[var(--card-border)] transition
     }
     .float-panel-closed {
         @apply -translate-y-1 opacity-0 pointer-events-none
@@ -52,7 +52,29 @@
     }
     .btn-regular {
         @apply transition flex items-center justify-center bg-[var(--btn-regular-bg)] hover:bg-[var(--btn-regular-bg-hover)] active:bg-[var(--btn-regular-bg-active)]
-        text-[var(--btn-content)] dark:text-white/75
+        border border-[var(--card-border)] font-bold text-[var(--btn-content)] dark:text-white/85
+    }
+
+    /* Bold design: flat, solid, high-contrast controls (no shadows, no blur) */
+    .btn-bold {
+        @apply transition inline-flex items-center justify-center gap-2 h-12 px-5 rounded-[var(--radius-btn)]
+        bg-[var(--primary)] text-[var(--on-primary)] font-extrabold no-underline hover:brightness-110 active:scale-95;
+    }
+    .btn-outline {
+        @apply transition inline-flex items-center justify-center gap-2 h-12 px-5 rounded-[var(--radius-btn)]
+        border border-[var(--outline-border)] text-[var(--ink)] font-bold no-underline
+        hover:border-[var(--primary)] hover:text-[var(--primary)] active:scale-95;
+    }
+    .btn-round {
+        @apply transition flex items-center justify-center rounded-full border border-[var(--card-border)]
+        text-[var(--ink)] hover:border-[var(--primary)] hover:text-[var(--primary)] active:scale-90;
+    }
+    .chip {
+        @apply transition inline-flex items-center gap-1 rounded-full border border-[var(--card-border)]
+        bg-[var(--btn-regular-bg)] text-[var(--btn-content)] dark:text-white/85 font-bold whitespace-nowrap;
+    }
+    .heading-bold {
+        @apply font-extrabold tracking-tight text-[var(--ink)];
     }
 
     .link-underline {

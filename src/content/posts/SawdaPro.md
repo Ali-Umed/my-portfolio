@@ -22,11 +22,11 @@ weight: 100
 
 Get the Sawda Pro app today and start your stylish shopping journey!
 
-<div style="display: flex; gap: 20px; margin: 20px 0;">
-  <a href="https://apps.apple.com/us/app/sawda-pro/id6753111992" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background:  color: white; border-radius: 8px; text-decoration: none; font-weight: 500;">
+<div style="display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0;">
+  <a href="https://apps.apple.com/us/app/sawda-pro/id6753111992" target="_blank" class="no-styling btn-bold">
     <i class="fab fa-apple"></i> Live Demo App Store
   </a>
-  <a href="https://play.google.com/store/apps/details?id=com.sawda.shopping" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: color: white; border-radius: 8px; text-decoration: none; font-weight: 500;">
+  <a href="https://play.google.com/store/apps/details?id=com.sawda.shopping" target="_blank" class="no-styling btn-outline">
     <i class="fab fa-google-play"></i> Live Demo Google Play
   </a>
 </div>

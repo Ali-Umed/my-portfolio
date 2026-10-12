@@ -21,7 +21,7 @@ weight: 94
 Experience the Sawda Pro website now:
 
 <div style=" margin: 30px 0;">
-  <a href="https://sawdapro.netlify.app/" target="_blank" style="display: inline-flex; align-items: center; gap: 10px; padding: 12px 28px; color: white; border-radius: 8px; font-weight: 600; font-size: 1.1em; ">
+  <a href="https://sawdapro.netlify.app/" target="_blank" class="no-styling btn-bold">
     <i class="fas fa-external-link-alt"></i> View Live Demo
   </a>
 </div>

@@ -22,10 +22,10 @@ Combining zero-latency interactive vocabulary cards, mini-games, streak tracking
 ## 📲 Download App
 
 <div style="display: flex; gap: 15px; margin: 20px 0; flex-wrap: wrap;">
-  <a href="https://apps.apple.com/ca/app/%DA%AF%D9%88%DA%B5%DB%95-%D8%A8%DB%95%DB%8C%D8%A8%D9%88%D9%80%D9%86/id6757437622" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: #000; color: white; border-radius: 8px; text-decoration: none; font-weight: 500;">
+  <a href="https://apps.apple.com/ca/app/%DA%AF%D9%88%DA%B5%DB%95-%D8%A8%DB%95%DB%8C%D8%A8%D9%88%D9%80%D9%86/id6757437622" target="_blank" class="no-styling btn-bold">
     <i class="fab fa-apple"></i> Download on App Store
   </a>
-  <a href="https://play.google.com/store/apps/details?id=com.moonEnglish.moonEnglish" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: #000; color: white; border-radius: 8px; text-decoration: none; font-weight: 500;">
+  <a href="https://play.google.com/store/apps/details?id=com.moonEnglish.moonEnglish" target="_blank" class="no-styling btn-outline">
     <i class="fab fa-google-play"></i> Get it on Google Play
   </a>
 </div>

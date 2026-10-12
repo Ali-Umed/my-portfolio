@@ -24,19 +24,19 @@ const summary = description || remarkPluginFrontmatter.excerpt;
 const isMobile = category === "Mobile Application";
 ---
 <a href={getPostUrlBySlug(entry.slug)}
-   class:list={["project-card card-base group flex flex-col gap-4 p-5 h-full hover:-translate-y-1 hover:shadow-lg active:scale-[0.98] transition", className]}
+   class:list={["project-card card-base group flex flex-col gap-4 p-5 h-full hover:!border-[var(--primary)] active:scale-[0.98] transition", className]}
    style={style}>
     <div class="flex items-center gap-4">
         {icon
             ? <img src={url(icon)} alt="" width="64" height="64" loading="lazy"
-                   class="w-16 h-16 shrink-0 rounded-2xl shadow-md" />
-            : <div class="w-16 h-16 shrink-0 rounded-2xl shadow-md bg-[var(--primary)] text-white dark:text-black/80 font-bold text-2xl flex items-center justify-center">
+                   class="w-16 h-16 shrink-0 rounded-2xl border border-[var(--card-border)]" />
+            : <div class="w-16 h-16 shrink-0 rounded-2xl bg-[var(--primary)] text-[var(--on-primary)] font-black text-2xl flex items-center justify-center">
                 {name.charAt(0)}
               </div>}
         <div class="min-w-0">
-            <div class="font-bold text-lg text-90 leading-tight truncate group-hover:text-[var(--primary)] transition">{name}</div>
+            <div class="font-extrabold tracking-tight text-lg text-[var(--ink)] leading-tight truncate group-hover:text-[var(--primary)] transition">{name}</div>
             {subtitle && <div class="text-sm text-50 truncate">{subtitle}</div>}
-            <div class="mt-1 inline-flex items-center gap-1 text-xs font-medium text-[var(--primary)]">
+            <div class="chip mt-1.5 px-2 py-0.5 text-xs">
                 <Icon name={isMobile ? "material-symbols:smartphone-outline" : "material-symbols:language"} class="text-sm"></Icon>
                 {isMobile ? "Mobile app" : "Website"}
             </div>
@@ -48,11 +48,12 @@ const isMobile = category === "Mobile Application";
     <div class="mt-auto flex items-center justify-between gap-3">
         <div class="flex flex-wrap gap-1.5 min-w-0 overflow-hidden max-h-6">
             {tags.slice(0, 3).map((tag) => (
-                <span class="text-xs px-2 py-0.5 rounded-md bg-[var(--btn-regular-bg)] text-[var(--btn-content)] whitespace-nowrap">{tag}</span>
+                <span class="text-xs px-2.5 py-0.5 rounded-full border border-[var(--card-border)] text-75 font-bold whitespace-nowrap">{tag}</span>
             ))}
         </div>
-        <span class="shrink-0 text-xs font-bold px-3 py-1 rounded-full bg-[var(--btn-regular-bg)] text-[var(--primary)] group-hover:bg-[var(--primary)] group-hover:text-white dark:group-hover:text-black/80 transition">
+        <span class="shrink-0 inline-flex items-center gap-1 text-sm font-extrabold h-9 px-4 rounded-[var(--radius-btn)] bg-[var(--primary)] text-[var(--on-primary)] group-hover:brightness-110 transition">
             View
+            <Icon name="material-symbols:arrow-forward-rounded" class="text-base transition group-hover:translate-x-0.5"></Icon>
         </span>
     </div>
     <time class="sr-only" datetime={published.toISOString()}>{formatDateToYYYYMMDD(published)}</time>
