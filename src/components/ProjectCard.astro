@@ -30,7 +30,7 @@ const isMobile = category === "Mobile Application";
         {icon
             ? <img src={url(icon)} alt="" width="64" height="64" loading="lazy"
                    class="w-16 h-16 shrink-0 rounded-2xl border border-[var(--card-border)]" />
-            : <div class="w-16 h-16 shrink-0 rounded-2xl bg-[var(--primary)] text-[var(--on-primary)] font-black text-2xl flex items-center justify-center">
+            : <div class="w-16 h-16 shrink-0 rounded-2xl bg-[var(--primary-solid)] text-[var(--on-primary)] font-black text-2xl flex items-center justify-center">
                 {name.charAt(0)}
               </div>}
         <div class="min-w-0">
@@ -51,7 +51,7 @@ const isMobile = category === "Mobile Application";
                 <span class="text-xs px-2.5 py-0.5 rounded-full border border-[var(--card-border)] text-75 font-bold whitespace-nowrap">{tag}</span>
             ))}
         </div>
-        <span class="shrink-0 inline-flex items-center gap-1 text-sm font-extrabold h-9 px-4 rounded-[var(--radius-btn)] bg-[var(--primary)] text-[var(--on-primary)] group-hover:brightness-110 transition">
+        <span class="shrink-0 inline-flex items-center gap-1 text-sm font-extrabold h-9 px-4 rounded-[var(--radius-btn)] bg-[var(--primary-solid)] text-[var(--on-primary)] group-hover:brightness-110 transition">
             View
             <Icon name="material-symbols:arrow-forward-rounded" class="text-base transition group-hover:translate-x-0.5"></Icon>
         </span>

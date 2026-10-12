@@ -58,7 +58,7 @@
     /* Bold design: flat, solid, high-contrast controls (no shadows, no blur) */
     .btn-bold {
         @apply transition inline-flex items-center justify-center gap-2 h-12 px-5 rounded-[var(--radius-btn)]
-        bg-[var(--primary)] text-[var(--on-primary)] font-extrabold no-underline hover:brightness-110 active:scale-95;
+        bg-[var(--primary-solid)] text-[var(--on-primary)] font-extrabold no-underline hover:brightness-110 active:scale-95;
     }
     .btn-outline {
         @apply transition inline-flex items-center justify-center gap-2 h-12 px-5 rounded-[var(--radius-btn)]
