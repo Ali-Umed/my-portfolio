@@ -1,25 +1,152 @@
 ---
-
-import { getEntry, render } from "astro:content";
-import Markdown from "@components/misc/Markdown.astro";
+import { Icon } from "astro-icon/components";
+import { profileConfig } from "../config";
+import {
+	aboutIntro,
+	education,
+	experience,
+	quote,
+	skillGroups,
+} from "../data/about";
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
+import { getSortedPosts } from "../utils/content-utils";
+import { url } from "../utils/url-utils";
 
-const aboutPost = await getEntry("spec", "about");
+const projects = await getSortedPosts();
+const storeApps = projects.filter(
+	(post) => post.data.appStore || post.data.playStore,
+).length;
+const yearsCoding = new Date().getFullYear() - aboutIntro.codingSince;
 
-if (!aboutPost) {
-	throw new Error("About page content not found");
-}
+const stats = [
+	{ value: `${yearsCoding}+`, label: "Years coding" },
+	{ value: `${projects.length}`, label: "Projects" },
+	{ value: `${storeApps}`, label: "Apps on stores" },
+];
 
-const { Content } = await render(aboutPost);
+const avatar = profileConfig.avatar || "";
+const email = profileConfig.links.find((link) => link.url.startsWith("mailto:"));
+const socials = profileConfig.links.filter((link) => link !== email);
 ---
-<MainGridLayout title={i18n(I18nKey.about)} description={i18n(I18nKey.about)}>
-    <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
-        <div class="card-base z-10 px-9 py-6 relative w-full ">
-            <Markdown class="mt-2">
-                <Content />
-            </Markdown>
-        </div>
+<MainGridLayout title={i18n(I18nKey.about)} description={aboutIntro.summary}>
+    <div class="flex flex-col gap-4 mb-4">
+
+        <!-- Hero -->
+        <section class="card-base onload-animation p-6 md:p-8">
+            <div class="flex flex-col sm:flex-row sm:items-center gap-6">
+                {avatar && (
+                    <img src={avatar.startsWith("/") ? url(avatar) : avatar} alt={profileConfig.name}
+                         width="144" height="144" class="w-32 h-32 md:w-36 md:h-36 shrink-0 rounded-full object-cover" />
+                )}
+                <div class="min-w-0">
+                    <span class="chip h-8 px-3 text-xs mb-3">
+                        <Icon name="material-symbols:code-rounded" class="text-sm"></Icon>
+                        {aboutIntro.role}
+                    </span>
+                    <h1 class="font-black tracking-tight text-4xl md:text-5xl leading-tight text-[var(--ink)]">{profileConfig.name}</h1>
+                    <p class="text-base md:text-lg font-medium text-75 mt-3 max-w-xl">{aboutIntro.summary}</p>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap gap-3 mt-6">
+                {email && (
+                    <a href={email.url} class="btn-bold">
+                        <Icon name="material-symbols:mail-outline-rounded" class="text-xl"></Icon>
+                        Get in touch
+                    </a>
+                )}
+                {socials.map((link) => (
+                    <a href={link.url} target="_blank" rel="me noopener" class="btn-outline">
+                        <Icon name={link.icon} class="text-xl"></Icon>
+                        {link.name}
+                    </a>
+                ))}
+            </div>
+
+            <div class="grid grid-cols-3 gap-3 mt-6">
+                {stats.map((stat) => (
+                    <div class="rounded-[var(--radius-btn)] border border-[var(--card-border)] p-3 md:p-4 text-center">
+                        <div class="text-3xl md:text-4xl font-black tracking-tight text-[var(--primary)]">{stat.value}</div>
+                        <div class="text-xs md:text-sm font-bold text-50 mt-1">{stat.label}</div>
+                    </div>
+                ))}
+            </div>
+        </section>
+
+        <!-- Experience timeline -->
+        <section class="card-base onload-animation p-6 md:p-8">
+            <h2 class="flex items-center gap-2 font-black tracking-tight text-2xl text-[var(--ink)] mb-6">
+                <Icon name="material-symbols:work-outline" class="text-[var(--primary)]"></Icon>
+                Experience
+            </h2>
+            <ol class="relative border-s-2 border-[var(--card-border)] ms-2 flex flex-col gap-8">
+                {experience.map((job) => (
+                    <li class="relative ps-6">
+                        <span class:list={[
+                            "absolute -start-[9px] top-1.5 w-4 h-4 rounded-full border-2 border-[var(--card-bg)]",
+                            job.current ? "bg-[var(--primary-solid)]" : "bg-[var(--outline-border)]",
+                        ]}></span>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <h3 class="font-extrabold tracking-tight text-lg text-[var(--ink)]">{job.title}</h3>
+                            <span class="chip h-6 px-2 text-xs">{job.period}</span>
+                        </div>
+                        <div class="text-sm font-bold text-[var(--primary)] mt-0.5">{job.place}</div>
+                        <ul class="mt-3 flex flex-col gap-1.5">
+                            {job.points.map((point) => (
+                                <li class="flex gap-2 text-sm md:text-base text-75">
+                                    <span class="mt-2 w-1.5 h-1.5 shrink-0 rounded-full bg-[var(--primary)]"></span>
+                                    {point}
+                                </li>
+                            ))}
+                        </ul>
+                    </li>
+                ))}
+            </ol>
+        </section>
+
+        <!-- Skills -->
+        <section class="card-base onload-animation p-6 md:p-8">
+            <h2 class="flex items-center gap-2 font-black tracking-tight text-2xl text-[var(--ink)] mb-6">
+                <Icon name="material-symbols:rocket-launch-outline-rounded" class="text-[var(--primary)]"></Icon>
+                Skills
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {skillGroups.map((group) => (
+                    <div class="rounded-[var(--radius-btn)] border border-[var(--card-border)] p-4">
+                        <div class="flex items-center gap-2 font-extrabold text-[var(--ink)] mb-3">
+                            <span class="w-8 h-8 rounded-lg bg-[var(--primary-solid)] text-[var(--on-primary)] flex items-center justify-center">
+                                <Icon name={group.icon} class="text-lg"></Icon>
+                            </span>
+                            {group.name}
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            {group.skills.map((skill) => (
+                                <span class="chip h-7 px-2.5 text-xs">{skill}</span>
+                            ))}
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </section>
+
+        <!-- Education -->
+        <section class="card-base onload-animation p-6 md:p-8 flex items-center gap-4">
+            <span class="w-12 h-12 shrink-0 rounded-[var(--radius-btn)] bg-[var(--primary-solid)] text-[var(--on-primary)] flex items-center justify-center">
+                <Icon name="material-symbols:school-outline-rounded" class="text-2xl"></Icon>
+            </span>
+            <div class="min-w-0">
+                <div class="font-extrabold tracking-tight text-lg text-[var(--ink)]">{education.school}</div>
+                <div class="text-sm md:text-base font-medium text-75">{education.degree}</div>
+                <div class="text-xs font-bold text-50 mt-1">{education.period}</div>
+            </div>
+        </section>
+
+        <!-- Quote -->
+        <section class="card-base onload-animation p-6 md:p-8 text-center">
+            <Icon name="material-symbols:format-quote-rounded" class="text-4xl text-[var(--primary)] mx-auto"></Icon>
+            <p class="font-extrabold tracking-tight text-xl md:text-2xl text-[var(--ink)] mt-2">{quote}</p>
+        </section>
     </div>
 </MainGridLayout>
