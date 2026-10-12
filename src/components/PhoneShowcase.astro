@@ -5,6 +5,7 @@ import { profileConfig } from "../config";
 import I18nKey from "../i18n/i18nKey";
 import { toLang } from "../i18n/lang";
 import { useTranslations } from "../i18n/translation";
+import { localizePost } from "../utils/content-utils";
 import { getPostUrlBySlug, localeUrl, url } from "../utils/url-utils";
 
 interface Props {
@@ -33,6 +34,15 @@ const grid = [
 
 const pct = (value: number, total: number) => `${(value / total) * 100}%`;
 
+// Hover titles in the page's language
+const titles = new Map(
+	await Promise.all(
+		projects.map(
+			async (p) => [p.slug, (await localizePost(p, lang)).title] as const,
+		),
+	),
+);
+
 const hotspots = grid.flatMap((row, r) =>
 	row.flatMap((icon, c) => {
 		// Gula Baibun has a mobile and a web post; the phone icon opens the app
@@ -46,7 +56,7 @@ const hotspots = grid.flatMap((row, r) =>
 		return [
 			{
 				href: getPostUrlBySlug(post.slug, lang),
-				title: post.data.title,
+				title: titles.get(post.slug) ?? post.data.title,
 				style: `left:${pct(COLS[c], IMAGE_W)};top:${pct(ROWS[r], IMAGE_H)};width:${pct(ICON, IMAGE_W)};height:${pct(ICON + LABEL, IMAGE_H)}`,
 			},
 		];

@@ -93,6 +93,8 @@ export const ku: Translation = {
 	[Key.next]: "دواتر",
 	[Key.categoryMobileApplication]: "ئەپی مۆبایل",
 	[Key.categoryWebsite]: "ماڵپەڕ",
+	[Key.categoryIosDevelopment]: "گەشەپێدانی iOS",
+	[Key.categoryAndroidDevelopment]: "گەشەپێدانی Android",
 	[Key.categoryLinkLabel]: "هەموو بابەتەکانی پۆلی {name} ببینە",
 	[Key.tagLinkLabel]: "هەموو بابەتەکانی تاگی {name} ببینە",
 

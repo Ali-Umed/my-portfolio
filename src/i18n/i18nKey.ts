@@ -92,6 +92,8 @@ enum I18nKey {
 	next = "next",
 	categoryMobileApplication = "categoryMobileApplication",
 	categoryWebsite = "categoryWebsite",
+	categoryIosDevelopment = "categoryIosDevelopment",
+	categoryAndroidDevelopment = "categoryAndroidDevelopment",
 	categoryLinkLabel = "categoryLinkLabel",
 	tagLinkLabel = "tagLinkLabel",
 

@@ -91,6 +91,8 @@ export const en: Translation = {
 	[Key.next]: "Next",
 	[Key.categoryMobileApplication]: "Mobile Application",
 	[Key.categoryWebsite]: "Website",
+	[Key.categoryIosDevelopment]: "iOS Development",
+	[Key.categoryAndroidDevelopment]: "Android Development",
 	[Key.categoryLinkLabel]: "View all posts in the {name} category",
 	[Key.tagLinkLabel]: "View all posts with the {name} tag",
 

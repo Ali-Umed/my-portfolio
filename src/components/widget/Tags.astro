@@ -2,6 +2,7 @@
 
 import I18nKey from "../../i18n/i18nKey";
 import { toLang } from "../../i18n/lang";
+import { getTagName } from "../../i18n/tags";
 import { useTranslations } from "../../i18n/translation";
 import { getTagList } from "../../utils/content-utils";
 import { getTagUrl } from "../../utils/url-utils";
@@ -26,8 +27,8 @@ const style = Astro.props.style;
 <WidgetLayout name={t(I18nKey.tags)} id="tags" isCollapsed={isCollapsed} collapsedHeight={COLLAPSED_HEIGHT} class={className} style={style}>
     <div class="flex gap-2 flex-wrap">
         {tags.map(tag => (
-            <ButtonTag href={getTagUrl(tag.name, lang)} label={t(I18nKey.tagLinkLabel, { name: tag.name.trim() })}>
-                {tag.name.trim()}
+            <ButtonTag href={getTagUrl(tag.name, lang)} label={t(I18nKey.tagLinkLabel, { name: getTagName(tag.name, lang) })}>
+                {getTagName(tag.name, lang)}
             </ButtonTag>
         ))}
     </div>

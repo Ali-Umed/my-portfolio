@@ -81,7 +81,8 @@ export const experience: Record<Lang, Experience[]> = {
 export const skillGroups: {
 	name: Record<Lang, string>;
 	icon: string;
-	skills: string[];
+	// Tech names are the same in both languages; anything else gets both versions
+	skills: (string | Record<Lang, string>)[];
 }[] = [
 	{
 		name: { en: "Frontend", ku: "فرۆنتئێند" },
@@ -101,7 +102,7 @@ export const skillGroups: {
 	{
 		name: { en: "Tools & Practices", ku: "ئامراز و شێوازی کار" },
 		icon: "material-symbols:build-outline-rounded",
-		skills: ["Git / GitHub", "Vite", "Linux", "Trello", "Agile / Scrum", "Team Collaboration"],
+		skills: ["Git / GitHub", "Vite", "Linux", "Trello", "Agile / Scrum", { en: "Team Collaboration", ku: "کاری تیمی" }],
 	},
 ];
 

@@ -1,0 +1,2 @@
+# Missing pages under /ku/ get the Kurdish "page not found" page (Netlify)
+/ku/*  /ku/404/index.html  404

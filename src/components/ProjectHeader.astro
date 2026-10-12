@@ -3,16 +3,19 @@ import type { CollectionEntry } from "astro:content";
 import { Icon } from "astro-icon/components";
 import I18nKey from "../i18n/i18nKey";
 import { formatDate, toLang } from "../i18n/lang";
+import { getTagName } from "../i18n/tags";
 import { useTranslations } from "../i18n/translation";
 import { getTagUrl, url } from "../utils/url-utils";
 
 interface Props {
 	entry: CollectionEntry<"posts">;
+	// Title in the page's language (see localizePost)
+	title: string;
 	minutes: number;
 }
 
-const { entry, minutes } = Astro.props;
-const { title, icon, category, tags, published, appStore, playStore, website, github } =
+const { entry, title, minutes } = Astro.props;
+const { icon, category, tags, published, appStore, playStore, website, github } =
 	entry.data;
 
 // Same "Name - Subtitle" split as the project cards
@@ -80,7 +83,7 @@ const date = formatDate(published, lang, { year: "numeric", month: "short" });
     {tags.length > 0 && (
         <div class="flex flex-wrap gap-2 mt-5">
             {tags.map((tag) => (
-                <a href={getTagUrl(tag, lang)} class="chip h-7 px-2.5 text-xs">{tag}</a>
+                <a href={getTagUrl(tag, lang)} class="chip h-7 px-2.5 text-xs">{getTagName(tag, lang)}</a>
             ))}
         </div>
     )}

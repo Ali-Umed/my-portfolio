@@ -1,6 +1,6 @@
-import { type CollectionEntry, getCollection } from "astro:content";
+import { type CollectionEntry, getCollection, getEntry } from "astro:content";
 import I18nKey from "@i18n/i18nKey";
-import { defaultLang, type Lang } from "@i18n/lang";
+import { defaultLang, type Lang, toLang } from "@i18n/lang";
 import { i18n } from "@i18n/translation";
 import { getCategoryUrl } from "@utils/url-utils";
 
@@ -8,11 +8,50 @@ import { getCategoryUrl } from "@utils/url-utils";
 const categoryNames: Record<string, I18nKey> = {
 	"Mobile Application": I18nKey.categoryMobileApplication,
 	Website: I18nKey.categoryWebsite,
+	"iOS Development": I18nKey.categoryIosDevelopment,
+	"Android Development": I18nKey.categoryAndroidDevelopment,
 };
 
 export function getCategoryName(category: string, lang: Lang): string {
 	const key = categoryNames[category.trim()];
 	return key ? i18n(key, lang) : category.trim();
+}
+
+export type LocalizedPost = {
+	title: string;
+	description: string;
+	// The entry whose body to render: the Kurdish translation when there is one
+	content: CollectionEntry<"posts"> | CollectionEntry<"posts-ku">;
+	// Language the title and body are written in
+	lang: Lang;
+};
+
+// Kurdish translation of a project post: src/content/posts-ku/ file with the same name
+async function getKurdishPost(slug: string, lang: Lang) {
+	return lang === "ku" ? await getEntry("posts-ku", slug) : undefined;
+}
+
+// A project post in the page's language: on the Kurdish site its translation if there is one,
+// otherwise the English post
+export async function localizePost(
+	entry: CollectionEntry<"posts">,
+	lang: Lang,
+): Promise<LocalizedPost> {
+	const translation = await getKurdishPost(entry.slug, lang);
+	if (translation) {
+		return {
+			title: translation.data.title,
+			description: translation.data.description,
+			content: translation,
+			lang,
+		};
+	}
+	return {
+		title: entry.data.title,
+		description: entry.data.description,
+		content: entry,
+		lang: toLang(entry.data.lang),
+	};
 }
 
 // Retrieve all posts with draft filtering
@@ -60,6 +99,10 @@ export type PostForList = {
 	slug: string;
 	data: CollectionEntry<"posts">["data"];
 };
+
+export async function getPostTitle(post: PostForList, lang: Lang) {
+	return (await getKurdishPost(post.slug, lang))?.data.title ?? post.data.title;
+}
 export async function getSortedPostsList(): Promise<PostForList[]> {
 	const sortedFullPosts = await getRawSortedPosts();
 

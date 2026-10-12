@@ -6,6 +6,7 @@ import I18nKey from "../../i18n/i18nKey";
 import { formatDate, languages, toLang } from "../../i18n/lang";
 import { useTranslations } from "../../i18n/translation";
 import MainGridLayout from "../../layouts/MainGridLayout.astro";
+import { getCategoryName } from "../../utils/content-utils";
 import { localeUrl } from "../../utils/url-utils";
 
 export async function getStaticPaths() {
@@ -48,13 +49,14 @@ const nextBlog =
 ---
 
 <MainGridLayout title={title} description={description || ""} headings={[]}>
-  <div class="card-base pt-2" dir={languages[postLang].dir} lang={languages[postLang].htmlLang}>
+  <!-- data-pagefind-body: articles show up in the site search -->
+  <div class="card-base pt-2" dir={languages[postLang].dir} lang={languages[postLang].htmlLang} data-pagefind-body>
     <div class="pt-6 px-6 md:px-8">
       <header class="mb-0">
-        <div class="flex flex-wrap gap-2  mb-0">
+        <div class="flex flex-wrap gap-2  mb-0" data-pagefind-ignore>
           {category && (
             <span class="chip h-8 px-3 text-sm !bg-[var(--primary-solid)] !text-[var(--on-primary)] !border-transparent">
-              {category}
+              {getCategoryName(category, postLang)}
             </span>
           )}
           {tags && tags.map(tag => (
@@ -66,7 +68,7 @@ const nextBlog =
         
         <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4 pt-4 text-[var(--ink)]">{title}</h1>
         
-        <div class="flex flex-wrap items-center gap-4 text-sm font-bold text-50">
+        <div class="flex flex-wrap items-center gap-4 text-sm font-bold text-50" data-pagefind-ignore>
           <span>{tPost(I18nKey.minRead, { minutes: readingMinutes })}</span>
           <span>•</span>
           <time datetime={published.toISOString()}>

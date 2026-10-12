@@ -3,7 +3,9 @@ import type { CollectionEntry } from "astro:content";
 import { Icon } from "astro-icon/components";
 import I18nKey from "../i18n/i18nKey";
 import { languages, toLang } from "../i18n/lang";
+import { getTagName } from "../i18n/tags";
 import { useTranslations } from "../i18n/translation";
+import { localizePost } from "../utils/content-utils";
 import { formatDateToYYYYMMDD } from "../utils/date-utils";
 import { getPostUrlBySlug, url } from "../utils/url-utils";
 
@@ -15,29 +17,24 @@ interface Props {
 
 const { entry, style } = Astro.props;
 const className = Astro.props.class;
-const {
-	title,
-	description,
-	icon,
-	category,
-	tags,
-	published,
-	lang: postLang,
-} = entry.data;
+const { icon, category, tags, published } = entry.data;
+
+const lang = toLang(Astro.currentLocale);
+const t = useTranslations(lang);
+const post = await localizePost(entry, lang);
+const { title, description } = post;
 
 // "Name - Subtitle" titles are split so the name reads like an app name
 const dashIndex = title.indexOf(" - ");
 const name = dashIndex > 0 ? title.slice(0, dashIndex) : title;
 const subtitle = dashIndex > 0 ? title.slice(dashIndex + 3) : "";
 
-const { remarkPluginFrontmatter } = await entry.render();
+const { remarkPluginFrontmatter } = await post.content.render();
 const summary = description || remarkPluginFrontmatter.excerpt;
 const isMobile = category === "Mobile Application";
 
-const lang = toLang(Astro.currentLocale);
-const t = useTranslations(lang);
-// The summary is in the post's own language (English unless set), even on the Kurdish site
-const summaryLang = languages[toLang(postLang)];
+// Posts without a Kurdish translation keep their English summary, left to right, on the Kurdish site
+const summaryLang = languages[post.lang];
 ---
 <a href={getPostUrlBySlug(entry.slug, lang)}
    class:list={["project-card card-base group flex flex-col gap-4 p-5 h-full active:scale-[0.98] transition duration-200", className]}
@@ -64,7 +61,7 @@ const summaryLang = languages[toLang(postLang)];
     <div class="mt-auto flex items-center justify-between gap-3">
         <div class="flex flex-wrap gap-1.5 min-w-0 overflow-hidden max-h-6">
             {tags.slice(0, 3).map((tag) => (
-                <span class="text-xs px-2.5 py-0.5 rounded-full border border-[var(--card-border)] text-75 font-bold whitespace-nowrap">{tag}</span>
+                <span class="text-xs px-2.5 py-0.5 rounded-full border border-[var(--card-border)] text-75 font-bold whitespace-nowrap">{getTagName(tag, lang)}</span>
             ))}
         </div>
         <span class="shrink-0 inline-flex items-center gap-1 text-sm font-extrabold h-9 px-4 rounded-[var(--radius-btn)] bg-[var(--primary-solid)] text-[var(--on-primary)] transition">

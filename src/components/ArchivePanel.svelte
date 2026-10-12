@@ -18,6 +18,7 @@ const uncategorized = params.get("uncategorized");
 
 interface Post {
 	slug: string;
+	tagNames?: string[];
 	data: {
 		title: string;
 		tags: string[];
@@ -148,7 +149,7 @@ onMount(async () => {
                                 class="hidden md:block md:w-[15%] text-start text-sm transition
                      whitespace-nowrap overflow-ellipsis overflow-hidden text-30"
                         >
-                            {formatTag(post.data.tags)}
+                            {formatTag(post.tagNames ?? post.data.tags)}
                         </div>
                     </div>
                 </a>
