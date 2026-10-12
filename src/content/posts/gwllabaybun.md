@@ -4,6 +4,8 @@ published: 2026-06-06
 tags: [Flutter, Next.js, Laravel, Gamification, Kurdish, Language Learning, Dark Mode]
 category: Mobile Application
 icon: /images/icons/gula-baibun.png
+appStore: "https://apps.apple.com/ca/app/%DA%AF%D9%88%DA%B5%DB%95-%D8%A8%DB%95%DB%8C%D8%A8%D9%88%D9%80%D9%86/id6757437622"
+playStore: "https://play.google.com/store/apps/details?id=com.moonEnglish.moonEnglish"
 draft: false
 pinned: true
 weight: 101

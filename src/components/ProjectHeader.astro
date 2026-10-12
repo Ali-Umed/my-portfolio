@@ -1,0 +1,82 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { Icon } from "astro-icon/components";
+import { getTagUrl, url } from "../utils/url-utils";
+
+interface Props {
+	entry: CollectionEntry<"posts">;
+	minutes: number;
+}
+
+const { entry, minutes } = Astro.props;
+const { title, icon, category, tags, published, appStore, playStore, website, github } =
+	entry.data;
+
+// Same "Name - Subtitle" split as the project cards
+const dashIndex = title.indexOf(" - ");
+const name = dashIndex > 0 ? title.slice(0, dashIndex) : title;
+const subtitle = dashIndex > 0 ? title.slice(dashIndex + 3) : "";
+const isMobile = category === "Mobile Application";
+
+// First available link is the solid primary button, the rest are outlined
+const actions = [
+	appStore && { href: appStore, label: "App Store", icon: "fa6-brands:apple" },
+	playStore && { href: playStore, label: "Google Play", icon: "fa6-brands:google-play" },
+	website && { href: website, label: "Visit website", icon: "material-symbols:language" },
+	github && { href: github, label: "Source code", icon: "fa6-brands:github" },
+].filter(Boolean) as { href: string; label: string; icon: string }[];
+
+const date = published.toLocaleDateString("en-US", { year: "numeric", month: "short" });
+---
+<header class="mb-6">
+    <div class="flex flex-col sm:flex-row sm:items-center gap-5">
+        {icon
+            ? <img src={url(icon)} alt={`${name} app icon`} width="112" height="112"
+                   class="w-24 h-24 md:w-28 md:h-28 shrink-0 rounded-[22%] border border-[var(--card-border)]" />
+            : <div class="w-24 h-24 md:w-28 md:h-28 shrink-0 rounded-[22%] bg-[var(--primary-solid)] text-[var(--on-primary)] font-black text-5xl flex items-center justify-center">
+                {name.charAt(0)}
+              </div>}
+        <div class="min-w-0">
+            <h1 data-pagefind-body data-pagefind-weight="10" data-pagefind-meta={`title:${title}`}
+                class="font-black tracking-tight text-3xl md:text-4xl leading-tight text-[var(--ink)]">
+                {name}
+            </h1>
+            {subtitle && <p class="text-base md:text-lg font-bold text-50 mt-1">{subtitle}</p>}
+            <div class="flex flex-wrap items-center gap-2 mt-3">
+                <span class="chip h-7 px-2.5 text-xs">
+                    <Icon name={isMobile ? "material-symbols:smartphone-outline" : "material-symbols:language"} class="text-sm"></Icon>
+                    {isMobile ? "Mobile app" : "Website"}
+                </span>
+                <span class="chip h-7 px-2.5 text-xs">
+                    <Icon name="material-symbols:calendar-today-outline-rounded" class="text-sm"></Icon>
+                    {date}
+                </span>
+                <span class="chip h-7 px-2.5 text-xs">
+                    <Icon name="material-symbols:schedule-outline-rounded" class="text-sm"></Icon>
+                    {minutes} min read
+                </span>
+            </div>
+        </div>
+    </div>
+
+    {actions.length > 0 && (
+        <div class="flex flex-wrap gap-3 mt-6">
+            {actions.map((action, index) => (
+                <a href={action.href} target="_blank" rel="noopener"
+                   class:list={[index === 0 ? "btn-bold" : "btn-outline"]}>
+                    <Icon name={action.icon} class="text-xl"></Icon>
+                    {action.label}
+                </a>
+            ))}
+        </div>
+    )}
+
+    {tags.length > 0 && (
+        <div class="flex flex-wrap gap-2 mt-5">
+            {tags.map((tag) => (
+                <a href={getTagUrl(tag)} class="chip h-7 px-2.5 text-xs">{tag}</a>
+            ))}
+        </div>
+    )}
+</header>
+<div class="border-[var(--line-divider)] border-dashed border-b-[1px] mb-6"></div>

@@ -4,6 +4,8 @@ published: 2025-11-19
 tags: [Flutter, AI, Mobile App, Multi-language, Dark Mode, Multilingual]
 category: Mobile Application
 icon: /images/icons/spectramind.png
+appStore: "https://apps.apple.com/us/app/spectramindgpt/id6752674301"
+playStore: "https://play.google.com/store/apps/details?id=com.spectramindgpt.app"
 # image: "/images/spectra1.png"  
 draft: false
 pinned: true

@@ -4,6 +4,8 @@ published: 2023-10-27
 tags: [Co-Founder, Flutter, Firebase, Education, Mobile App, Dark Mode]
 category: Mobile Application
 icon: /images/icons/mang.png
+appStore: "https://apps.apple.com/us/app/%D9%85%D8%A7%D9%86%DA%AF/id6502869446"
+playStore: "https://play.google.com/store/apps/details?id=com.moon_project.moon_project"
 pinned: true
 draft: false
 weight: 98

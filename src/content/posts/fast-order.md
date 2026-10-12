@@ -4,6 +4,8 @@ published: 2024-06-08
 tags: [React, Redux, Tailwind CSS, E-commerce, Responsive Design]
 category: Website
 icon: /images/icons/fast-order.png
+website: "https://main--fast-order1.netlify.app/"
+github: "https://github.com/Ali-Umed/fast-order"
 draft: false
 weight: 89
 ---

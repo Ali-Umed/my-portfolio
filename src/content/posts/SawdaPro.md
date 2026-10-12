@@ -4,6 +4,8 @@ published: 2025-11-10
 tags: [Co-Founder, Flutter, E-commerce, Mobile Application, Dark Mode, Multilingual]
 category: Mobile Application
 icon: /images/icons/sawda-pro.png
+appStore: "https://apps.apple.com/us/app/sawda-pro/id6753111992"
+playStore: "https://play.google.com/store/apps/details?id=com.sawda.shopping"
 draft: false
 # image: "https://i.pinimg.com/736x/7d/97/e7/7d97e7e9d029e1a0c79af805b788ce32.jpg"  
 pinned: true

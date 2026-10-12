@@ -4,6 +4,8 @@ published: 2024-05-22
 tags: [React, Tailwind CSS, Quiz, Responsive Design, Dark Mode]
 category: Website
 icon: /images/icons/quiz.png
+website: "https://quiz-app-self-mu.vercel.app/"
+github: "https://github.com/Ali-Umed/react-quiz-app"
 draft: false
 weight: 90
 ---

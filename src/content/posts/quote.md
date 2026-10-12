@@ -4,6 +4,7 @@ published: 2025-07-26
 tags: [Flutter, Mobile App, Dark Mode]
 category: Mobile Application
 icon: /images/icons/quote.png
+github: "https://github.com/Ali-Umed/quote-generator"
 draft: false
 weight: 93
 ---

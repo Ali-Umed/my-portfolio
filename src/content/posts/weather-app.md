@@ -4,6 +4,8 @@ published: 2024-03-14
 tags: [React, TypeScript, Tailwind CSS, Responsive Design, API, Dark Mode, Multilingual]
 category: Website
 icon: /images/icons/weather.png
+website: "https://weather-app-tawny-zeta-38.vercel.app/"
+github: "https://github.com/Ali-Umed/weather-app"
 draft: false
 weight: 91
 ---

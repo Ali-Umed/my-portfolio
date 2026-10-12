@@ -4,6 +4,7 @@ published: 2025-03-12
 tags: [ Next.js, Laravel, E-commerce, Full Stack, Multilingual, Responsive Design]
 category: Website
 icon: /images/icons/nilnuts.png
+website: "https://nilnuts.com/"
 draft: false
 pinned: true
 weight: 96
