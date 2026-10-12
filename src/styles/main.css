@@ -64,12 +64,13 @@
         @apply transition flex items-center justify-center rounded-full border border-[var(--card-border)]
         text-[var(--ink)] hover:text-[var(--primary)] active:scale-90;
     }
+    /* Plain outlined pill, same as the tags on the project cards */
     .chip {
-        @apply transition inline-flex items-center gap-1 rounded-full border border-transparent
-        bg-[var(--chip-bg)] text-[var(--chip-text)] font-extrabold whitespace-nowrap;
+        @apply transition inline-flex items-center gap-1 rounded-full border border-[var(--card-border)]
+        text-black/75 dark:text-white/75 font-bold whitespace-nowrap;
     }
     a.chip {
-        @apply hover:bg-[var(--chip-bg-hover)];
+        @apply hover:text-[var(--primary)] dark:hover:text-[var(--primary)];
     }
     .heading-bold {
         @apply font-extrabold tracking-tight text-[var(--ink)];
