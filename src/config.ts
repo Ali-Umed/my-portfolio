@@ -61,7 +61,7 @@ export const navBarConfig: NavBarConfig = {
 };
 
 export const profileConfig: ProfileConfig = {
-	avatar: "https://github.com/Ali-Umed.png?size=200", // GitHub profile photo. Relative to the /src directory, or /public if it starts with '/'
+	avatar: "https://github.com/Ali-Umed.png?size=400", // GitHub profile photo. Relative to the /src directory, or /public if it starts with '/'
 	name: "Ali Umed",
 	bio: "Fast builds. Clean UX. Modern code for modern screens.",
 	links: [
