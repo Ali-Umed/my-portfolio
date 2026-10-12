@@ -4,7 +4,7 @@
 
 As a Software Developer, I build fast, intuitive applications using React.js, React Native, Flutter, and Next.js, turning ideas into polished digital products.
 
-## � Professional Journey
+## 💼 Professional Journey
 
 ### 🎓 Self-Taught Developer (2020 - Present)
 
@@ -24,7 +24,7 @@ As a Software Developer, I build fast, intuitive applications using React.js, Re
 - Implemented version control with Git/GitHub
 - Practiced Agile methodologies including Scrum
 
-## � Technical Skills
+## 💻 Technical Skills
 
 ### Frontend
 

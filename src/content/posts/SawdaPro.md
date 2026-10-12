@@ -10,7 +10,7 @@ pinned: true
 weight: 100
 ---
 
-# �️ Sawda Pro
+# 🛍️ Sawda Pro
 
 **Sawda Pro** is a cutting-edge Flutter application that combines **social shopping**, **friend referrals**, and **exclusive rewards** in one beautiful package. Experience shopping like never before with our modern glass-morphism UI and engaging features.
 
@@ -18,7 +18,7 @@ weight: 100
 
 ---
 
-## � Download Now
+## 🚀 Download Now
 
 Get the Sawda Pro app today and start your stylish shopping journey!
 
@@ -72,7 +72,7 @@ Get the Sawda Pro app today and start your stylish shopping journey!
   - 🌅 System Mode
 - Automatic theme switching based on system settings
 
-### � Cross-Platform
+### 📱 Cross-Platform
 
 - Seamless experience on both iOS and Android
 - Optimized for most screen sizes

@@ -61,7 +61,7 @@ Experience the Sawda Pro website now:
 - **Privacy Policy**: Your data protection information
 - **Terms of Service**: Usage guidelines and policies
 
-### � Modern UI/UX
+### 🎨 Modern UI/UX
 - Clean, minimalist design
 - Mobile-first responsive layout
 - Fast loading performance

@@ -38,7 +38,7 @@ Explore our solutions:
 - Smart theme system (Light/Dark/System mode)
 - Animated product showcases and filters
 
-### � Smart Theme System
+### 🌓 Smart Theme System
 - Light, Dark, and System theme options
 - Automatic theme switching based on system preferences
 - Smooth transitions between themes
