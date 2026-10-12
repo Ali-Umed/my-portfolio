@@ -140,7 +140,7 @@ $: if (initialized && keywordMobile) {
 
 <!-- search bar for desktop view -->
 <div id="search-bar" class="hidden lg:flex transition-all items-center h-10 mr-0.5 rounded-full
-      border border-[var(--card-border)] hover:border-[var(--outline-border)] focus-within:border-[var(--primary)]
+      border border-[var(--card-border)] focus-within:border-[var(--primary)]
 ">
     <Icon icon="material-symbols:search" class="absolute text-[1.25rem] pointer-events-none ml-3 transition my-auto text-black/30 dark:text-white/30"></Icon>
     <input placeholder="{i18n(I18nKey.search)}" bind:value={keywordDesktop} on:focus={() => search(keywordDesktop, true)}
@@ -174,7 +174,7 @@ top-20 left-4 md:left-[unset] right-4 rounded-2xl p-2">
     {#each result as item}
         <a href={item.url}
            class="transition first-of-type:mt-2 lg:first-of-type:mt-0 group block
-       rounded-xl text-lg px-3 py-2 hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)]">
+       rounded-xl text-lg px-3 py-2">
             <div class="transition text-90 inline-flex font-bold group-hover:text-[var(--primary)]">
                 {item.meta.title}<Icon icon="fa6-solid:chevron-right" class="transition text-[0.75rem] translate-x-1 my-auto text-[var(--primary)]"></Icon>
             </div>
