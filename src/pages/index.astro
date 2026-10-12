@@ -1,6 +1,6 @@
 ---
 import { getCollection, getEntry, render } from "astro:content";
-import ProjectIconGrid from "@/components/ProjectIconGrid.astro";
+import PhoneShowcase from "@/components/PhoneShowcase.astro";
 import ServiceCards from "@/components/ServiceCards.astro";
 import { siteConfig } from "@/config";
 import MainGridLayout from "@/layouts/MainGridLayout.astro";
@@ -41,7 +41,7 @@ const banner = siteConfig.banner.enable ? siteConfig.banner.src : undefined;
       totalWebsites={totalWebsites}
     />
     
-    <ProjectIconGrid projects={sortedProjects} />
+    <PhoneShowcase projects={sortedProjects} />
 
     {hasHomeContent && (
       <div class="card-base p-6 md:p-8">
