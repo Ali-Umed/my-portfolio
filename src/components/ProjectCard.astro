@@ -24,13 +24,13 @@ const summary = description || remarkPluginFrontmatter.excerpt;
 const isMobile = category === "Mobile Application";
 ---
 <a href={getPostUrlBySlug(entry.slug)}
-   class:list={["project-card card-base group flex flex-col gap-4 p-5 h-full hover:bg-[var(--card-hover-bg)] active:scale-[0.98] transition duration-200", className]}
+   class:list={["project-card card-base group flex flex-col gap-4 p-5 h-full active:scale-[0.98] transition duration-200", className]}
    style={style}>
     <div class="flex items-center gap-4">
         {icon
             ? <img src={url(icon)} alt="" width="64" height="64" loading="lazy"
-                   class="w-16 h-16 shrink-0 rounded-2xl border border-[var(--card-border)] transition duration-200 group-hover:scale-110 group-hover:-rotate-6" />
-            : <div class="w-16 h-16 shrink-0 rounded-2xl bg-[var(--primary-solid)] text-[var(--on-primary)] font-black text-2xl flex items-center justify-center transition duration-200 group-hover:scale-110 group-hover:-rotate-6">
+                   class="w-16 h-16 shrink-0 rounded-2xl border border-[var(--card-border)]" />
+            : <div class="w-16 h-16 shrink-0 rounded-2xl bg-[var(--primary-solid)] text-[var(--on-primary)] font-black text-2xl flex items-center justify-center">
                 {name.charAt(0)}
               </div>}
         <div class="min-w-0">
@@ -51,7 +51,7 @@ const isMobile = category === "Mobile Application";
                 <span class="text-xs px-2.5 py-0.5 rounded-full border border-[var(--card-border)] text-75 font-bold whitespace-nowrap">{tag}</span>
             ))}
         </div>
-        <span class="shrink-0 inline-flex items-center gap-1 text-sm font-extrabold h-9 px-4 rounded-[var(--radius-btn)] bg-[var(--primary-solid)] text-[var(--on-primary)] group-hover:brightness-110 transition">
+        <span class="shrink-0 inline-flex items-center gap-1 text-sm font-extrabold h-9 px-4 rounded-[var(--radius-btn)] bg-[var(--primary-solid)] text-[var(--on-primary)] transition">
             View
             <Icon name="material-symbols:arrow-forward-rounded" class="text-base transition group-hover:translate-x-1"></Icon>
         </span>
