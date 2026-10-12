@@ -1,5 +1,6 @@
 ---
 import { getCollection, getEntry, render } from "astro:content";
+import HomeIntro from "@/components/HomeIntro.astro";
 import PhoneShowcase from "@/components/PhoneShowcase.astro";
 import ServiceCards from "@/components/ServiceCards.astro";
 import { siteConfig } from "@/config";
@@ -34,6 +35,7 @@ const banner = siteConfig.banner.enable ? siteConfig.banner.src : undefined;
 ---
 
 <MainGridLayout title="Home" description="Welcome to my portfolio" {banner}>
+  <HomeIntro class="mb-12" />
   <div class="space-y-12">
     <ServiceCards 
       totalProjects={totalProjects}

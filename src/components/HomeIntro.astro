@@ -1,0 +1,36 @@
+---
+import { Icon } from "astro-icon/components";
+import { profileConfig } from "../config";
+import { aboutIntro } from "../data/about";
+import { url } from "../utils/url-utils";
+
+const className = Astro.props.class;
+// Phones and tablets only: on large screens the sidebar profile card is already beside the content
+const avatar = profileConfig.avatar || "";
+const email = profileConfig.links.find((link) => link.url.startsWith("mailto:"));
+---
+<section class:list={["card-base onload-animation p-6 lg:hidden", className]}>
+    <div class="flex items-center gap-4">
+        {avatar && (
+            <img src={avatar.startsWith("/") ? url(avatar) : avatar} alt={profileConfig.name}
+                 width="80" height="80" class="w-20 h-20 shrink-0 rounded-full object-cover" />
+        )}
+        <div class="min-w-0">
+            <span class="chip h-7 px-2.5 text-xs mb-1.5">
+                <Icon name="material-symbols:code-rounded" class="text-sm"></Icon>
+                {aboutIntro.role}
+            </span>
+            <h1 class="font-black tracking-tight text-3xl leading-tight text-[var(--ink)]">{profileConfig.name}</h1>
+        </div>
+    </div>
+    <p class="text-base font-medium text-75 mt-4">{aboutIntro.summary}</p>
+    <div class="flex flex-wrap gap-3 mt-5">
+        {email && (
+            <a href={email.url} class="btn-bold">
+                <Icon name="material-symbols:mail-outline-rounded" class="text-xl"></Icon>
+                Get in touch
+            </a>
+        )}
+        <a href={url("/projects/")} class="btn-outline">See projects</a>
+    </div>
+</section>
