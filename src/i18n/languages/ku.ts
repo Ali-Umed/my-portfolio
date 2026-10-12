@@ -1,0 +1,121 @@
+import Key from "../i18nKey";
+import type { Translation } from "../translation";
+
+// Kurdish (Sorani)
+export const ku: Translation = {
+	[Key.home]: "سەرەکی",
+	[Key.about]: "دەربارە",
+	[Key.archive]: "ئەرشیف",
+	[Key.search]: "گەڕان",
+	[Key.projects]: "پڕۆژەکان",
+	[Key.blogs]: "بلۆگ",
+
+	[Key.tags]: "تاگەکان",
+	[Key.categories]: "پۆلەکان",
+	[Key.recentPosts]: "دوایین بابەتەکان",
+
+	[Key.comments]: "لێدوانەکان",
+
+	[Key.untitled]: "بێ ناونیشان",
+	[Key.uncategorized]: "بێ پۆل",
+	[Key.noTags]: "بێ تاگ",
+
+	[Key.wordCount]: "وشە",
+	[Key.wordsCount]: "وشە",
+	[Key.minuteCount]: "خولەک",
+	[Key.minutesCount]: "خولەک",
+	[Key.postCount]: "بابەت",
+	[Key.postsCount]: "بابەت",
+
+	[Key.themeColor]: "ڕەنگی ڕووکار",
+
+	[Key.lightMode]: "ڕووناک",
+	[Key.darkMode]: "تاریک",
+	[Key.systemMode]: "سیستەم",
+
+	[Key.more]: "زیاتر",
+
+	[Key.author]: "نووسەر",
+	[Key.publishedAt]: "کاتی بڵاوکردنەوە",
+	[Key.license]: "مۆڵەت",
+
+	[Key.menu]: "مێنیو",
+	[Key.displaySettings]: "ڕێکخستنەکانی ڕووکار",
+	[Key.lightDarkMode]: "دۆخی ڕووناک/تاریک",
+	[Key.resetToDefault]: "گەڕاندنەوە بۆ بنەڕەت",
+	[Key.searchPanel]: "پانێڵی گەڕان",
+	[Key.backToTop]: "گەڕانەوە بۆ سەرەوە",
+	[Key.switchLanguage]: "ئەم ماڵپەڕە بە ئینگلیزی بخوێنەوە",
+	[Key.previousPage]: "پەڕەی پێشوو",
+	[Key.nextPage]: "پەڕەی دواتر",
+	[Key.pageNumber]: "پەڕەی {page}",
+
+	[Key.profileBio]:
+		"دروستکردنی خێرا، ئەزموونی بەکارهێنەری پاک، کۆدی نوێ بۆ شاشە نوێیەکان.",
+	[Key.aboutMe]: "دەربارەی من",
+	[Key.goToAboutPage]: "بڕۆ بۆ پەڕەی دەربارە",
+	[Key.profileImageAlt]: "وێنەی پرۆفایلی نووسەر",
+	[Key.getInTouch]: "پەیوەندیم پێوە بکە",
+	[Key.seeProjects]: "پڕۆژەکان ببینە",
+	[Key.seeAllProjects]: "هەموو پڕۆژەکان ببینە",
+	[Key.readMyBlog]: "بلۆگەکەم بخوێنەوە",
+	[Key.readTheBlog]: "بلۆگەکە بخوێنەوە",
+	[Key.footerHeading]: "با پێکەوە شتێک دروست بکەین",
+	[Key.allRightsReserved]: "هەموو مافەکان پارێزراون.",
+
+	[Key.homeDescription]: "بەخێربێیت بۆ پۆرتفۆلیۆکەم",
+	[Key.services]: "خزمەتگوزارییەکان",
+	[Key.applications]: "ئەپڵیکەیشنەکان",
+	[Key.applicationsDescription]: "ئەپی مۆبایل بە تەکنەلۆژیای نوێ",
+	[Key.websitesDescription]: "ماڵپەڕی گونجاو بۆ هەموو ئامێرێک",
+	[Key.blogPosts]: "بابەتەکانی بلۆگ",
+	[Key.blogPostsDescription]: "وتار دەربارەی گەشەپێدانی وێب و ئەپ",
+	[Key.solutions]: "چارەسەرەکان",
+	[Key.solutionsDescription]: "چارەسەری هەڵە باوەکانی کۆدنووسین",
+	[Key.showcaseChip]: "{count} پڕۆژە · دەستی لێبدە بۆ کردنەوە",
+	[Key.showcaseTitle]: "پڕۆژەکانی وێب و ئەپڵیکەیشنم",
+	[Key.showcaseHint]: "دەست لە هەر ئەپێکی سەر مۆبایلەکە بدە بۆ کردنەوەی",
+	[Key.showcaseImageAlt]: "شاشەی سەرەکیی مۆبایلێک کە ئەپەکانم پیشان دەدات",
+
+	[Key.projectsDescription]: "پڕۆژە و کارە دیارەکانم",
+	[Key.filterAll]: "هەموو",
+	[Key.mobileApps]: "ئەپی مۆبایل",
+	[Key.websites]: "ماڵپەڕەکان",
+	[Key.projectsHint]: "دەست لە پڕۆژەیەک بدە بۆ بینینی وێنە و وردەکارییەکان",
+	[Key.mobileApp]: "ئەپی مۆبایل",
+	[Key.website]: "ماڵپەڕ",
+	[Key.view]: "بینین",
+	[Key.visitWebsite]: "سەردانی ماڵپەڕ",
+	[Key.sourceCode]: "کۆدی سەرچاوە",
+	[Key.appIconAlt]: "ئایکۆنی ئەپی {name}",
+	[Key.minRead]: "{minutes} خولەک خوێندنەوە",
+	[Key.previous]: "پێشوو",
+	[Key.next]: "دواتر",
+	[Key.categoryMobileApplication]: "ئەپی مۆبایل",
+	[Key.categoryWebsite]: "ماڵپەڕ",
+	[Key.categoryIosDevelopment]: "گەشەپێدانی iOS",
+	[Key.categoryAndroidDevelopment]: "گەشەپێدانی Android",
+	[Key.categoryLinkLabel]: "هەموو بابەتەکانی پۆلی {name} ببینە",
+	[Key.tagLinkLabel]: "هەموو بابەتەکانی تاگی {name} ببینە",
+
+	[Key.blog]: "بلۆگ",
+	[Key.blogDescription]: "دوایین بابەتەکانی بلۆگ بخوێنەوە",
+	[Key.blogHint]: "چارەسەر و ئامۆژگاری لە بڵاوکردنەوەی ئەپی ڕاستەقینەوە",
+	[Key.readNext]: "بابەتی دواتر",
+	[Key.allArticles]: "هەموو وتارەکان",
+	[Key.read]: "بخوێنەوە",
+	[Key.minutesShort]: "{minutes} خولەک",
+
+	[Key.yearsCoding]: "ساڵ کۆدنووسین",
+	[Key.projectsStat]: "پڕۆژە",
+	[Key.appsOnStores]: "ئەپ لە ستۆرەکان",
+	[Key.experience]: "ئەزموون",
+	[Key.skills]: "شارەزاییەکان",
+
+	[Key.notFoundTitle]: "پەڕەکە نەدۆزرایەوە",
+	[Key.notFoundHeading]: "ئەم پەڕەیە بوونی نییە",
+	[Key.notFoundChip]: "بەستەری شکاو یان کۆن",
+	[Key.notFoundBody]:
+		"لەوانەیە گوازرابێتەوە یان سڕابێتەوە. لە جیاتی ئەوە یەکێک لەمانە تاقی بکەرەوە.",
+	[Key.goHome]: "بڕۆ بۆ سەرەکی",
+};

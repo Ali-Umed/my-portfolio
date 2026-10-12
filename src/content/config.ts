@@ -49,7 +49,17 @@ const blogsCollection = defineCollection({
 	schema: z.object(blogSchema),
 });
 
+// Kurdish (Sorani) translations of the project posts, shown on the /ku/ site.
+// A translation uses the same file name as its English post in posts/; posts without one show in English.
+const postsKuCollection = defineCollection({
+	schema: z.object({
+		title: z.string(),
+		description: z.string().optional().default(""),
+	}),
+});
+
 export const collections = {
 	posts: postsCollection,
 	blogs: blogsCollection,
+	"posts-ku": postsKuCollection,
 };

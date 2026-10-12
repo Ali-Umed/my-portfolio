@@ -1,12 +1,7 @@
 import { siteConfig } from "../config";
 import type I18nKey from "./i18nKey";
 import { en } from "./languages/en";
-import { es } from "./languages/es";
-import { ja } from "./languages/ja";
-import { ko } from "./languages/ko";
-import { th } from "./languages/th";
-import { zh_CN } from "./languages/zh_CN";
-import { zh_TW } from "./languages/zh_TW";
+import { ku } from "./languages/ku";
 
 export type Translation = {
 	[K in I18nKey]: string;
@@ -15,26 +10,28 @@ export type Translation = {
 const defaultTranslation = en;
 
 const map: { [key: string]: Translation } = {
-	es: es,
 	en: en,
-	en_us: en,
-	en_gb: en,
-	en_au: en,
-	zh_cn: zh_CN,
-	zh_tw: zh_TW,
-	ja: ja,
-	ja_jp: ja,
-	ko: ko,
-	ko_kr: ko,
-	th: th,
-	th_th: th,
+	ku: ku,
+	ckb: ku,
 };
 
 export function getTranslation(lang: string): Translation {
 	return map[lang.toLowerCase()] || defaultTranslation;
 }
 
-export function i18n(key: I18nKey): string {
-	const lang = siteConfig.lang || "en";
+export function i18n(
+	key: I18nKey,
+	lang: string = siteConfig.lang || "en",
+): string {
 	return getTranslation(lang)[key];
+}
+
+// Translator bound to one language, with {placeholder} values filled in:
+// t(I18nKey.minRead, { minutes: 5 }) -> "5 min read"
+export function useTranslations(lang: string) {
+	const translation = getTranslation(lang);
+	return (key: I18nKey, values: Record<string, string | number> = {}) =>
+		translation[key].replace(/\{(\w+)\}/g, (match, name) =>
+			name in values ? String(values[name]) : match,
+		);
 }

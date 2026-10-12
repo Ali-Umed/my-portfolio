@@ -1,14 +1,24 @@
 ---
 import ArchivePanel from "@components/ArchivePanel.svelte";
 import I18nKey from "@i18n/i18nKey";
+import { toLang } from "@i18n/lang";
+import { getTagName } from "@i18n/tags";
 import { i18n } from "@i18n/translation";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
-import { getSortedPostsList } from "../utils/content-utils";
+import { getPostTitle, getSortedPostsList } from "../utils/content-utils";
 
-const sortedPostsList = await getSortedPostsList();
+const lang = toLang(Astro.currentLocale);
+// Titles and tag names in the page's language; the ?tag= filter still matches the original tags
+const sortedPostsList = await Promise.all(
+	(await getSortedPostsList()).map(async (post) => ({
+		...post,
+		data: { ...post.data, title: await getPostTitle(post, lang) },
+		tagNames: post.data.tags.map((tag) => getTagName(tag, lang)),
+	})),
+);
 ---
 
-<MainGridLayout title={i18n(I18nKey.archive)}>
-    <ArchivePanel sortedPosts={sortedPostsList} client:only="svelte"></ArchivePanel>
+<MainGridLayout title={i18n(I18nKey.archive, lang)}>
+    <ArchivePanel sortedPosts={sortedPostsList} lang={lang} client:only="svelte"></ArchivePanel>
 </MainGridLayout>
 

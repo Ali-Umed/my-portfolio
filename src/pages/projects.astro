@@ -1,7 +1,12 @@
 ---
 import ProjectCard from "../components/ProjectCard.astro";
+import I18nKey from "../i18n/i18nKey";
+import { toLang } from "../i18n/lang";
+import { useTranslations } from "../i18n/translation";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
 import { getSortedPosts } from "../utils/content-utils";
+
+const t = useTranslations(toLang(Astro.currentLocale));
 
 const allPosts = await getSortedPosts();
 
@@ -11,9 +16,13 @@ const projectPosts = allPosts.filter(
 );
 
 const filters = [
-	{ id: "all", label: "All", category: null },
-	{ id: "mobile", label: "Mobile apps", category: "Mobile Application" },
-	{ id: "web", label: "Websites", category: "Website" },
+	{ id: "all", label: t(I18nKey.filterAll), category: null },
+	{
+		id: "mobile",
+		label: t(I18nKey.mobileApps),
+		category: "Mobile Application",
+	},
+	{ id: "web", label: t(I18nKey.websites), category: "Website" },
 ].map((filter) => ({
 	...filter,
 	count: filter.category
@@ -27,7 +36,7 @@ let delay = 0;
 const interval = 40;
 ---
 
-<MainGridLayout title="Projects" description="My featured projects and work">
+<MainGridLayout title={t(I18nKey.projects)} description={t(I18nKey.projectsDescription)}>
     <div class="projects">
         <!-- CSS-only filter: the checked radio hides the other categories -->
         <input type="radio" name="project-filter" id="filter-all" class="sr-only" checked />
@@ -40,11 +49,11 @@ const interval = 40;
                     <label for={`filter-${filter.id}`} data-filter={filter.id}
                            class="cursor-pointer select-none px-4 h-10 inline-flex items-center rounded-full text-sm font-extrabold text-[var(--ink)] hover:text-[var(--primary)] transition">
                         {filter.label}
-                        <span class="ml-1.5 text-xs opacity-60">{filter.count}</span>
+                        <span class="ms-1.5 text-xs opacity-60">{filter.count}</span>
                     </label>
                 ))}
             </div>
-            <div class="text-sm font-bold text-50 px-2 hidden sm:block">Tap a project to see screenshots and details</div>
+            <div class="text-sm font-bold text-50 px-2 hidden sm:block">{t(I18nKey.projectsHint)}</div>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">

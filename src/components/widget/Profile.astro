@@ -1,31 +1,36 @@
 ---
 import { Icon } from "astro-icon/components";
 import { profileConfig } from "../../config";
-import { url } from "../../utils/url-utils";
+import I18nKey from "../../i18n/i18nKey";
+import { toLang } from "../../i18n/lang";
+import { useTranslations } from "../../i18n/translation";
+import { localeUrl, url } from "../../utils/url-utils";
 import ImageWrapper from "../misc/ImageWrapper.astro";
 
+const lang = toLang(Astro.currentLocale);
+const t = useTranslations(lang);
 const config = profileConfig;
 const avatar = config.avatar || "";
 // Remote and /public avatars can be cropped with a plain <img>; src/ assets still need ImageWrapper
 const isPlainImage = avatar.startsWith("http") || avatar.startsWith("/");
 ---
 <div class="card-base p-5">
-    <a aria-label="Go to About Page" href={url('/about/')}
+    <a aria-label={t(I18nKey.goToAboutPage)} href={localeUrl('/about/', lang)}
        class="group flex flex-col items-center text-center rounded-xl active:scale-[0.98] transition">
         <!-- Large round photo, like a GitHub / LinkedIn profile -->
         <div class="relative w-32 h-32 shrink-0 rounded-full overflow-hidden mb-3">
             {isPlainImage
-                ? <img src={avatar.startsWith("/") ? url(avatar) : avatar} alt="Profile Image of the Author"
+                ? <img src={avatar.startsWith("/") ? url(avatar) : avatar} alt={t(I18nKey.profileImageAlt)}
                        width="128" height="128" class="w-full h-full object-cover" />
-                : <ImageWrapper src={avatar} alt="Profile Image of the Author" class="w-full h-full"></ImageWrapper>}
+                : <ImageWrapper src={avatar} alt={t(I18nKey.profileImageAlt)} class="w-full h-full"></ImageWrapper>}
         </div>
         <div class="font-black tracking-tight text-2xl text-[var(--ink)] leading-tight group-hover:text-[var(--primary)] transition">{config.name}</div>
         <div class="text-sm font-bold text-[var(--primary)] flex items-center gap-0.5 mt-1">
-            About me
-            <Icon name="material-symbols:arrow-forward-rounded" class="text-sm transition group-hover:translate-x-0.5"></Icon>
+            {t(I18nKey.aboutMe)}
+            <Icon name="material-symbols:arrow-forward-rounded" class="text-sm transition rtl:-scale-x-100 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5"></Icon>
         </div>
     </a>
-    <div class="text-sm font-medium text-50 text-center mt-3 mb-4 transition">{config.bio}</div>
+    <div class="text-sm font-medium text-50 text-center mt-3 mb-4 transition">{t(I18nKey.profileBio)}</div>
     <div class="flex gap-2">
         {config.links.map(item =>
             <a rel="me" aria-label={item.name} href={item.url} target="_blank" class="btn-round h-10 flex-1">

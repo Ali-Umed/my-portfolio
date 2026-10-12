@@ -1,9 +1,11 @@
 ---
 import { Icon } from "astro-icon/components";
-import { navBarConfig, siteConfig } from "../config";
-import { LinkPresets } from "../constants/link-presets";
-import { LinkPreset, type NavBarLink } from "../types/config";
-import { url } from "../utils/url-utils";
+import { siteConfig } from "../config";
+import { getNavBarLinks } from "../constants/link-presets";
+import I18nKey from "../i18n/i18nKey";
+import { languages, otherLang, toLang } from "../i18n/lang";
+import { useTranslations } from "../i18n/translation";
+import { localeUrl, switchLangPath, url } from "../utils/url-utils";
 import LightDarkSwitch from "./LightDarkSwitch.svelte";
 import Search from "./Search.svelte";
 import DisplaySettings from "./widget/DisplaySettings.svelte";
@@ -11,56 +13,73 @@ import NavMenuPanel from "./widget/NavMenuPanel.astro";
 
 const className = Astro.props.class;
 
-let links: NavBarLink[] = navBarConfig.links.map(
-	(item: NavBarLink | LinkPreset): NavBarLink => {
-		if (typeof item === "number") {
-			return LinkPresets[item];
-		}
-		return item;
-	},
-);
+const lang = toLang(Astro.currentLocale);
+const t = useTranslations(lang);
+const links = getNavBarLinks(lang);
+const switchTo = otherLang(lang);
 ---
 <div id="navbar" class="z-50 onload-animation">
     <div class:list={[
         className,
         "card-base !overflow-visible max-w-[var(--page-width)] h-16 mt-2 md:!rounded-full mx-auto flex items-center justify-between px-2 md:px-3"]}>
-        <a href={url('/')} class="btn-plain scale-animation rounded-full h-12 px-4 font-black text-lg active:scale-95">
+        <a href={localeUrl('/', lang)} class="btn-plain scale-animation rounded-full h-12 px-4 font-black text-lg active:scale-95">
             <div class="flex flex-row text-[var(--primary)] items-center text-md">
-                <Icon name="material-symbols:home-outline-rounded" class="text-[1.75rem] mb-1 mr-2" />
+                <Icon name="material-symbols:home-outline-rounded" class="text-[1.75rem] mb-1 me-2" />
                 {siteConfig.title}
             </div>
         </a>
         <div class="hidden md:flex">
             {links.map((l) => {
-                return <a aria-label={l.name} href={l.external ? l.url : url(l.url)} target={l.external ? "_blank" : null}
+                return <a aria-label={l.name} href={l.external ? l.url : localeUrl(l.url, lang)} target={l.external ? "_blank" : null}
                           class="btn-plain scale-animation rounded-full h-11 font-extrabold px-5 active:scale-95"
                 >
                     <div class="flex items-center">
                         {l.name}
-                        {l.external && <Icon name="fa6-solid:arrow-up-right-from-square" class="text-[0.875rem] transition -translate-y-[1px] ml-1 text-black/[0.2] dark:text-white/[0.2]"></Icon>}
+                        {l.external && <Icon name="fa6-solid:arrow-up-right-from-square" class="text-[0.875rem] transition -translate-y-[1px] ms-1 text-black/[0.2] dark:text-white/[0.2]"></Icon>}
                     </div>
                 </a>;
             })}
         </div>
         <div class="flex">
             <!--<SearchPanel client:load>-->
-            <Search client:only="svelte"></Search>
+            <Search lang={lang} client:only="svelte"></Search>
+            <!-- Full page load: swup only swaps <main>, so the rest of the page would stay in the old language -->
+            <a href={switchLangPath(Astro.originPathname, switchTo)} hreflang={languages[switchTo].htmlLang}
+               data-lang-switch={switchTo} data-no-swup aria-label={t(I18nKey.switchLanguage)} title={t(I18nKey.switchLanguage)}
+               class="btn-round h-10 px-3 gap-1.5 ms-1.5 text-sm font-extrabold">
+                <Icon name="material-symbols:translate-rounded" class="text-[1.125rem] hidden sm:block"></Icon>
+                <span lang={languages[switchTo].htmlLang}>{languages[switchTo].name}</span>
+            </a>
             {!siteConfig.themeColor.fixed && (
-                    <button aria-label="Display Settings" class="btn-round h-10 w-10 ml-1.5" id="display-settings-switch">
+                    <button aria-label={t(I18nKey.displaySettings)} class="btn-round h-10 w-10 ms-1.5" id="display-settings-switch">
                         <Icon name="material-symbols:palette-outline" class="text-[1.25rem]"></Icon>
                     </button>
             )}
-            <LightDarkSwitch client:only="svelte"></LightDarkSwitch>
-            <button aria-label="Menu" name="Nav Menu" class="btn-round w-10 h-10 ml-1.5 md:!hidden" id="nav-menu-switch">
+            <LightDarkSwitch lang={lang} client:only="svelte"></LightDarkSwitch>
+            <button aria-label={t(I18nKey.menu)} name="Nav Menu" class="btn-round w-10 h-10 ms-1.5 md:!hidden" id="nav-menu-switch">
                 <Icon name="material-symbols:menu-rounded" class="text-[1.25rem]"></Icon>
             </button>
         </div>
-        <NavMenuPanel links={links}></NavMenuPanel>
-        <DisplaySettings client:only="svelte"></DisplaySettings>
+        <NavMenuPanel links={links} lang={lang}></NavMenuPanel>
+        <DisplaySettings lang={lang} client:only="svelte"></DisplaySettings>
     </div>
 </div>
 
 <script>
+import type { Lang } from "../i18n/lang";
+import { switchLangPath } from "../utils/url-utils";
+
+// The navbar stays in place while swup changes pages, so point the language switch
+// at whichever page is showing now (keeping ?tag= filters and #anchors)
+function updateLanguageSwitch() {
+    document.querySelectorAll<HTMLAnchorElement>("a[data-lang-switch]").forEach((link) => {
+        const lang = link.dataset.langSwitch as Lang;
+        link.href = switchLangPath(window.location.pathname, lang) + window.location.search + window.location.hash;
+    });
+}
+updateLanguageSwitch();
+document.addEventListener("swup:page:view", updateLanguageSwitch);
+
 function switchTheme() {
     if (localStorage.theme === 'dark') {
         document.documentElement.classList.remove('dark');

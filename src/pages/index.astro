@@ -4,6 +4,9 @@ import HomeIntro from "@/components/HomeIntro.astro";
 import PhoneShowcase from "@/components/PhoneShowcase.astro";
 import ServiceCards from "@/components/ServiceCards.astro";
 import { siteConfig } from "@/config";
+import I18nKey from "@/i18n/i18nKey";
+import { toLang } from "@/i18n/lang";
+import { useTranslations } from "@/i18n/translation";
 import MainGridLayout from "@/layouts/MainGridLayout.astro";
 import { getSortedPosts } from "@/utils/content-utils";
 
@@ -31,10 +34,11 @@ const hasHomeContent =
 	(homeEntry.body ?? "").replace(/<!--[\s\S]*?-->/g, "").trim() !== "";
 
 const { Content } = await render(homeEntry);
+const t = useTranslations(toLang(Astro.currentLocale));
 const banner = siteConfig.banner.enable ? siteConfig.banner.src : undefined;
 ---
 
-<MainGridLayout title="Home" description="Welcome to my portfolio" {banner}>
+<MainGridLayout title={t(I18nKey.home)} description={t(I18nKey.homeDescription)} {banner}>
   <HomeIntro class="mb-12" />
   <div class="space-y-12">
     <ServiceCards 

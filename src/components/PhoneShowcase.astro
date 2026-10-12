@@ -2,13 +2,19 @@
 import type { CollectionEntry } from "astro:content";
 import { Icon } from "astro-icon/components";
 import { profileConfig } from "../config";
-import { getPostUrlBySlug, url } from "../utils/url-utils";
+import I18nKey from "../i18n/i18nKey";
+import { toLang } from "../i18n/lang";
+import { useTranslations } from "../i18n/translation";
+import { localizePost } from "../utils/content-utils";
+import { getPostUrlBySlug, localeUrl, url } from "../utils/url-utils";
 
 interface Props {
 	projects: CollectionEntry<"posts">[];
 }
 
 const { projects } = Astro.props;
+const lang = toLang(Astro.currentLocale);
+const t = useTranslations(lang);
 
 // Pixel geometry of public/images/projects.png (606x1312): 4x4 home-screen grid
 const IMAGE_W = 606;
@@ -28,6 +34,15 @@ const grid = [
 
 const pct = (value: number, total: number) => `${(value / total) * 100}%`;
 
+// Hover titles in the page's language
+const titles = new Map(
+	await Promise.all(
+		projects.map(
+			async (p) => [p.slug, (await localizePost(p, lang)).title] as const,
+		),
+	),
+);
+
 const hotspots = grid.flatMap((row, r) =>
 	row.flatMap((icon, c) => {
 		// Gula Baibun has a mobile and a web post; the phone icon opens the app
@@ -40,8 +55,8 @@ const hotspots = grid.flatMap((row, r) =>
 		if (!post) return [];
 		return [
 			{
-				href: getPostUrlBySlug(post.slug),
-				title: post.data.title,
+				href: getPostUrlBySlug(post.slug, lang),
+				title: titles.get(post.slug) ?? post.data.title,
 				style: `left:${pct(COLS[c], IMAGE_W)};top:${pct(ROWS[r], IMAGE_H)};width:${pct(ICON, IMAGE_W)};height:${pct(ICON + LABEL, IMAGE_H)}`,
 			},
 		];
@@ -53,8 +68,14 @@ const email = profileConfig.links.find((link) =>
 );
 // Dock: Safari opens all projects, Messages opens email
 const dock = [
-	{ href: url("/projects/"), title: "See all projects", left: 208 },
-	...(email ? [{ href: email.url, title: "Get in touch", left: 343 }] : []),
+	{
+		href: localeUrl("/projects/", lang),
+		title: t(I18nKey.seeAllProjects),
+		left: 208,
+	},
+	...(email
+		? [{ href: email.url, title: t(I18nKey.getInTouch), left: 343 }]
+		: []),
 ].map((item) => ({
 	...item,
 	style: `left:${pct(item.left, IMAGE_W)};top:${pct(1198, IMAGE_H)};width:${pct(ICON, IMAGE_W)};height:${pct(ICON, IMAGE_H)}`,
@@ -64,16 +85,16 @@ const dock = [
     <div class="flex justify-center mb-3">
         <span class="chip h-8 px-3 text-xs">
             <span class="w-2 h-2 rounded-full bg-[var(--primary)]"></span>
-            {projects.length} projects · tap to open
+            {t(I18nKey.showcaseChip, { count: projects.length })}
         </span>
     </div>
     <h2 class="text-3xl md:text-4xl font-black tracking-tight text-center mb-2 text-[var(--ink)]">
-        My Web and Application Projects
+        {t(I18nKey.showcaseTitle)}
     </h2>
-    <p class="text-base font-medium text-50 text-center mb-6">Tap any app on the phone to open it</p>
+    <p class="text-base font-medium text-50 text-center mb-6">{t(I18nKey.showcaseHint)}</p>
     <div class="flex justify-center">
         <div class="phone relative w-3/4 sm:w-2/3 md:w-1/2 max-w-4xl">
-            <img src={url("/images/projects.png")} alt="Phone home screen showing my apps"
+            <img src={url("/images/projects.png")} alt={t(I18nKey.showcaseImageAlt)}
                  class="w-full select-none" draggable="false" />
             {[...hotspots, ...dock].map((spot) => (
                 <a href={spot.href} title={spot.title} aria-label={spot.title}
@@ -84,11 +105,11 @@ const dock = [
         </div>
     </div>
     <div class="flex flex-wrap justify-center gap-3 mt-6">
-        <a href={url("/projects/")} class="btn-bold">
-            See all projects
-            <Icon name="material-symbols:arrow-forward-rounded" class="text-xl"></Icon>
+        <a href={localeUrl("/projects/", lang)} class="btn-bold">
+            {t(I18nKey.seeAllProjects)}
+            <Icon name="material-symbols:arrow-forward-rounded" class="text-xl rtl:-scale-x-100"></Icon>
         </a>
-        <a href={url("/blogs/")} class="btn-outline">Read my blog</a>
+        <a href={localeUrl("/blogs/", lang)} class="btn-outline">{t(I18nKey.readMyBlog)}</a>
     </div>
 </section>
 

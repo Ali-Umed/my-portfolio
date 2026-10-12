@@ -18,19 +18,29 @@ import {
 	PAGE_WIDTH,
 } from "../constants/constants";
 import { defaultFavicons } from "../constants/icon";
+import { languages, toLang } from "../i18n/lang";
 import type { Favicon } from "../types/config";
-import { pathsEqual, url } from "../utils/url-utils";
+import { pathsEqual, switchLangPath, url } from "../utils/url-utils";
 import "katex/dist/katex.css";
 
 interface Props {
 	title?: string;
 	banner?: string;
 	description?: string;
-	lang?: string;
 	setOGTypeArticle?: boolean;
 }
 
-let { title, banner, description, lang, setOGTypeArticle } = Astro.props;
+let { title, banner, description, setOGTypeArticle } = Astro.props;
+
+// Kurdish pages are the English page files rendered again under /ku/ (see astro.config.mjs),
+// so Astro.url is the English path there; originPathname is the URL that was actually visited
+const lang = toLang(Astro.currentLocale);
+const { htmlLang, dir } = languages[lang];
+const pageUrl = new URL(Astro.originPathname, Astro.site);
+const alternates = Object.entries(languages).map(([code, language]) => ({
+	hreflang: language.htmlLang,
+	href: new URL(switchLangPath(Astro.originPathname, toLang(code)), Astro.site),
+}));
 
 // apply a class to the body element to decide the height of the banner, only used for initial page load
 // Swup can update the body for each page visit, but it's after the page transition, causing a delay for banner height change
@@ -59,12 +69,6 @@ if (title) {
 const favicons: Favicon[] =
 	siteConfig.favicon.length > 0 ? siteConfig.favicon : defaultFavicons;
 
-// const siteLang = siteConfig.lang.replace('_', '-')
-if (!lang) {
-	lang = `${siteConfig.lang}`;
-}
-const siteLang = lang.replace("_", "-");
-
 const bannerOffsetByPosition = {
 	top: `${BANNER_HEIGHT_EXTEND}vh`,
 	center: `${BANNER_HEIGHT_EXTEND / 2}vh`,
@@ -75,7 +79,7 @@ const bannerOffset =
 ---
 
 <!DOCTYPE html>
-<html lang={siteLang} class="bg-[var(--page-bg)] transition text-[14px] md:text-[16px]"
+<html lang={htmlLang} dir={dir} class="bg-[var(--page-bg)] transition text-[14px] md:text-[16px]"
 	  data-overlayscrollbars-initialize
 >
 	<head>
@@ -87,7 +91,7 @@ const bannerOffset =
 		<meta name="author" content={profileConfig.name}>
 
 		<meta property="og:site_name" content={siteConfig.title}>
-		<meta property="og:url" content={Astro.url}>
+		<meta property="og:url" content={pageUrl}>
 		<meta property="og:title" content={pageTitle}>
 		<meta property="og:description" content={description || pageTitle}>
 		{setOGTypeArticle ? (
@@ -97,11 +101,15 @@ const bannerOffset =
         )}
 
 		<meta name="twitter:card" content="summary_large_image">
-		<meta property="twitter:url" content={Astro.url}>
+		<meta property="twitter:url" content={pageUrl}>
 		<meta name="twitter:title" content={pageTitle}>
 		<meta name="twitter:description" content={description || pageTitle}>
 
 		<meta name="viewport" content="width=device-width" />
+		{alternates.map((alternate) => (
+			<link rel="alternate" hreflang={alternate.hreflang} href={alternate.href} />
+		))}
+		<link rel="alternate" hreflang="x-default" href={alternates[0].href} />
 		<meta name="generator" content={Astro.generator} />
 		{favicons.map(favicon => (
 			<link rel="icon"
@@ -205,7 +213,7 @@ import {
 	// ClickScrollPlugin
 } from 'overlayscrollbars';
 import {getHue, getStoredTheme, setHue, setTheme} from "../utils/setting-utils";
-import {pathsEqual, url} from "../utils/url-utils";
+import {getLangFromPath, pathsEqual, url} from "../utils/url-utils";
 import {
 	BANNER_HEIGHT,
 	BANNER_HEIGHT_HOME,
@@ -389,6 +397,13 @@ const setup = () => {
 		}
 	})
 */
+	// Swup only swaps <main>, so the navbar and sidebar would keep the old language:
+	// load links into the other language as a normal page instead
+	const ignoreVisit = window.swup.options.ignoreVisit
+	window.swup.options.ignoreVisit = (visitUrl: string, options?: {el?: Element, event?: Event}) =>
+		ignoreVisit(visitUrl, options) ||
+		getLangFromPath(new URL(visitUrl, window.location.href).pathname) !== getLangFromPath(window.location.pathname)
+
 	window.swup.hooks.on('link:click', () => {
 		// Remove the delay for the first time page load
 		document.documentElement.style.setProperty('--content-delay', '0ms')

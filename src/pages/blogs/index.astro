@@ -1,8 +1,13 @@
 ---
 import { getCollection } from "astro:content";
 import BlogCard from "../../components/BlogCard.astro";
+import I18nKey from "../../i18n/i18nKey";
+import { toLang } from "../../i18n/lang";
+import { useTranslations } from "../../i18n/translation";
 import MainGridLayout from "../../layouts/MainGridLayout.astro";
 import { getBlogPlatform } from "../../utils/blog-utils";
+
+const t = useTranslations(toLang(Astro.currentLocale));
 
 const allBlogs = await getCollection("blogs");
 
@@ -11,7 +16,7 @@ const publishedBlogs = allBlogs
 	.sort((a, b) => b.data.published.getTime() - a.data.published.getTime());
 
 const filters = [
-	{ id: "all", label: "All", platform: null },
+	{ id: "all", label: t(I18nKey.filterAll), platform: null },
 	{ id: "android", label: "Android", platform: "android" },
 	{ id: "ios", label: "iOS", platform: "ios" },
 ].map((filter) => ({
@@ -27,7 +32,7 @@ let delay = 0;
 const interval = 50;
 ---
 
-<MainGridLayout title="Blog" description="Read our latest blog posts">
+<MainGridLayout title={t(I18nKey.blog)} description={t(I18nKey.blogDescription)}>
     <div class="blogs">
         <!-- CSS-only filter, same pattern as the projects page -->
         <input type="radio" name="blog-filter" id="blog-filter-all" class="sr-only" checked />
@@ -40,11 +45,11 @@ const interval = 50;
                     <label for={`blog-filter-${filter.id}`} data-filter={filter.id}
                            class="cursor-pointer select-none px-4 h-10 inline-flex items-center rounded-full text-sm font-extrabold text-[var(--ink)] hover:text-[var(--primary)] transition">
                         {filter.label}
-                        <span class="ml-1.5 text-xs opacity-60">{filter.count}</span>
+                        <span class="ms-1.5 text-xs opacity-60">{filter.count}</span>
                     </label>
                 ))}
             </div>
-            <div class="text-sm font-bold text-50 px-2 hidden sm:block">Fixes and tips from shipping real apps</div>
+            <div class="text-sm font-bold text-50 px-2 hidden sm:block">{t(I18nKey.blogHint)}</div>
         </div>
 
         <div class="flex flex-col gap-4 mb-4">

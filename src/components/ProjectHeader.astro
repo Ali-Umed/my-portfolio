@@ -1,15 +1,21 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { Icon } from "astro-icon/components";
+import I18nKey from "../i18n/i18nKey";
+import { formatDate, toLang } from "../i18n/lang";
+import { getTagName } from "../i18n/tags";
+import { useTranslations } from "../i18n/translation";
 import { getTagUrl, url } from "../utils/url-utils";
 
 interface Props {
 	entry: CollectionEntry<"posts">;
+	// Title in the page's language (see localizePost)
+	title: string;
 	minutes: number;
 }
 
-const { entry, minutes } = Astro.props;
-const { title, icon, category, tags, published, appStore, playStore, website, github } =
+const { entry, title, minutes } = Astro.props;
+const { icon, category, tags, published, appStore, playStore, website, github } =
 	entry.data;
 
 // Same "Name - Subtitle" split as the project cards
@@ -18,20 +24,23 @@ const name = dashIndex > 0 ? title.slice(0, dashIndex) : title;
 const subtitle = dashIndex > 0 ? title.slice(dashIndex + 3) : "";
 const isMobile = category === "Mobile Application";
 
+const lang = toLang(Astro.currentLocale);
+const t = useTranslations(lang);
+
 // First available link is the solid primary button, the rest are outlined
 const actions = [
 	appStore && { href: appStore, label: "App Store", icon: "fa6-brands:apple" },
 	playStore && { href: playStore, label: "Google Play", icon: "fa6-brands:google-play" },
-	website && { href: website, label: "Visit website", icon: "material-symbols:language" },
-	github && { href: github, label: "Source code", icon: "fa6-brands:github" },
+	website && { href: website, label: t(I18nKey.visitWebsite), icon: "material-symbols:language" },
+	github && { href: github, label: t(I18nKey.sourceCode), icon: "fa6-brands:github" },
 ].filter(Boolean) as { href: string; label: string; icon: string }[];
 
-const date = published.toLocaleDateString("en-US", { year: "numeric", month: "short" });
+const date = formatDate(published, lang, { year: "numeric", month: "short" });
 ---
 <header class="mb-6">
     <div class="flex flex-col sm:flex-row sm:items-center gap-5">
         {icon
-            ? <img src={url(icon)} alt={`${name} app icon`} width="112" height="112"
+            ? <img src={url(icon)} alt={t(I18nKey.appIconAlt, { name })} width="112" height="112"
                    class="w-24 h-24 md:w-28 md:h-28 shrink-0 rounded-[22%] border border-[var(--card-border)]" />
             : <div class="w-24 h-24 md:w-28 md:h-28 shrink-0 rounded-[22%] bg-[var(--primary-solid)] text-[var(--on-primary)] font-black text-5xl flex items-center justify-center">
                 {name.charAt(0)}
@@ -45,7 +54,7 @@ const date = published.toLocaleDateString("en-US", { year: "numeric", month: "sh
             <div class="flex flex-wrap items-center gap-2 mt-3">
                 <span class="chip h-7 px-2.5 text-xs">
                     <Icon name={isMobile ? "material-symbols:smartphone-outline" : "material-symbols:language"} class="text-sm"></Icon>
-                    {isMobile ? "Mobile app" : "Website"}
+                    {t(isMobile ? I18nKey.mobileApp : I18nKey.website)}
                 </span>
                 <span class="chip h-7 px-2.5 text-xs">
                     <Icon name="material-symbols:calendar-today-outline-rounded" class="text-sm"></Icon>
@@ -53,7 +62,7 @@ const date = published.toLocaleDateString("en-US", { year: "numeric", month: "sh
                 </span>
                 <span class="chip h-7 px-2.5 text-xs">
                     <Icon name="material-symbols:schedule-outline-rounded" class="text-sm"></Icon>
-                    {minutes} min read
+                    {t(I18nKey.minRead, { minutes })}
                 </span>
             </div>
         </div>
@@ -74,7 +83,7 @@ const date = published.toLocaleDateString("en-US", { year: "numeric", month: "sh
     {tags.length > 0 && (
         <div class="flex flex-wrap gap-2 mt-5">
             {tags.map((tag) => (
-                <a href={getTagUrl(tag)} class="chip h-7 px-2.5 text-xs">{tag}</a>
+                <a href={getTagUrl(tag, lang)} class="chip h-7 px-2.5 text-xs">{getTagName(tag, lang)}</a>
             ))}
         </div>
     )}

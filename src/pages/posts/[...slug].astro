@@ -1,15 +1,19 @@
 ---
+import type { CollectionEntry } from "astro:content";
 import path from "node:path";
 import License from "@components/misc/License.astro";
 import Markdown from "@components/misc/Markdown.astro";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
-import { getSortedPosts } from "@utils/content-utils";
+import { getSortedPosts, localizePost } from "@utils/content-utils";
 import { getDir, getPostUrlBySlug, url } from "@utils/url-utils";
 import { Icon } from "astro-icon/components";
 import { licenseConfig } from "src/config";
 import ImageWrapper from "../../components/misc/ImageWrapper.astro";
 import ProjectHeader from "../../components/ProjectHeader.astro";
-import { profileConfig, siteConfig } from "../../config";
+import { profileConfig } from "../../config";
+import I18nKey from "../../i18n/i18nKey";
+import { languages, toLang } from "../../i18n/lang";
+import { useTranslations } from "../../i18n/translation";
 import { formatDateToYYYYMMDD } from "../../utils/date-utils";
 
 export async function getStaticPaths() {
@@ -21,9 +25,14 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const { Content, headings } = await entry.render();
 
-const { remarkPluginFrontmatter } = await entry.render();
+const lang = toLang(Astro.currentLocale);
+const t = useTranslations(lang);
+
+// On the Kurdish site this is the Kurdish translation when the post has one
+const localized = await localizePost(entry, lang);
+const { Content, headings, remarkPluginFrontmatter } =
+	await localized.content.render();
 
 // Neighbouring projects in list order, shown as icon cards under the post
 const allPosts = await getSortedPosts();
@@ -34,16 +43,20 @@ const shortName = (title: string) => {
 };
 const previousPost = entry.data.nextSlug ? findPost(entry.data.nextSlug) : undefined;
 const nextPost = entry.data.prevSlug ? findPost(entry.data.prevSlug) : undefined;
-const neighbours = [
-	previousPost && { side: "prev" as const, post: previousPost },
-	nextPost && { side: "next" as const, post: nextPost },
-];
+const neighbour = async (
+	side: "prev" | "next",
+	post: CollectionEntry<"posts"> | undefined,
+) => post && { side, post, title: (await localizePost(post, lang)).title };
+const neighbours = await Promise.all([
+	neighbour("prev", previousPost),
+	neighbour("next", nextPost),
+]);
 
 const jsonLd = {
 	"@context": "https://schema.org",
 	"@type": "BlogPosting",
-	headline: entry.data.title,
-	description: entry.data.description || entry.data.title,
+	headline: localized.title,
+	description: localized.description || localized.title,
 	keywords: entry.data.tags,
 	author: {
 		"@type": "Person",
@@ -51,20 +64,18 @@ const jsonLd = {
 		url: Astro.site,
 	},
 	datePublished: formatDateToYYYYMMDD(entry.data.published),
-	inLanguage: entry.data.lang
-		? entry.data.lang.replace("_", "-")
-		: siteConfig.lang.replace("_", "-"),
+	inLanguage: languages[localized.lang].htmlLang,
 	// TODO include cover image here
 };
 ---
-<MainGridLayout banner={entry.data.image} title={entry.data.title} description={entry.data.description} lang={entry.data.lang} setOGTypeArticle={true} headings={headings}>
+<MainGridLayout banner={entry.data.image} title={localized.title} description={localized.description} setOGTypeArticle={true} headings={headings}>
     <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
     <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative mb-4">
         <div id="post-container" class:list={["card-base z-10 px-6 md:px-9 pt-6 pb-4 relative w-full ",
             {}
         ]}>
             <div class="onload-animation">
-                <ProjectHeader entry={entry} minutes={remarkPluginFrontmatter.minutes} />
+                <ProjectHeader entry={entry} title={localized.title} minutes={remarkPluginFrontmatter.minutes} />
             </div>
 
             <!-- always show cover as long as it has one -->
@@ -74,27 +85,28 @@ const jsonLd = {
             }
 
 
-            <Markdown class="mb-6 markdown-content onload-animation">
+            <!-- Posts without a Kurdish translation keep their English text, left to right, on the Kurdish site -->
+            <Markdown class="mb-6 markdown-content onload-animation" lang={localized.lang}>
                 <Content />
             </Markdown>
 
-            {licenseConfig.enable && <License title={entry.data.title} slug={entry.slug} pubDate={entry.data.published} class="mb-6 rounded-xl license-container onload-animation"></License>}
+            {licenseConfig.enable && <License title={localized.title} slug={entry.slug} pubDate={entry.data.published} class="mb-6 rounded-xl license-container onload-animation"></License>}
 
         </div>
     </div>
 
     <nav class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         {neighbours.map((item) => item ? (
-            <a href={getPostUrlBySlug(item.post.slug)}
-               class:list={["card-base group flex items-center gap-3 p-4 active:scale-[0.98] transition", {"md:col-start-2 flex-row-reverse text-right": item.side === "next"}]}>
+            <a href={getPostUrlBySlug(item.post.slug, lang)}
+               class:list={["card-base group flex items-center gap-3 p-4 active:scale-[0.98] transition", {"md:col-start-2 flex-row-reverse text-end": item.side === "next"}]}>
                 <Icon name={item.side === "prev" ? "material-symbols:chevron-left-rounded" : "material-symbols:chevron-right-rounded"}
-                      class="text-3xl shrink-0 text-[var(--primary)]" />
+                      class="text-3xl shrink-0 text-[var(--primary)] rtl:-scale-x-100" />
                 {item.post.data.icon
                     ? <img src={url(item.post.data.icon)} alt="" width="44" height="44" class="w-11 h-11 shrink-0 rounded-xl border border-[var(--card-border)]" />
-                    : <div class="w-11 h-11 shrink-0 rounded-xl bg-[var(--primary-solid)] text-[var(--on-primary)] font-black text-lg flex items-center justify-center">{shortName(item.post.data.title).charAt(0)}</div>}
+                    : <div class="w-11 h-11 shrink-0 rounded-xl bg-[var(--primary-solid)] text-[var(--on-primary)] font-black text-lg flex items-center justify-center">{shortName(item.title).charAt(0)}</div>}
                 <div class="min-w-0">
-                    <div class="text-xs font-extrabold uppercase tracking-wider text-50">{item.side === "prev" ? "Previous" : "Next"}</div>
-                    <div class="font-extrabold tracking-tight text-[var(--ink)] truncate group-hover:text-[var(--primary)] transition">{shortName(item.post.data.title)}</div>
+                    <div class="text-xs font-extrabold uppercase tracking-wider text-50">{t(item.side === "prev" ? I18nKey.previous : I18nKey.next)}</div>
+                    <div class="font-extrabold tracking-tight text-[var(--ink)] truncate group-hover:text-[var(--primary)] transition">{shortName(item.title)}</div>
                 </div>
             </a>
         ) : null)}

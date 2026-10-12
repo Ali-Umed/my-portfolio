@@ -64,9 +64,10 @@
         @apply transition flex items-center justify-center rounded-full border border-[var(--card-border)]
         text-[var(--ink)] hover:text-[var(--primary)] active:scale-90;
     }
+    /* Plain outlined pill, same as the tags on the project cards */
     .chip {
         @apply transition inline-flex items-center gap-1 rounded-full border border-[var(--card-border)]
-        bg-[var(--btn-regular-bg)] text-[var(--btn-content)] dark:text-white/85 font-bold whitespace-nowrap;
+        text-black/75 dark:text-white/75 font-bold whitespace-nowrap;
     }
     a.chip {
         @apply hover:text-[var(--primary)] dark:hover:text-[var(--primary)];
@@ -158,4 +159,9 @@
 
 .collapsed {
     height: var(--collapsedHeight);
+}
+
+/* Kurdish uses Arabic script, whose letters join up: tracking-tight and friends would pull them apart */
+:lang(ckb) {
+    letter-spacing: normal !important;
 }

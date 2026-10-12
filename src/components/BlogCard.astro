@@ -1,8 +1,12 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { Icon } from "astro-icon/components";
+import I18nKey from "../i18n/i18nKey";
+import { formatDate, languages, toLang } from "../i18n/lang";
+import { useTranslations } from "../i18n/translation";
 import { getBlogPlatform } from "../utils/blog-utils";
-import { url } from "../utils/url-utils";
+import { getCategoryName } from "../utils/content-utils";
+import { localeUrl } from "../utils/url-utils";
 
 interface Props {
 	entry: CollectionEntry<"blogs">;
@@ -21,17 +25,19 @@ const platformIcon = {
 	other: "material-symbols:article-outline-rounded",
 }[platform];
 
-// Kurdish posts read right-to-left, so the whole card mirrors
-const isKurdish = lang === "ku";
+// The card is in the article's own language: Kurdish posts read right-to-left, so the whole card mirrors
+const postLang = toLang(lang);
+const { htmlLang, dir } = languages[postLang];
+const t = useTranslations(postLang);
 const { remarkPluginFrontmatter } = await entry.render();
 const summary = description || remarkPluginFrontmatter.excerpt;
-const date = published.toLocaleDateString("en-US", {
+const date = formatDate(published, postLang, {
 	year: "numeric",
 	month: "short",
 	day: "numeric",
 });
 ---
-<a href={url(`/blogs/${entry.slug}/`)} dir={isKurdish ? "rtl" : "ltr"} lang={isKurdish ? "ckb" : "en"}
+<a href={localeUrl(`/blogs/${entry.slug}/`, toLang(Astro.currentLocale))} dir={dir} lang={htmlLang}
    class:list={["card-base group flex gap-3 md:gap-4 p-5 md:p-6 active:scale-[0.99] transition", className]}
    style={style}>
     <div class="w-10 h-10 md:w-11 md:h-11 shrink-0 rounded-xl bg-[var(--primary-solid)] text-[var(--on-primary)] flex items-center justify-center mt-1">
@@ -43,16 +49,18 @@ const date = published.toLocaleDateString("en-US", {
         </h2>
         <p class="text-sm md:text-base font-medium text-75 line-clamp-2">{summary}</p>
         <div class="flex flex-wrap items-center gap-2 mt-1">
-            {category && <span class="chip h-7 px-2.5 text-xs">{category}</span>}
-            <span class="chip h-7 px-2.5 text-xs" dir="auto">{isKurdish ? "کوردی" : "EN"}</span>
-            <span class="chip h-7 px-2.5 text-xs" dir="ltr">
+            {category && <span class="chip h-7 px-2.5 text-xs">{getCategoryName(category, postLang)}</span>}
+            <span class="chip h-7 px-2.5 text-xs" dir="auto">{postLang === "ku" ? languages.ku.name : "EN"}</span>
+            <span class="chip h-7 px-2.5 text-xs">
                 <Icon name="material-symbols:schedule-outline-rounded" class="text-sm"></Icon>
-                {remarkPluginFrontmatter.minutes} min
+                {t(I18nKey.minutesShort, { minutes: remarkPluginFrontmatter.minutes })}
             </span>
-            <time class="text-xs font-bold text-50 px-1" dir="ltr" datetime={published.toISOString()}>{date}</time>
+            <time class="text-xs font-bold text-50 px-1" datetime={published.toISOString()}>{date}</time>
             <span class="ms-auto inline-flex items-center gap-1 text-sm font-extrabold h-9 px-4 rounded-[var(--radius-btn)] bg-[var(--primary-solid)] text-[var(--on-primary)]">
-                {isKurdish ? "بخوێنەوە" : "Read"}
-                <Icon name="material-symbols:arrow-forward-rounded" class="text-base transition rtl:-scale-x-100 group-hover:translate-x-1 rtl:group-hover:-translate-x-1"></Icon>
+                {t(I18nKey.read)}
+                <!-- Not rtl: variants: those follow the page, and this card can be LTR inside the Kurdish site -->
+                <Icon name="material-symbols:arrow-forward-rounded" class:list={["text-base transition",
+                    dir === "rtl" ? "-scale-x-100 group-hover:-translate-x-1" : "group-hover:translate-x-1"]}></Icon>
             </span>
         </div>
     </div>

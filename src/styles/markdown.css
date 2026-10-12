@@ -7,7 +7,7 @@
         @apply font-extrabold tracking-tight;
 
         .anchor {
-            @apply transition -m-0.5 ml-[0.2ch] p-0.5 select-none opacity-0 no-underline !important;
+            @apply transition -m-0.5 ms-[0.2ch] p-0.5 select-none opacity-0 no-underline !important;
 
             .anchor-icon {
                 @apply mx-[0.45ch] !important;
@@ -103,7 +103,7 @@
         font-weight: inherit;
 
         &:before {
-            @apply content-[''] absolute -left-1 block transition bg-[var(--btn-regular-bg)] h-full w-1 rounded-full;
+            @apply content-[''] absolute -start-1 block transition bg-[var(--btn-regular-bg)] h-full w-1 rounded-full;
         }
 
         /* Remove the double quotes from default styles */

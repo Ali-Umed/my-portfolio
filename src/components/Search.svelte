@@ -6,6 +6,8 @@ import { url } from "@utils/url-utils.ts";
 import { onMount } from "svelte";
 import type { SearchResult } from "@/global";
 
+export let lang = "en";
+
 let keywordDesktop = "";
 let keywordMobile = "";
 let mobileInput: HTMLInputElement | undefined;
@@ -144,33 +146,33 @@ $: if (initialized && keywordMobile) {
 </script>
 
 <!-- search bar for desktop view -->
-<div id="search-bar" class="hidden lg:flex transition-all items-center h-10 mr-0.5 rounded-full
+<div id="search-bar" class="hidden lg:flex transition-all items-center h-10 me-0.5 rounded-full
       border border-[var(--card-border)] focus-within:border-[var(--primary)]
 ">
-    <Icon icon="material-symbols:search" class="absolute text-[1.25rem] pointer-events-none ml-3 transition my-auto text-black/30 dark:text-white/30"></Icon>
-    <input placeholder="{i18n(I18nKey.search)}" bind:value={keywordDesktop} on:focus={() => search(keywordDesktop, true)}
-           class="transition-all pl-10 pr-4 text-sm font-bold bg-transparent outline-0
+    <Icon icon="material-symbols:search" class="absolute text-[1.25rem] pointer-events-none ms-3 transition my-auto text-black/30 dark:text-white/30"></Icon>
+    <input placeholder="{i18n(I18nKey.search, lang)}" bind:value={keywordDesktop} on:focus={() => search(keywordDesktop, true)}
+           class="transition-all ps-10 pe-4 text-sm font-bold bg-transparent outline-0
          h-full w-40 active:w-60 focus:w-60 text-[var(--ink)] placeholder:text-black/40 dark:placeholder:text-white/40"
     >
 </div>
 
 <!-- toggle btn for phone/tablet view -->
-<button on:click={togglePanel} aria-label="Search Panel" id="search-switch"
+<button on:click={togglePanel} aria-label={i18n(I18nKey.searchPanel, lang)} id="search-switch"
         class="btn-round lg:!hidden w-10 h-10">
     <Icon icon="material-symbols:search" class="text-[1.25rem]"></Icon>
 </button>
 
 <!-- search panel -->
 <div id="search-panel" class="float-panel float-panel-closed search-panel absolute md:w-[30rem]
-top-20 left-4 md:left-[unset] right-4 rounded-2xl p-2">
+top-20 start-4 md:start-[unset] end-4 rounded-2xl p-2">
 
     <!-- search bar inside panel for phone/tablet -->
     <div id="search-bar-inside" class="flex relative lg:hidden transition-all items-center h-11 rounded-full
       border border-[var(--card-border)] focus-within:border-[var(--primary)]
   ">
-        <Icon icon="material-symbols:search" class="absolute text-[1.25rem] pointer-events-none ml-3 transition my-auto text-black/30 dark:text-white/30"></Icon>
-        <input placeholder="Search" bind:value={keywordMobile} bind:this={mobileInput}
-               class="pl-10 absolute inset-0 text-sm font-bold bg-transparent outline-0
+        <Icon icon="material-symbols:search" class="absolute text-[1.25rem] pointer-events-none ms-3 transition my-auto text-black/30 dark:text-white/30"></Icon>
+        <input placeholder={i18n(I18nKey.search, lang)} bind:value={keywordMobile} bind:this={mobileInput}
+               class="ps-10 absolute inset-0 text-sm font-bold bg-transparent outline-0
                focus:w-60 text-[var(--ink)]"
         >
     </div>
@@ -181,7 +183,7 @@ top-20 left-4 md:left-[unset] right-4 rounded-2xl p-2">
            class="transition first-of-type:mt-2 lg:first-of-type:mt-0 group block
        rounded-xl text-lg px-3 py-2">
             <div class="transition text-90 inline-flex font-bold group-hover:text-[var(--primary)]">
-                {item.meta.title}<Icon icon="fa6-solid:chevron-right" class="transition text-[0.75rem] translate-x-1 my-auto text-[var(--primary)]"></Icon>
+                {item.meta.title}<Icon icon="fa6-solid:chevron-right" class="transition text-[0.75rem] translate-x-1 rtl:-translate-x-1 rtl:-scale-x-100 my-auto text-[var(--primary)]"></Icon>
             </div>
             <div class="transition text-sm text-50">
                 {@html item.excerpt}
