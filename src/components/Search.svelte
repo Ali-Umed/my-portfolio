@@ -8,6 +8,7 @@ import type { SearchResult } from "@/global";
 
 let keywordDesktop = "";
 let keywordMobile = "";
+let mobileInput: HTMLInputElement | undefined;
 let result: SearchResult[] = [];
 let isSearching = false;
 let pagefindLoaded = false;
@@ -34,6 +35,10 @@ const fakeResult: SearchResult[] = [
 const togglePanel = () => {
 	const panel = document.getElementById("search-panel");
 	panel?.classList.toggle("float-panel-closed");
+	// Focus the phone search box right away so the keyboard opens on the first tap
+	if (panel && !panel.classList.contains("float-panel-closed")) {
+		mobileInput?.focus();
+	}
 };
 
 const setPanelVisibility = (show: boolean, isDesktop: boolean): void => {
@@ -164,7 +169,7 @@ top-20 left-4 md:left-[unset] right-4 rounded-2xl p-2">
       border border-[var(--card-border)] focus-within:border-[var(--primary)]
   ">
         <Icon icon="material-symbols:search" class="absolute text-[1.25rem] pointer-events-none ml-3 transition my-auto text-black/30 dark:text-white/30"></Icon>
-        <input placeholder="Search" bind:value={keywordMobile}
+        <input placeholder="Search" bind:value={keywordMobile} bind:this={mobileInput}
                class="pl-10 absolute inset-0 text-sm font-bold bg-transparent outline-0
                focus:w-60 text-[var(--ink)]"
         >

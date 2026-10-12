@@ -1,7 +1,9 @@
 ---
 import { getCollection } from "astro:content";
-import Markdown from "../../components/misc/Markdown.astro";
+import { Icon } from "astro-icon/components";
+import BlogCard from "../../components/BlogCard.astro";
 import MainGridLayout from "../../layouts/MainGridLayout.astro";
+import { url } from "../../utils/url-utils";
 
 export async function getStaticPaths() {
 	const blogPosts = await getCollection("blogs");
@@ -25,6 +27,16 @@ const readingTime = (content) => {
 };
 
 const readingMinutes = readingTime(post.body);
+
+// "Read next": the next older article, wrapping around to the newest
+const sortedBlogs = (await getCollection("blogs"))
+	.filter((blog) => !blog.data.draft)
+	.sort((a, b) => b.data.published.getTime() - a.data.published.getTime());
+const currentIndex = sortedBlogs.findIndex((blog) => blog.slug === post.slug);
+const nextBlog =
+	sortedBlogs.length > 1
+		? sortedBlogs[(currentIndex + 1) % sortedBlogs.length]
+		: undefined;
 ---
 
 <MainGridLayout title={title} description={description || ""} headings={[]}>
@@ -78,6 +90,19 @@ const readingMinutes = readingTime(post.body);
       </div>
     </div>
   </div>
+
+  <div class="flex flex-col gap-4 mt-4 mb-4">
+    {nextBlog && (
+      <div>
+        <div class="text-sm font-extrabold text-50 uppercase tracking-wider mb-2 px-4 md:px-1">Read next</div>
+        <BlogCard entry={nextBlog} />
+      </div>
+    )}
+    <a href={url("/blogs/")} class="btn-outline self-start ms-4 md:ms-0">
+      <Icon name="material-symbols:arrow-back-rounded" class="text-xl"></Icon>
+      All articles
+    </a>
+  </div>
 </MainGridLayout>
 
 <style>
@@ -103,17 +128,8 @@ const readingMinutes = readingTime(post.body);
   .markdown-content a {
     @apply text-[var(--primary)];
   }
-  .markdown-content code {
-    @apply bg-gray-100 dark:bg-gray-800 rounded px-2 py-1 text-sm;
-  }
-  .markdown-content pre {
-    @apply bg-gray-100 dark:bg-gray-800 rounded-lg p-4 my-4 overflow-x-auto;
-  }
-  .markdown-content pre code {
-    @apply bg-transparent p-0;
-  }
   .markdown-content blockquote {
-    @apply border-s-4 border-[var(--primary)] ps-4 py-1 my-4 text-gray-600 dark:text-gray-300;
+    @apply border-s-4 border-[var(--primary)] ps-4 py-1 my-4 text-black/75 dark:text-white/75;
   }
 </style>
 
@@ -127,5 +143,20 @@ const readingMinutes = readingTime(post.body);
   }
   .markdown-content :is(h1, h2, h3, h4):hover .anchor {
     opacity: 1;
+  }
+
+  /* Inline code as small chips; code blocks are styled by expressive-code */
+  .markdown-content :not(pre) > code {
+    padding: 0.1em 0.4em;
+    border: 1px solid var(--card-border);
+    border-radius: 6px;
+    background: var(--inline-code-bg);
+    color: var(--inline-code-color);
+    font-size: 0.875em;
+    font-weight: 700;
+  }
+  .markdown-content :not(pre) > code::before,
+  .markdown-content :not(pre) > code::after {
+    content: none;
   }
 </style>
