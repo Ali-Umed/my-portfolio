@@ -2,9 +2,11 @@
 import { onMount } from "svelte";
 
 import I18nKey from "../i18n/i18nKey";
+import type { Lang } from "../i18n/lang";
 import { i18n } from "../i18n/translation";
 import { getPostUrlBySlug } from "../utils/url-utils";
 
+export let lang: Lang = "en";
 export let tags: string[];
 export let categories: string[];
 export let sortedPosts: Post[] = [];
@@ -93,7 +95,7 @@ onMount(async () => {
     {#each groups as group}
         <div>
             <div class="flex flex-row w-full items-center h-[3.75rem]">
-                <div class="w-[15%] md:w-[10%] transition text-2xl font-bold text-right text-75">
+                <div class="w-[15%] md:w-[10%] transition text-2xl font-bold text-end text-75">
                     {group.year}
                 </div>
                 <div class="w-[15%] md:w-[10%]">
@@ -102,20 +104,20 @@ onMount(async () => {
                   -outline-offset-[2px] z-50 outline-3"
                     ></div>
                 </div>
-                <div class="w-[70%] md:w-[80%] transition text-left text-50">
-                    {group.posts.length} {i18n(group.posts.length === 1 ? I18nKey.postCount : I18nKey.postsCount)}
+                <div class="w-[70%] md:w-[80%] transition text-start text-50">
+                    {group.posts.length} {i18n(group.posts.length === 1 ? I18nKey.postCount : I18nKey.postsCount, lang)}
                 </div>
             </div>
 
             {#each group.posts as post}
                 <a
-                        href={getPostUrlBySlug(post.slug)}
+                        href={getPostUrlBySlug(post.slug, lang)}
                         aria-label={post.data.title}
                         class="group btn-plain !block h-10 w-full rounded-lg hover:text-[initial]"
                 >
                     <div class="flex flex-row justify-start items-center h-full">
                         <!-- date -->
-                        <div class="w-[15%] md:w-[10%] transition text-sm text-right text-50">
+                        <div class="w-[15%] md:w-[10%] transition text-sm text-end text-50">
                             {formatDate(post.data.published)}
                         </div>
 
@@ -133,16 +135,17 @@ onMount(async () => {
 
                         <!-- post title -->
                         <div
-                                class="w-[70%] md:max-w-[65%] md:w-[65%] text-left font-bold
-                     group-hover:translate-x-1 transition-all group-hover:text-[var(--primary)]
-                     text-75 pr-8 whitespace-nowrap overflow-ellipsis overflow-hidden"
+                                class="w-[70%] md:max-w-[65%] md:w-[65%] text-start font-bold
+                     group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-all group-hover:text-[var(--primary)]
+                     text-75 pe-8 whitespace-nowrap overflow-ellipsis overflow-hidden"
                         >
                             {post.data.title}
                         </div>
 
                         <!-- tag list -->
                         <div
-                                class="hidden md:block md:w-[15%] text-left text-sm transition
+                                dir="ltr"
+                                class="hidden md:block md:w-[15%] text-start text-sm transition
                      whitespace-nowrap overflow-ellipsis overflow-hidden text-30"
                         >
                             {formatTag(post.data.tags)}

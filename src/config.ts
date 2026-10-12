@@ -10,7 +10,7 @@ import { LinkPreset } from "./types/config";
 export const siteConfig: SiteConfig = {
 	title: "Ali",
 	subtitle: "",
-	lang: "en", // 'en', 'zh_CN', 'zh_TW', 'ja', 'ko', 'es', 'th'
+	lang: "en", // Default language. Kurdish (Sorani) pages are served under /ku/, see src/i18n/lang.ts
 	themeColor: {
 		hue: 50, // Default hue for the theme color, from 0 to 360. e.g. red: 0, teal: 200, cyan: 250, pink: 345
 		fixed: false, // Hide the theme color picker for visitors
@@ -42,14 +42,8 @@ export const siteConfig: SiteConfig = {
 export const navBarConfig: NavBarConfig = {
 	links: [
 		LinkPreset.Home,
-		{
-			name: "Projects",
-			url: "/projects/",
-		},
-		{
-			name: "Blogs",
-			url: "/blogs/",
-		},
+		LinkPreset.Projects,
+		LinkPreset.Blogs,
 		// LinkPreset.Archive, // hidden for now; /archive/ still serves tag and category filters
 		LinkPreset.About,
 		// {
@@ -63,7 +57,7 @@ export const navBarConfig: NavBarConfig = {
 export const profileConfig: ProfileConfig = {
 	avatar: "https://github.com/Ali-Umed.png?size=400", // GitHub profile photo. Relative to the /src directory, or /public if it starts with '/'
 	name: "Ali Umed",
-	bio: "Fast builds. Clean UX. Modern code for modern screens.",
+	// The bio text is translated, see profileBio in src/i18n/languages/
 	links: [
 		{
 			name: "GitHub",

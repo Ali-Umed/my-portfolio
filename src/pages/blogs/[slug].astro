@@ -2,8 +2,11 @@
 import { getCollection } from "astro:content";
 import { Icon } from "astro-icon/components";
 import BlogCard from "../../components/BlogCard.astro";
+import I18nKey from "../../i18n/i18nKey";
+import { formatDate, languages, toLang } from "../../i18n/lang";
+import { useTranslations } from "../../i18n/translation";
 import MainGridLayout from "../../layouts/MainGridLayout.astro";
-import { url } from "../../utils/url-utils";
+import { localeUrl } from "../../utils/url-utils";
 
 export async function getStaticPaths() {
 	const blogPosts = await getCollection("blogs");
@@ -17,7 +20,12 @@ const { post } = Astro.props;
 const { Content } = await post.render();
 const { title, description, published, updated, image, tags, category, lang } =
 	post.data;
-const isKurdish = lang === "ku";
+
+// The page around the article follows the site language; the article card follows the post's own language
+const pageLang = toLang(Astro.currentLocale);
+const t = useTranslations(pageLang);
+const postLang = toLang(lang);
+const tPost = useTranslations(postLang);
 
 // Calculate reading time
 const readingTime = (content) => {
@@ -40,7 +48,7 @@ const nextBlog =
 ---
 
 <MainGridLayout title={title} description={description || ""} headings={[]}>
-  <div class="card-base pt-2" dir={isKurdish ? "rtl" : "ltr"} lang={isKurdish ? "ckb" : "en"}>
+  <div class="card-base pt-2" dir={languages[postLang].dir} lang={languages[postLang].htmlLang}>
     <div class="pt-6 px-6 md:px-8">
       <header class="mb-0">
         <div class="flex flex-wrap gap-2  mb-0">
@@ -59,13 +67,13 @@ const nextBlog =
         <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4 pt-4 text-[var(--ink)]">{title}</h1>
         
         <div class="flex flex-wrap items-center gap-4 text-sm font-bold text-50">
-          <span dir="ltr">{readingMinutes} min read</span>
+          <span>{tPost(I18nKey.minRead, { minutes: readingMinutes })}</span>
           <span>•</span>
           <time datetime={published.toISOString()}>
-            {published.toLocaleDateString("en-US", { 
-              year: 'numeric', 
-              month: 'long', 
-              day: 'numeric' 
+            {formatDate(published, postLang, {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
             })}
           </time>
         </div>
@@ -94,13 +102,13 @@ const nextBlog =
   <div class="flex flex-col gap-4 mt-4 mb-4">
     {nextBlog && (
       <div>
-        <div class="text-sm font-extrabold text-50 uppercase tracking-wider mb-2 px-4 md:px-1">Read next</div>
+        <div class="text-sm font-extrabold text-50 uppercase tracking-wider mb-2 px-4 md:px-1">{t(I18nKey.readNext)}</div>
         <BlogCard entry={nextBlog} />
       </div>
     )}
-    <a href={url("/blogs/")} class="btn-outline self-start ms-4 md:ms-0">
-      <Icon name="material-symbols:arrow-back-rounded" class="text-xl"></Icon>
-      All articles
+    <a href={localeUrl("/blogs/", pageLang)} class="btn-outline self-start ms-4 md:ms-0">
+      <Icon name="material-symbols:arrow-back-rounded" class="text-xl rtl:-scale-x-100"></Icon>
+      {t(I18nKey.allArticles)}
     </a>
   </div>
 </MainGridLayout>

@@ -3,34 +3,41 @@ import { Icon } from "astro-icon/components";
 import { profileConfig } from "../config";
 import {
 	aboutIntro,
+	codingSince,
 	education,
 	experience,
 	quote,
 	skillGroups,
 } from "../data/about";
 import I18nKey from "../i18n/i18nKey";
-import { i18n } from "../i18n/translation";
+import { toLang } from "../i18n/lang";
+import { useTranslations } from "../i18n/translation";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
 import { getSortedPosts } from "../utils/content-utils";
 import { url } from "../utils/url-utils";
+
+const lang = toLang(Astro.currentLocale);
+const t = useTranslations(lang);
+const intro = aboutIntro[lang];
+const school = education[lang];
 
 const projects = await getSortedPosts();
 const storeApps = projects.filter(
 	(post) => post.data.appStore || post.data.playStore,
 ).length;
-const yearsCoding = new Date().getFullYear() - aboutIntro.codingSince;
+const yearsCoding = new Date().getFullYear() - codingSince;
 
 const stats = [
-	{ value: `${yearsCoding}+`, label: "Years coding" },
-	{ value: `${projects.length}`, label: "Projects" },
-	{ value: `${storeApps}`, label: "Apps on stores" },
+	{ value: `${yearsCoding}+`, label: t(I18nKey.yearsCoding) },
+	{ value: `${projects.length}`, label: t(I18nKey.projectsStat) },
+	{ value: `${storeApps}`, label: t(I18nKey.appsOnStores) },
 ];
 
 const avatar = profileConfig.avatar || "";
 const email = profileConfig.links.find((link) => link.url.startsWith("mailto:"));
 const socials = profileConfig.links.filter((link) => link !== email);
 ---
-<MainGridLayout title={i18n(I18nKey.about)} description={aboutIntro.summary}>
+<MainGridLayout title={t(I18nKey.about)} description={intro.summary}>
     <div class="flex flex-col gap-4 mb-4">
 
         <!-- Hero -->
@@ -43,10 +50,10 @@ const socials = profileConfig.links.filter((link) => link !== email);
                 <div class="min-w-0">
                     <span class="chip h-8 px-3 text-xs mb-3">
                         <Icon name="material-symbols:code-rounded" class="text-sm"></Icon>
-                        {aboutIntro.role}
+                        {intro.role}
                     </span>
                     <h1 class="font-black tracking-tight text-4xl md:text-5xl leading-tight text-[var(--ink)]">{profileConfig.name}</h1>
-                    <p class="text-base md:text-lg font-medium text-75 mt-3 max-w-xl">{aboutIntro.summary}</p>
+                    <p class="text-base md:text-lg font-medium text-75 mt-3 max-w-xl">{intro.summary}</p>
                 </div>
             </div>
 
@@ -54,7 +61,7 @@ const socials = profileConfig.links.filter((link) => link !== email);
                 {email && (
                     <a href={email.url} class="btn-bold">
                         <Icon name="material-symbols:mail-outline-rounded" class="text-xl"></Icon>
-                        Get in touch
+                        {t(I18nKey.getInTouch)}
                     </a>
                 )}
                 {socials.map((link) => (
@@ -79,10 +86,10 @@ const socials = profileConfig.links.filter((link) => link !== email);
         <section class="card-base onload-animation p-6 md:p-8">
             <h2 class="flex items-center gap-2 font-black tracking-tight text-2xl text-[var(--ink)] mb-6">
                 <Icon name="material-symbols:work-outline" class="text-[var(--primary)]"></Icon>
-                Experience
+                {t(I18nKey.experience)}
             </h2>
             <ol class="relative border-s-2 border-[var(--card-border)] ms-2 flex flex-col gap-8">
-                {experience.map((job) => (
+                {experience[lang].map((job) => (
                     <li class="relative ps-6">
                         <span class:list={[
                             "absolute -start-[9px] top-1.5 w-4 h-4 rounded-full border-2 border-[var(--card-bg)]",
@@ -110,7 +117,7 @@ const socials = profileConfig.links.filter((link) => link !== email);
         <section class="card-base onload-animation p-6 md:p-8">
             <h2 class="flex items-center gap-2 font-black tracking-tight text-2xl text-[var(--ink)] mb-6">
                 <Icon name="material-symbols:rocket-launch-outline-rounded" class="text-[var(--primary)]"></Icon>
-                Skills
+                {t(I18nKey.skills)}
             </h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {skillGroups.map((group) => (
@@ -119,7 +126,7 @@ const socials = profileConfig.links.filter((link) => link !== email);
                             <span class="w-8 h-8 rounded-lg bg-[var(--primary-solid)] text-[var(--on-primary)] flex items-center justify-center">
                                 <Icon name={group.icon} class="text-lg"></Icon>
                             </span>
-                            {group.name}
+                            {group.name[lang]}
                         </div>
                         <div class="flex flex-wrap gap-2">
                             {group.skills.map((skill) => (
@@ -137,16 +144,16 @@ const socials = profileConfig.links.filter((link) => link !== email);
                 <Icon name="material-symbols:school-outline-rounded" class="text-2xl"></Icon>
             </span>
             <div class="min-w-0">
-                <div class="font-extrabold tracking-tight text-lg text-[var(--ink)]">{education.school}</div>
-                <div class="text-sm md:text-base font-medium text-75">{education.degree}</div>
-                <div class="text-xs font-bold text-50 mt-1">{education.period}</div>
+                <div class="font-extrabold tracking-tight text-lg text-[var(--ink)]">{school.school}</div>
+                <div class="text-sm md:text-base font-medium text-75">{school.degree}</div>
+                <div class="text-xs font-bold text-50 mt-1">{school.period}</div>
             </div>
         </section>
 
         <!-- Quote -->
         <section class="card-base onload-animation p-6 md:p-8 text-center">
             <Icon name="material-symbols:format-quote-rounded" class="text-4xl text-[var(--primary)] mx-auto"></Icon>
-            <p class="font-extrabold tracking-tight text-xl md:text-2xl text-[var(--ink)] mt-2">{quote}</p>
+            <p class="font-extrabold tracking-tight text-xl md:text-2xl text-[var(--ink)] mt-2">{quote[lang]}</p>
         </section>
     </div>
 </MainGridLayout>

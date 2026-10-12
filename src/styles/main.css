@@ -159,3 +159,8 @@
 .collapsed {
     height: var(--collapsedHeight);
 }
+
+/* Kurdish uses Arabic script, whose letters join up: tracking-tight and friends would pull them apart */
+:lang(ckb) {
+    letter-spacing: normal !important;
+}

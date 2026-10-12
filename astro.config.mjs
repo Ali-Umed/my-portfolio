@@ -29,6 +29,18 @@ export default defineConfig({
 	site: "https://ali-umed.netlify.app/",
 	base: "/",
 	trailingSlash: "always",
+	// English at the root, Kurdish (Sorani) under /ku/. There are no separate Kurdish page files:
+	// the fallback renders every page again at its /ku/ URL, and components translate themselves
+	// from Astro.currentLocale (see src/i18n/).
+	i18n: {
+		locales: ["en", "ku"],
+		defaultLocale: "en",
+		fallback: { ku: "en" },
+		routing: {
+			prefixDefaultLocale: false,
+			fallbackType: "rewrite",
+		},
+	},
 	integrations: [
 		tailwind({
 			nesting: true,

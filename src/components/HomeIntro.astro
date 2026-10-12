@@ -2,9 +2,15 @@
 import { Icon } from "astro-icon/components";
 import { profileConfig } from "../config";
 import { aboutIntro } from "../data/about";
-import { url } from "../utils/url-utils";
+import I18nKey from "../i18n/i18nKey";
+import { toLang } from "../i18n/lang";
+import { useTranslations } from "../i18n/translation";
+import { localeUrl, url } from "../utils/url-utils";
 
 const className = Astro.props.class;
+const lang = toLang(Astro.currentLocale);
+const t = useTranslations(lang);
+const intro = aboutIntro[lang];
 // Phones and tablets only: on large screens the sidebar profile card is already beside the content
 const avatar = profileConfig.avatar || "";
 const email = profileConfig.links.find((link) => link.url.startsWith("mailto:"));
@@ -18,19 +24,19 @@ const email = profileConfig.links.find((link) => link.url.startsWith("mailto:"))
         <div class="min-w-0">
             <span class="chip h-7 px-2.5 text-xs mb-1.5">
                 <Icon name="material-symbols:code-rounded" class="text-sm"></Icon>
-                {aboutIntro.role}
+                {intro.role}
             </span>
             <h1 class="font-black tracking-tight text-3xl leading-tight text-[var(--ink)]">{profileConfig.name}</h1>
         </div>
     </div>
-    <p class="text-base font-medium text-75 mt-4">{aboutIntro.summary}</p>
+    <p class="text-base font-medium text-75 mt-4">{intro.summary}</p>
     <div class="flex flex-wrap gap-3 mt-5">
         {email && (
             <a href={email.url} class="btn-bold">
                 <Icon name="material-symbols:mail-outline-rounded" class="text-xl"></Icon>
-                Get in touch
+                {t(I18nKey.getInTouch)}
             </a>
         )}
-        <a href={url("/projects/")} class="btn-outline">See projects</a>
+        <a href={localeUrl("/projects/", lang)} class="btn-outline">{t(I18nKey.seeProjects)}</a>
     </div>
 </section>

@@ -1,6 +1,9 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { Icon } from "astro-icon/components";
+import I18nKey from "../i18n/i18nKey";
+import { languages, toLang } from "../i18n/lang";
+import { useTranslations } from "../i18n/translation";
 import { formatDateToYYYYMMDD } from "../utils/date-utils";
 import { getPostUrlBySlug, url } from "../utils/url-utils";
 
@@ -12,7 +15,15 @@ interface Props {
 
 const { entry, style } = Astro.props;
 const className = Astro.props.class;
-const { title, description, icon, category, tags, published } = entry.data;
+const {
+	title,
+	description,
+	icon,
+	category,
+	tags,
+	published,
+	lang: postLang,
+} = entry.data;
 
 // "Name - Subtitle" titles are split so the name reads like an app name
 const dashIndex = title.indexOf(" - ");
@@ -22,8 +33,13 @@ const subtitle = dashIndex > 0 ? title.slice(dashIndex + 3) : "";
 const { remarkPluginFrontmatter } = await entry.render();
 const summary = description || remarkPluginFrontmatter.excerpt;
 const isMobile = category === "Mobile Application";
+
+const lang = toLang(Astro.currentLocale);
+const t = useTranslations(lang);
+// The summary is in the post's own language (English unless set), even on the Kurdish site
+const summaryLang = languages[toLang(postLang)];
 ---
-<a href={getPostUrlBySlug(entry.slug)}
+<a href={getPostUrlBySlug(entry.slug, lang)}
    class:list={["project-card card-base group flex flex-col gap-4 p-5 h-full active:scale-[0.98] transition duration-200", className]}
    style={style}>
     <div class="flex items-center gap-4">
@@ -38,12 +54,12 @@ const isMobile = category === "Mobile Application";
             {subtitle && <div class="text-sm text-50 truncate">{subtitle}</div>}
             <div class="chip mt-1.5 px-2 py-0.5 text-xs">
                 <Icon name={isMobile ? "material-symbols:smartphone-outline" : "material-symbols:language"} class="text-sm"></Icon>
-                {isMobile ? "Mobile app" : "Website"}
+                {t(isMobile ? I18nKey.mobileApp : I18nKey.website)}
             </div>
         </div>
     </div>
 
-    <p class="text-sm text-75 line-clamp-2">{summary}</p>
+    <p class="text-sm text-75 line-clamp-2" lang={summaryLang.htmlLang} dir={summaryLang.dir}>{summary}</p>
 
     <div class="mt-auto flex items-center justify-between gap-3">
         <div class="flex flex-wrap gap-1.5 min-w-0 overflow-hidden max-h-6">
@@ -52,8 +68,8 @@ const isMobile = category === "Mobile Application";
             ))}
         </div>
         <span class="shrink-0 inline-flex items-center gap-1 text-sm font-extrabold h-9 px-4 rounded-[var(--radius-btn)] bg-[var(--primary-solid)] text-[var(--on-primary)] transition">
-            View
-            <Icon name="material-symbols:arrow-forward-rounded" class="text-base transition group-hover:translate-x-1"></Icon>
+            {t(I18nKey.view)}
+            <Icon name="material-symbols:arrow-forward-rounded" class="text-base transition rtl:-scale-x-100 group-hover:translate-x-1 rtl:group-hover:-translate-x-1"></Icon>
         </span>
     </div>
     <time class="sr-only" datetime={published.toISOString()}>{formatDateToYYYYMMDD(published)}</time>

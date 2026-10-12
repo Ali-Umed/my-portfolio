@@ -1,7 +1,19 @@
 import { type CollectionEntry, getCollection } from "astro:content";
 import I18nKey from "@i18n/i18nKey";
+import { defaultLang, type Lang } from "@i18n/lang";
 import { i18n } from "@i18n/translation";
 import { getCategoryUrl } from "@utils/url-utils";
+
+// Display names for the categories used in post frontmatter
+const categoryNames: Record<string, I18nKey> = {
+	"Mobile Application": I18nKey.categoryMobileApplication,
+	Website: I18nKey.categoryWebsite,
+};
+
+export function getCategoryName(category: string, lang: Lang): string {
+	const key = categoryNames[category.trim()];
+	return key ? i18n(key, lang) : category.trim();
+}
 
 // Retrieve all posts with draft filtering
 async function getRawSortedPosts() {
@@ -91,14 +103,16 @@ export type Category = {
 	url: string;
 };
 
-export async function getCategoryList(): Promise<Category[]> {
+export async function getCategoryList(
+	lang: Lang = defaultLang,
+): Promise<Category[]> {
 	const allBlogPosts = await getCollection<"posts">("posts", ({ data }) => {
 		return import.meta.env.PROD ? data.draft !== true : true;
 	});
 	const count: { [key: string]: number } = {};
 	allBlogPosts.forEach((post: { data: { category: string | null } }) => {
 		if (!post.data.category) {
-			const ucKey = i18n(I18nKey.uncategorized);
+			const ucKey = i18n(I18nKey.uncategorized, lang);
 			count[ucKey] = count[ucKey] ? count[ucKey] + 1 : 1;
 			return;
 		}
@@ -118,9 +132,9 @@ export async function getCategoryList(): Promise<Category[]> {
 	const ret: Category[] = [];
 	for (const c of lst) {
 		ret.push({
-			name: c,
+			name: getCategoryName(c, lang),
 			count: count[c],
-			url: getCategoryUrl(c),
+			url: getCategoryUrl(c, lang),
 		});
 	}
 	return ret;
