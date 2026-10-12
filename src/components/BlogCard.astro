@@ -32,10 +32,10 @@ const date = published.toLocaleDateString("en-US", {
 });
 ---
 <a href={url(`/blogs/${entry.slug}/`)} dir={isKurdish ? "rtl" : "ltr"} lang={isKurdish ? "ckb" : "en"}
-   class:list={["card-base group flex gap-4 md:gap-5 p-5 md:p-6 active:scale-[0.99] transition", className]}
+   class:list={["card-base group flex gap-3 md:gap-4 p-5 md:p-6 active:scale-[0.99] transition", className]}
    style={style}>
-    <div class="w-14 h-14 md:w-16 md:h-16 shrink-0 rounded-2xl bg-[var(--primary-solid)] text-[var(--on-primary)] flex items-center justify-center">
-        <Icon name={platformIcon} class="text-3xl md:text-[2rem]"></Icon>
+    <div class="w-10 h-10 md:w-11 md:h-11 shrink-0 rounded-xl bg-[var(--primary-solid)] text-[var(--on-primary)] flex items-center justify-center mt-1">
+        <Icon name={platformIcon} class="text-xl md:text-[1.375rem]"></Icon>
     </div>
     <div class="min-w-0 flex-1 flex flex-col gap-2">
         <h2 class="font-extrabold tracking-tight text-xl md:text-2xl leading-snug text-[var(--ink)] group-hover:text-[var(--primary)] transition">
