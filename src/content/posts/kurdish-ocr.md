@@ -7,8 +7,6 @@ draft: false
 weight: 01
 ---
 
-# 🔍 Kurdish OCR – Advanced Text Recognition
-
 Kurdish OCR is a high-performance **Next.js** application specialized in extracting text from images and PDF documents with high precision. It is specifically optimized for **Kurdish (Sorani & Kurmanji)**, **Arabic**, and **English** languages, utilizing custom trained data models.
 
 ---

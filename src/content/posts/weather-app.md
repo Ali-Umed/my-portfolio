@@ -10,8 +10,6 @@ draft: false
 weight: 91
 ---
 
-# ⛅ Weather App
-
 Welcome to **Weather App** – a modern, responsive React application that lets you check the weather forecast for any location in real-time.
 
 ---
@@ -25,12 +23,6 @@ Welcome to **Weather App** – a modern, responsive React application that lets 
 - **Day/Night Mode** – Toggle between light and dark themes.
 - **Detailed Info** – See temperature, humidity, wind speed, conditions, and more.
 - **Search Functionality** – Easily search weather by city or location name.
-
----
-
-## 🚀 Live Demo
-
-👉 [Check out the Weather App](https://weather-app-tawny-zeta-38.vercel.app/)
 
 ---
 

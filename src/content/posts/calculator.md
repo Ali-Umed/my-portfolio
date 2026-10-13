@@ -9,8 +9,6 @@ draft: false
 weight: 88
 ---
 
-# 🧮 Calculator App
-
 A modern, theme-customizable calculator built with **React**, **TypeScript**, and **Tailwind CSS**. Designed with simplicity and UI/UX in mind.
 
 ---
@@ -23,12 +21,6 @@ A modern, theme-customizable calculator built with **React**, **TypeScript**, an
 - **6 themes**:
   - 3 for Dark Mode
   - 3 for Light Mode
-
----
-
-## 🚀 Live Demo
-
-👉 [Try it here](https://calculator-phi-black.vercel.app/)
 
 ---
 

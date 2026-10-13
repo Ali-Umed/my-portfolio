@@ -1,5 +1,10 @@
 <script lang="ts">
 import { AUTO_MODE, DARK_MODE, LIGHT_MODE } from "@constants/constants.ts";
+import {
+	darkModeOutlineRounded,
+	radioButtonPartialOutline,
+	wbSunnyOutlineRounded,
+} from "@constants/svelte-icons";
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import Icon from "@iconify/svelte";
@@ -61,15 +66,15 @@ function hidePanel() {
 
 <!-- z-50 make the panel higher than other float panels -->
 <div class="relative z-50" role="menu" tabindex="-1" onmouseleave={hidePanel}>
-    <button aria-label={i18n(I18nKey.lightDarkMode, lang)} role="menuitem" class="relative btn-round h-10 w-10 ml-1.5" id="scheme-switch" onclick={toggleScheme} onmouseenter={showPanel}>
+    <button aria-label={i18n(I18nKey.lightDarkMode, lang)} role="menuitem" class="relative btn-round h-10 w-10 ms-1.5" id="scheme-switch" onclick={toggleScheme} onmouseenter={showPanel}>
         <div class="absolute" class:opacity-0={mode !== LIGHT_MODE}>
-            <Icon icon="material-symbols:wb-sunny-outline-rounded" class="text-[1.25rem]"></Icon>
+            <Icon icon={wbSunnyOutlineRounded} class="text-[1.25rem]"></Icon>
         </div>
         <div class="absolute" class:opacity-0={mode !== DARK_MODE}>
-            <Icon icon="material-symbols:dark-mode-outline-rounded" class="text-[1.25rem]"></Icon>
+            <Icon icon={darkModeOutlineRounded} class="text-[1.25rem]"></Icon>
         </div>
         <div class="absolute" class:opacity-0={mode !== AUTO_MODE}>
-            <Icon icon="material-symbols:radio-button-partial-outline" class="text-[1.25rem]"></Icon>
+            <Icon icon={radioButtonPartialOutline} class="text-[1.25rem]"></Icon>
         </div>
     </button>
 
@@ -79,21 +84,21 @@ function hidePanel() {
                     class:current-theme-btn={mode === LIGHT_MODE}
                     onclick={() => switchScheme(LIGHT_MODE)}
             >
-                <Icon icon="material-symbols:wb-sunny-outline-rounded" class="text-[1.25rem] me-3"></Icon>
+                <Icon icon={wbSunnyOutlineRounded} class="text-[1.25rem] me-3"></Icon>
                 {i18n(I18nKey.lightMode, lang)}
             </button>
             <button class="flex transition whitespace-nowrap items-center !justify-start w-full btn-plain scale-animation rounded-lg h-9 px-3 font-medium active:scale-95 mb-0.5"
                     class:current-theme-btn={mode === DARK_MODE}
                     onclick={() => switchScheme(DARK_MODE)}
             >
-                <Icon icon="material-symbols:dark-mode-outline-rounded" class="text-[1.25rem] me-3"></Icon>
+                <Icon icon={darkModeOutlineRounded} class="text-[1.25rem] me-3"></Icon>
                 {i18n(I18nKey.darkMode, lang)}
             </button>
             <button class="flex transition whitespace-nowrap items-center !justify-start w-full btn-plain scale-animation rounded-lg h-9 px-3 font-medium active:scale-95"
                     class:current-theme-btn={mode === AUTO_MODE}
                     onclick={() => switchScheme(AUTO_MODE)}
             >
-                <Icon icon="material-symbols:radio-button-partial-outline" class="text-[1.25rem] me-3"></Icon>
+                <Icon icon={radioButtonPartialOutline} class="text-[1.25rem] me-3"></Icon>
                 {i18n(I18nKey.systemMode, lang)}
             </button>
         </div>

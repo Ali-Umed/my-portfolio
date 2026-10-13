@@ -9,13 +9,7 @@ draft: false
 weight: 92
 ---
 
-# Travel Airline Project ✈️
-
 Welcome to the **Travel Airline** project repository! This is the first version of our airline website.
-
-## 🚀 Live Demo
-
-👉 [Try it here](https://cl-travels.com/)
 
 ---
 

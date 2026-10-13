@@ -2,41 +2,9 @@
 title: "Sawda Pro - ئەزموونێکی نوێی بازاڕکردن و کۆمەڵایەتی"
 ---
 
-# 🛍️ Sawda Pro
-
 **Sawda Pro** ئەپڵیکەیشنێکی پێشکەوتووە کە بە Flutter دروستکراوە و **بازاڕکردنی کۆمەڵایەتی**، **بانگهێشتکردنی هاوڕێیان** و **خەڵاتی تایبەت** لە یەک ئەپی جواندا کۆدەکاتەوە. بە ڕووکارێکی نوێی شووشەیی (glass-morphism) و تایبەتمەندییە سەرنجڕاکێشەکانی، ئەزموونێکی جیاواز لە بازاڕکردن وەربگرە.
 
 > **✨ بکڕە، هاوبەشی پێبکە و خەڵات وەربگرە**
-
----
-
-## 🚀 ئێستا دایبگرە
-
-ئەپی Sawda Pro دابگرە و گەشتی بازاڕکردنی خۆت دەست پێبکە!
-
-<div style="display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0;">
-  <a href="https://apps.apple.com/us/app/sawda-pro/id6753111992" target="_blank" class="no-styling btn-bold">
-    <i class="fab fa-apple"></i> دابەزاندن لە App Store
-  </a>
-  <a href="https://play.google.com/store/apps/details?id=com.sawda.shopping" target="_blank" class="no-styling btn-outline">
-    <i class="fab fa-google-play"></i> دابەزاندن لە Google Play
-  </a>
-</div>
-
----
-
-## 📱 وێنەکانی ئەپ
-
-<table>
-  <tr>
-    <td><img src="/images/sawda1.png" alt="پەڕەی بازاڕ" width="300"/></td>
-    <td><img src="/images/sawda2.png" alt="وردەکاریی بەرهەم" width="300"/></td>
-  </tr>
-  <tr>
-    <td><img src="/images/sawda3.png" alt="ڕیزبەندیی هاوڕێیان" width="300"/></td>
-    <td><img src="/images/sawda4.png" alt="ناوەندی دیارییەکان" width="300"/></td>
-  </tr>
-</table>
 
 ---
 

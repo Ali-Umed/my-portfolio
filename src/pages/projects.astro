@@ -10,10 +10,14 @@ const t = useTranslations(toLang(Astro.currentLocale));
 
 const allPosts = await getSortedPosts();
 
-// Filter to only show projects
-const projectPosts = allPosts.filter(
+// Filter to only show projects, featured ones first
+const projects = allPosts.filter(
 	(post) => post.data.category && typeof post.data.category === "string",
 );
+const projectPosts = [
+	...projects.filter((post) => post.data.featured),
+	...projects.filter((post) => !post.data.featured),
+];
 
 const filters = [
 	{ id: "all", label: t(I18nKey.filterAll), category: null },
@@ -58,9 +62,11 @@ const interval = 40;
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
             {projectPosts.map((post) => (
-                <div class="project-item" data-category={post.data.category === "Mobile Application" ? "mobile" : "web"}>
+                <div class:list={["project-item", { "sm:col-span-2": post.data.featured }]}
+                     data-category={post.data.category === "Mobile Application" ? "mobile" : "web"}>
                     <ProjectCard
                         entry={post}
+                        featured={post.data.featured}
                         class="onload-animation"
                         style={`animation-delay: calc(var(--content-delay) + ${delay++ * interval}ms);`}
                     />

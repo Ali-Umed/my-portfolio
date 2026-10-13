@@ -9,23 +9,9 @@ draft: false
 weight: 95
 ---
 
-# ⚡ Panel Line Factory
-
 **Panel Line Factory** is dedicated to designing and manufacturing high-quality electrical panels for industrial and commercial applications. With years of experience and trusted international partners, we deliver reliable solutions that meet global standards.
 
 > **🔌 Powering Industries with Precision and Reliability**
-
----
-
-## 🚀 Live Demo
-
-Explore our solutions:
-
-<div style="margin: 30px 0;">
-  <a href="https://panel-line.netlify.app/products-solutions" target="_blank" class="no-styling btn-bold">
-    <i class="fas fa-external-link-alt"></i> View Live Demo
-  </a>
-</div>
 
 ---
 
@@ -61,4 +47,3 @@ Our website is fully responsive and works perfectly on all devices:
 - Smartphones
 
 ---
-

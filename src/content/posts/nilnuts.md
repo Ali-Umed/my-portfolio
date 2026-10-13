@@ -10,16 +10,8 @@ pinned: true
 weight: 96
 ---
 
-# nilnuts – Fresh Grocery & Nuts Web App
-
 **nilnuts** is a modern full-stack e-commerce web application focused on delivering a smooth, multilingual shopping experience for fresh produce, nuts, and groceries.  
 Built with a **Laravel** API backend and a **Next.js** frontend, it offers a fast, SEO-friendly, and user-centric UI.
-
----
-
-## 🚀 Live Demo
-
-👉 [Try the Live Demo](https://nilnuts.com/)
 
 ---
 

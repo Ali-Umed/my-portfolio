@@ -2,22 +2,9 @@
 title: "Panel Line Factory - تابلۆی کارەبای پیشەسازی"
 ---
 
-# ⚡ Panel Line Factory
-
 **Panel Line Factory** تایبەتە بە دیزاین و دروستکردنی تابلۆی کارەبای بە کوالیتی بۆ کارگە و پڕۆژە بازرگانییەکان. بە چەندین ساڵ ئەزموون و هاوبەشی نێودەوڵەتیی متمانەپێکراو، چارەسەری باوەڕپێکراو پێشکەش دەکەین کە لەگەڵ ستانداردە جیهانییەکاندا دەگونجێن.
 
 > **🔌 وزەدان بە پیشەسازی بە وردی و متمانەوە**
-
-
-## 🚀 بینینی ڕاستەوخۆ
-
-چارەسەرەکانمان ببینە:
-
-<div style="margin: 30px 0;">
-  <a href="https://panel-line.netlify.app/products-solutions" target="_blank" class="no-styling btn-bold">
-    <i class="fas fa-external-link-alt"></i> بینینی ماڵپەڕ
-  </a>
-</div>
 
 
 ## 🌟 خاڵە بەهێزەکانمان

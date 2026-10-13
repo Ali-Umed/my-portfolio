@@ -4,6 +4,12 @@ published: 2025-11-19
 tags: [Flutter, AI, Mobile App, Multi-language, Dark Mode, Multilingual]
 category: Mobile Application
 icon: /images/icons/spectramind.png
+screenshots:
+  - ../../assets/screenshots/spectramind/1.png
+  - ../../assets/screenshots/spectramind/2.png
+  - ../../assets/screenshots/spectramind/3.png
+  - ../../assets/screenshots/spectramind/4.png
+featured: true
 appStore: "https://apps.apple.com/us/app/spectramindgpt/id6752674301"
 playStore: "https://play.google.com/store/apps/details?id=com.spectramindgpt.app"
 # image: "/images/spectra1.png"  
@@ -12,41 +18,9 @@ pinned: true
 weight: 99
 ---
 
-# 🤖 SpectraMindGPT
-
 **SpectraMindGPT** is a powerful AI Assistant designed to help you write, plan, code, and solve problems with ease. Experience the future of AI assistance with our advanced features and intuitive interface.
 
 > **✨ Your Intelligent Assistant for Every Task**
-
----
-
-## 🚀 Get Started
-
-Experience the power of SpectraMindGPT today:
-
-<div style="display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0;">
-  <a href="https://apps.apple.com/us/app/spectramindgpt/id6752674301" target="_blank" class="no-styling btn-bold">
-    <i class="fab fa-apple"></i> Download on App Store
-  </a>
-  <a href="https://play.google.com/store/apps/details?id=com.spectramindgpt.app" target="_blank" class="no-styling btn-outline">
-    <i class="fab fa-google-play"></i> Get it on Google Play
-  </a>
-</div>
-
----
-
-## 📱 App Previews
-
-<table>
-  <tr>
-    <td><img src="/images/spectra1.png" alt="Chat Interface" width="300"/></td>
-    <td><img src="/images/spectra2.png" alt="Document Analysis" width="300"/></td>
-  </tr>
-  <tr>
-    <td><img src="/images/spectra3.png" alt="Image Generation" width="300"/></td>
-    <td><img src="/images/spectra4.png" alt="Settings & Preferences" width="300"/></td>
-  </tr>
-</table>
 
 ---
 

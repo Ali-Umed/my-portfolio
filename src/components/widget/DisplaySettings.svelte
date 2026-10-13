@@ -1,4 +1,5 @@
 <script lang="ts">
+import { faArrowRotateLeft } from "@constants/svelte-icons";
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import Icon from "@iconify/svelte";
@@ -28,7 +29,7 @@ $: if (hue || hue === 0) {
             <button aria-label={i18n(I18nKey.resetToDefault, lang)} class="btn-regular w-7 h-7 rounded-md  active:scale-90"
                     class:opacity-0={hue === defaultHue} class:pointer-events-none={hue === defaultHue} on:click={resetHue}>
                 <div class="text-[var(--btn-content)]">
-                    <Icon icon="fa6-solid:arrow-rotate-left" class="text-[0.875rem]"></Icon>
+                    <Icon icon={faArrowRotateLeft} class="text-[0.875rem]"></Icon>
                 </div>
             </button>
         </div>

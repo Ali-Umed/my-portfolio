@@ -2,31 +2,9 @@
 title: "مانگ - ئەپی پرسیار و وەڵامی ئیسلامی"
 ---
 
-# 🕌 مانگ – ئەپی پرسیار و وەڵامی ئیسلامی
-
 **مانگ** ئەپڵیکەیشنێکی نوێیە کە تایبەتە بە فێرکاریی ئیسلامی لە ڕێگەی پرسیار و وەڵامەوە.
 پرسیاری باوەڕپێکراو لە **قورئان**، **فەرموودە**، **فیقه** و زانیاریی گشتیی ئیسلامی لەخۆدەگرێت.
 بە **Flutter** دروستکراوە و بە **Firebase** بەستراوەتەوە بۆ تایبەتمەندییە ڕاستەوخۆکان و بەڕێوەبردنی بەکارهێنەران.
-
-
-## 🚀 ئێستا دایبگرە
-
-👈 [Play Store](https://play.google.com/store/apps/details?id=com.moon_project.moon_project&hl=ar)  
-👈 [App Store](https://apps.apple.com/us/app/%D9%85%D8%A7%D9%86%DA%AF/id6502869446)
-
-
-## 📱 وێنەکانی ئەپ
-
-<table>
-  <tr>
-    <td><img src="/images/moon1.png" alt="شاشەیەکی ئەپی مانگ" width="300"/></td>
-    <td><img src="/images/moon2.png" alt="شاشەیەکی ئەپی مانگ" width="300"/></td>
-  </tr>
-  <tr>
-    <td><img src="/images/moon3.png" alt="شاشەیەکی ئەپی مانگ" width="300"/></td>
-    <td><img src="/images/moon4.png" alt="شاشەیەکی ئەپی مانگ" width="300"/></td>
-  </tr>
-</table>
 
 
 ## ✨ تایبەتمەندییەکان

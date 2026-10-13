@@ -10,6 +10,7 @@ import { Icon } from "astro-icon/components";
 import { licenseConfig } from "src/config";
 import ImageWrapper from "../../components/misc/ImageWrapper.astro";
 import ProjectHeader from "../../components/ProjectHeader.astro";
+import ProjectScreenshots from "../../components/ProjectScreenshots.astro";
 import { profileConfig } from "../../config";
 import I18nKey from "../../i18n/i18nKey";
 import { languages, toLang } from "../../i18n/lang";
@@ -76,6 +77,7 @@ const jsonLd = {
         ]}>
             <div class="onload-animation">
                 <ProjectHeader entry={entry} title={localized.title} minutes={remarkPluginFrontmatter.minutes} />
+                <ProjectScreenshots screenshots={entry.data.screenshots} name={shortName(localized.title)} />
             </div>
 
             <!-- always show cover as long as it has one -->
