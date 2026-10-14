@@ -2,39 +2,9 @@
 title: "SpectraMindGPT - یاریدەدەری زیرەکی دەستکردی تۆ"
 ---
 
-# 🤖 SpectraMindGPT
-
 **SpectraMindGPT** یاریدەدەرێکی بەهێزی زیرەکی دەستکردە کە یارمەتیت دەدات بە ئاسانی بنووسیت، پلان دابنێیت، کۆد بنووسیت و کێشەکان چارەسەر بکەیت. داهاتووی یاریدەدەری زیرەکی دەستکرد بە تایبەتمەندییە پێشکەوتووەکان و ڕووکارێکی ئاسانەوە تاقی بکەرەوە.
 
 > **✨ یاریدەدەرە زیرەکەکەت بۆ هەموو کارێک**
-
-
-## 🚀 دەست پێبکە
-
-هێزی SpectraMindGPT هەر ئەمڕۆ تاقی بکەرەوە:
-
-<div style="display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0;">
-  <a href="https://apps.apple.com/us/app/spectramindgpt/id6752674301" target="_blank" class="no-styling btn-bold">
-    <i class="fab fa-apple"></i> دابەزاندن لە App Store
-  </a>
-  <a href="https://play.google.com/store/apps/details?id=com.spectramindgpt.app" target="_blank" class="no-styling btn-outline">
-    <i class="fab fa-google-play"></i> دابەزاندن لە Google Play
-  </a>
-</div>
-
-
-## 📱 وێنەکانی ئەپ
-
-<table>
-  <tr>
-    <td><img src="/images/spectra1.png" alt="ڕووکاری گفتوگۆ" width="300"/></td>
-    <td><img src="/images/spectra2.png" alt="شیکردنەوەی بەڵگەنامە" width="300"/></td>
-  </tr>
-  <tr>
-    <td><img src="/images/spectra3.png" alt="دروستکردنی وێنە" width="300"/></td>
-    <td><img src="/images/spectra4.png" alt="ڕێکخستنەکان" width="300"/></td>
-  </tr>
-</table>
 
 
 ## 🌟 تایبەتمەندییە سەرەکییەکان

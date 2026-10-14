@@ -4,6 +4,13 @@ published: 2026-06-06
 tags: [Flutter, Next.js, Laravel, Gamification, Kurdish, Language Learning, Dark Mode]
 category: Mobile Application
 icon: /images/icons/gula-baibun.png
+screenshots:
+  - ../../assets/screenshots/gula-baibun/1.png
+  - ../../assets/screenshots/gula-baibun/2.png
+  - ../../assets/screenshots/gula-baibun/3.png
+  - ../../assets/screenshots/gula-baibun/4.png
+  - ../../assets/screenshots/gula-baibun/5.png
+featured: true
 appStore: "https://apps.apple.com/ca/app/%DA%AF%D9%88%DA%B5%DB%95-%D8%A8%DB%95%DB%8C%D8%A8%D9%88%D9%80%D9%86/id6757437622"
 playStore: "https://play.google.com/store/apps/details?id=com.moonEnglish.moonEnglish"
 draft: false
@@ -11,66 +18,11 @@ pinned: true
 weight: 101
 ---
 
-# 🌼 گوڵە بەیبوون | Gula Baibun
-
 **Gula Baibun (گوڵە بەیبوون)** is a modern, gamified **Kurdish-English language learning platform** designed to make mastering English natural, fun, and frictionless for Kurdish speakers.
 
 Combining zero-latency interactive vocabulary cards, mini-games, streak tracking, and competitive leaderboards, Gula Baibun transforms daily English learning into an engaging habit.
 
 > **🌼 Learn English as naturally and refreshing as chamomile — anytime, anywhere, online !**
-
----
-
-## 📲 Download App
-
-<div style="display: flex; gap: 15px; margin: 20px 0; flex-wrap: wrap;">
-  <a href="https://apps.apple.com/ca/app/%DA%AF%D9%88%DA%B5%DB%95-%D8%A8%DB%95%DB%8C%D8%A8%D9%88%D9%80%D9%86/id6757437622" target="_blank" class="no-styling btn-bold">
-    <i class="fab fa-apple"></i> Download on App Store
-  </a>
-  <a href="https://play.google.com/store/apps/details?id=com.moonEnglish.moonEnglish" target="_blank" class="no-styling btn-outline">
-    <i class="fab fa-google-play"></i> Get it on Google Play
-  </a>
-</div>
-
-👉 [Google Play Store](https://play.google.com/store/apps/details?id=com.moonEnglish.moonEnglish)  
-👉 [Apple App Store](https://apps.apple.com/ca/app/%DA%AF%D9%88%DA%B5%DB%95-%D8%A8%DB%95%DB%8C%D8%A8%D9%88%D9%80%D9%86/id6757437622)
-
----
-
-## 📱 App Preview
-
-<table>
-  <tr>
-    <td align="center">
-      <img src="/images/phone-1.png" alt="Home & Interactive Flashcards" width="300"/><br/>
-      <b>Home & Flashcard Games</b>
-    </td>
-    <td align="center">
-      <img src="/images/phone-2.png" alt="Mini-Games & Practice" width="300"/><br/>
-      <b>Mini-Game Challenges</b>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <img src="/images/phone-3.png" alt="Streak Heatmap" width="300"/><br/>
-      <b>Daily Streak Heatmap</b>
-    </td>
-    <td align="center">
-      <img src="/images/phone-4.png" alt="Leaderboard & Rankings" width="300"/><br/>
-      <b>Global Leaderboard</b>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <img src="/images/phone-5.png" alt="Medals & Rewards" width="300"/><br/>
-      <b>Medals & XP Rewards</b>
-    </td>
-    <td align="center">
-      <img src="/images/phone-1.png" alt="Dark Mode & Profile" width="300"/><br/>
-      <b>Profile & Settings</b>
-    </td>
-  </tr>
-</table>
 
 ---
 

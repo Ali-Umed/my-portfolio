@@ -10,23 +10,9 @@ pinned: true
 weight: 100
 ---
 
-# 🌼 Gula Baibun Website — گوڵە بەیبوون
-
 **Gula Baibun Website** is the official marketing and landing page for the **Gula Baibun** language learning app. Built with **Next.js 16** and **React 19**, it delivers a premium, SEO-optimized, and fully internationalized web experience designed to attract and convert users across Kurdistan and beyond.
 
 > **🌐 A premium web presence for a premium learning experience — fast, beautiful, and multilingual.**
-
----
-
-## 🚀 Live Demo
-
-Experience the Gula Baibun website now:
-
-<div style="margin: 30px 0;">
-  <a href="https://gullabaybun.com/" target="_blank" class="no-styling btn-bold">
-    <i class="fas fa-external-link-alt"></i> View Live Demo
-  </a>
-</div>
 
 ---
 

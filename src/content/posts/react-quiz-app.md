@@ -10,16 +10,8 @@ draft: false
 weight: 90
 ---
 
-# 🎉 React Quiz App
-
 A modern, mobile-friendly quiz application built with **React**, **Vite**, and **Tailwind CSS**.  
 Supports multiple quiz categories, light/dark mode, a coin reward system, account tracking, and smooth animations.
-
----
-
-## 🚀 Live Demo
-
-👉 [Try the Live Demo](https://quiz-app-self-mu.vercel.app/)
 
 ---
 

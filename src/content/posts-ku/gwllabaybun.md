@@ -2,69 +2,11 @@
 title: "گوڵە بەیبوون - ئەپی مۆبایل بۆ فێربوونی زمان"
 ---
 
-# 🌼 گوڵە بەیبوون | Gula Baibun
-
 **گوڵە بەیبوون** پلاتفۆرمێکی نوێ و یاریئامێزی **فێربوونی زمانی ئینگلیزییە بۆ کوردزمانان**، و ئامانجی ئەوەیە فێربوونی ئینگلیزی بۆ ئاخێوەرانی کوردی سروشتی، خۆش و ئاسان بکات.
 
 بە تێکەڵکردنی کارتی وشەی کارلێککار بێ دواکەوتن، یاریی بچووک، بەدواداچوونی ڕۆژانی بەردەوامی و ڕیزبەندیی کێبڕکێ، گوڵە بەیبوون فێربوونی ڕۆژانەی ئینگلیزی دەکات بە خووێکی سەرنجڕاکێش.
 
 > **🌼 ئینگلیزی بە هەمان سروشتی و تازەیی گوڵە بەیبوون فێربە — هەر کاتێک، لە هەر شوێنێک، ئۆنلاین!**
-
-
-## 📲 دابەزاندنی ئەپ
-
-<div style="display: flex; gap: 15px; margin: 20px 0; flex-wrap: wrap;">
-  <a href="https://apps.apple.com/ca/app/%DA%AF%D9%88%DA%B5%DB%95-%D8%A8%DB%95%DB%8C%D8%A8%D9%88%D9%80%D9%86/id6757437622" target="_blank" class="no-styling btn-bold">
-    <i class="fab fa-apple"></i> دابەزاندن لە App Store
-  </a>
-  <a href="https://play.google.com/store/apps/details?id=com.moonEnglish.moonEnglish" target="_blank" class="no-styling btn-outline">
-    <i class="fab fa-google-play"></i> دابەزاندن لە Google Play
-  </a>
-</div>
-
-👈 [Google Play Store](https://play.google.com/store/apps/details?id=com.moonEnglish.moonEnglish)  
-👈 [Apple App Store](https://apps.apple.com/ca/app/%DA%AF%D9%88%DA%B5%DB%95-%D8%A8%DB%95%DB%8C%D8%A8%D9%88%D9%80%D9%86/id6757437622)
-
-
-## 📱 وێنەکانی ئەپ
-
-<table>
-  <tr>
-    <td align="center">
-      <img src="/images/phone-1.png" alt="سەرەکی و کارتی وشەکان" width="300"/><br/>
-      <b>سەرەکی و یاریی کارتەکان</b>
-    </td>
-    <td align="center">
-      <img src="/images/phone-2.png" alt="یاریی بچووک و ڕاهێنان" width="300"/><br/>
-      <b>ئاڵنگارییەکانی یاریی بچووک</b>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <img src="/images/phone-3.png" alt="نەخشەی بەردەوامیی ڕۆژانە" width="300"/><br/>
-      <b>نەخشەی بەردەوامیی ڕۆژانە</b>
-    </td>
-    <td align="center">
-      <img src="/images/phone-4.png" alt="ڕیزبەندی و پلەکان" width="300"/><br/>
-      <b>ڕیزبەندیی گشتی</b>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <img src="/images/phone-5.png" alt="مێدال و خەڵات" width="300"/><br/>
-      <b>مێدال و خەڵاتی XP</b>
-    </td>
-    <td align="center">
-      <img src="/images/phone-1.png" alt="دۆخی تاریک و پرۆفایل" width="300"/><br/>
-      <b>پرۆفایل و ڕێکخستنەکان</b>
-    </td>
-  </tr>
-</table>
-
-
-:::tip[ئامۆژگاری]
-**بۆچی گوڵە بەیبوون؟** لەبەرکردنی ئاسایی زوو بێزارکەر دەبێت. گوڵە بەیبوون **زیاتر لە 5 یاریی بچووک**، **هاندەری بەردەوامیی ڕۆژانە** و **گۆکردنی دەنگیی ڕەسەن** پێکەوە کۆدەکاتەوە، کە بە تایبەتی بۆ ئاخێوەرانی کوردیی سۆرانی ڕێکخراون.
-:::
 
 
 ## 🚀 تایبەتمەندییە سەرەکییەکان

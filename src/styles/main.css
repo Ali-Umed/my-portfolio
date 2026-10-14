@@ -165,3 +165,15 @@
 :lang(ckb) {
     letter-spacing: normal !important;
 }
+
+/* Kurdish (Arabic script) text: Noto Sans Arabic, served from public/fonts/ (SIL Open Font License).
+   unicode-range keeps browsers from downloading it for pages without Arabic-script text. */
+@font-face {
+    font-family: "Noto Sans Arabic Variable";
+    font-style: normal;
+    font-display: swap;
+    font-weight: 100 900;
+    src: url("/fonts/noto-sans-arabic/noto-sans-arabic-arabic-wght-normal.woff2") format("woff2-variations");
+    unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF,
+        U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC;
+}

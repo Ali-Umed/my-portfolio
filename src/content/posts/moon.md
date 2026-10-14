@@ -4,6 +4,11 @@ published: 2023-10-27
 tags: [Co-Founder, Flutter, Firebase, Education, Mobile App, Dark Mode]
 category: Mobile Application
 icon: /images/icons/mang.png
+screenshots:
+  - ../../assets/screenshots/mang/1.png
+  - ../../assets/screenshots/mang/2.png
+  - ../../assets/screenshots/mang/3.png
+  - ../../assets/screenshots/mang/4.png
 appStore: "https://apps.apple.com/us/app/%D9%85%D8%A7%D9%86%DA%AF/id6502869446"
 playStore: "https://play.google.com/store/apps/details?id=com.moon_project.moon_project"
 pinned: true
@@ -11,33 +16,9 @@ draft: false
 weight: 98
 ---
 
-# 🕌 مانگ – Islamic Q&A App
-
 **مانگ** is a modern Flutter application focused on Islamic education through quizzes and answers.  
 It features authentic questions from the **Qur’an**, **Hadith**, **Fiqh**, and general Islamic knowledge.  
 Built with **Flutter**, integrated with **Firebase** for real-time features and user management.
-
----
-
-## 🚀 Download Now
-
-👉 [Play Store](https://play.google.com/store/apps/details?id=com.moon_project.moon_project&hl=ar)  
-👉 [App Store](https://apps.apple.com/us/app/%D9%85%D8%A7%D9%86%DA%AF/id6502869446)
-
----
-
-## 📱 App Previews
-
-<table>
-  <tr>
-    <td><img src="/images/moon1.png" alt="Chat Interface" width="300"/></td>
-    <td><img src="/images/moon2.png" alt="Document Analysis" width="300"/></td>
-  </tr>
-  <tr>
-    <td><img src="/images/moon3.png" alt="Image Generation" width="300"/></td>
-    <td><img src="/images/moon4.png" alt="Settings & Preferences" width="300"/></td>
-  </tr>
-</table>
 
 ---
 

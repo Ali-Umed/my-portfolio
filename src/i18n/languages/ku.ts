@@ -88,6 +88,7 @@ export const ku: Translation = {
 	[Key.visitWebsite]: "سەردانی ماڵپەڕ",
 	[Key.sourceCode]: "کۆدی سەرچاوە",
 	[Key.appIconAlt]: "ئایکۆنی ئەپی {name}",
+	[Key.screenshotAlt]: "وێنەی شاشەی {name} ({number})",
 	[Key.minRead]: "{minutes} خولەک خوێندنەوە",
 	[Key.previous]: "پێشوو",
 	[Key.next]: "دواتر",

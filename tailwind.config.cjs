@@ -6,7 +6,8 @@ module.exports = {
 	theme: {
 		extend: {
 			fontFamily: {
-				sans: ["Roboto", "sans-serif", ...defaultTheme.fontFamily.sans],
+				// Roboto has no Arabic-script letters, so Kurdish text falls through to Noto Sans Arabic
+				sans: ["Roboto", "Noto Sans Arabic Variable", "sans-serif", ...defaultTheme.fontFamily.sans],
 			},
 		},
 	},

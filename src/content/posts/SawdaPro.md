@@ -4,6 +4,12 @@ published: 2025-11-10
 tags: [Co-Founder, Flutter, E-commerce, Mobile Application, Dark Mode, Multilingual]
 category: Mobile Application
 icon: /images/icons/sawda-pro.png
+screenshots:
+  - ../../assets/screenshots/sawda-pro/1.png
+  - ../../assets/screenshots/sawda-pro/2.png
+  - ../../assets/screenshots/sawda-pro/3.png
+  - ../../assets/screenshots/sawda-pro/4.png
+featured: true
 appStore: "https://apps.apple.com/us/app/sawda-pro/id6753111992"
 playStore: "https://play.google.com/store/apps/details?id=com.sawda.shopping"
 draft: false
@@ -12,41 +18,9 @@ pinned: true
 weight: 100
 ---
 
-# 🛍️ Sawda Pro
-
 **Sawda Pro** is a cutting-edge Flutter application that combines **social shopping**, **friend referrals**, and **exclusive rewards** in one beautiful package. Experience shopping like never before with our modern glass-morphism UI and engaging features.
 
 > **✨ Shop, Share, and Earn Rewards in Style**
-
----
-
-## 🚀 Download Now
-
-Get the Sawda Pro app today and start your stylish shopping journey!
-
-<div style="display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0;">
-  <a href="https://apps.apple.com/us/app/sawda-pro/id6753111992" target="_blank" class="no-styling btn-bold">
-    <i class="fab fa-apple"></i> Live Demo App Store
-  </a>
-  <a href="https://play.google.com/store/apps/details?id=com.sawda.shopping" target="_blank" class="no-styling btn-outline">
-    <i class="fab fa-google-play"></i> Live Demo Google Play
-  </a>
-</div>
-
----
-
-## 📱 App Previews
-
-<table>
-  <tr>
-    <td><img src="/images/sawda1.png" alt="Shop Page" width="300"/></td>
-    <td><img src="/images/sawda2.png" alt="Product Details" width="300"/></td>
-  </tr>
-  <tr>
-    <td><img src="/images/sawda3.png" alt="Friend Rankings" width="300"/></td>
-    <td><img src="/images/sawda4.png" alt="Gift Center" width="300"/></td>
-  </tr>
-</table>
 
 ---
 

@@ -86,6 +86,7 @@ export const en: Translation = {
 	[Key.visitWebsite]: "Visit website",
 	[Key.sourceCode]: "Source code",
 	[Key.appIconAlt]: "{name} app icon",
+	[Key.screenshotAlt]: "{name} screenshot {number}",
 	[Key.minRead]: "{minutes} min read",
 	[Key.previous]: "Previous",
 	[Key.next]: "Next",

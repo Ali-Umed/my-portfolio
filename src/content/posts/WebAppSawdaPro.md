@@ -9,23 +9,9 @@ draft: false
 weight: 94
 ---
 
-# 🌐 Sawda Pro Website
-
 **Sawda Pro** is a modern, responsive website designed to showcase our innovative shopping application. Built with the latest web technologies, our landing page provides a seamless experience across all devices.
 
 > **✨ Discover, Explore, and Shop with Ease**
-
----
-
-## 🚀 Live Demo
-
-Experience the Sawda Pro website now:
-
-<div style=" margin: 30px 0;">
-  <a href="https://sawdapro.netlify.app/" target="_blank" class="no-styling btn-bold">
-    <i class="fas fa-external-link-alt"></i> View Live Demo
-  </a>
-</div>
 
 ---
 
@@ -80,4 +66,3 @@ Our website is fully responsive and works perfectly on all devices:
 - Smartphones
 
 ---
-

@@ -87,6 +87,7 @@ enum I18nKey {
 	visitWebsite = "visitWebsite",
 	sourceCode = "sourceCode",
 	appIconAlt = "appIconAlt",
+	screenshotAlt = "screenshotAlt",
 	minRead = "minRead",
 	previous = "previous",
 	next = "next",

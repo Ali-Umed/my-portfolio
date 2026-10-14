@@ -4,32 +4,21 @@ published: 2025-07-26
 tags: [Flutter, Mobile App, Dark Mode]
 category: Mobile Application
 icon: /images/icons/quote.png
+screenshots:
+  - ../../assets/screenshots/quote/1.png
+  - ../../assets/screenshots/quote/2.png
+  - ../../assets/screenshots/quote/3.png
+  - ../../assets/screenshots/quote/4.png
 github: "https://github.com/Ali-Umed/quote-generator"
 draft: false
 weight: 93
 ---
-
-# ✨ Flutter Quote Generator
 
 A **beautiful, modern Flutter app** for daily inspiration. Instantly fetch random quotes, save your favorites, and personalize the look and feel — all with a smooth and elegant user experience.
 
 > **💬 Get inspired, stay motivated, and feel free to contribute!**
 
 ---
-
-## 📱 Preview
-
-<table>
-  <tr>
-    <td><img src="/images/12.png" alt="Tracking Page" width="300"/></td>
-    <td><img src="/images/11.png" alt="Package Detail Page" width="300"/></td>
-  </tr>
-  <tr>
-    <td><img src="/images/13.png" alt="Map View" width="300"/></td>
-    <td><img src="/images/14.png" alt="Profile & Settings" width="300"/></td>
-  </tr>
-</table>
-
 
 ## 🚀 Features
 

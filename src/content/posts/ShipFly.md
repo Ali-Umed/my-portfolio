@@ -4,13 +4,15 @@ published: 2025-04-10
 tags: [Flutter, Track App, Mobile Application, Dark Mode, Multilingual]
 category: Mobile Application
 icon: /images/icons/ocean-road.png
+screenshots:
+  - ../../assets/screenshots/ocean-road/1.png
+  - ../../assets/screenshots/ocean-road/2.png
+  - ../../assets/screenshots/ocean-road/3.png
+  - ../../assets/screenshots/ocean-road/4.png
 draft: false
 pinned: true
 weight: 97
 ---
-
-
-# 📦 Ocean Road
 
 **Ocean Road** is a smart, modern Flutter application designed for **tracking packages** across **air (fly)**, **sea (container/ship)**, and **land (vehicle/truck)**.
 
@@ -22,21 +24,6 @@ Track your orders **live** with real-time updates on where your package is:
 - 📍 Or already in your city!
 
 > **🔍 Know exactly what’s inside, where it is, and when it will arrive — all in one place!**
-
----
-
-## 📱 Preview
-
-<table>
-  <tr>
-    <td><img src="/images/1.png" alt="Tracking Page" width="300"/></td>
-    <td><img src="/images/2.png" alt="Package Detail Page" width="300"/></td>
-  </tr>
-  <tr>
-    <td><img src="/images/3.png" alt="Map View" width="300"/></td>
-    <td><img src="/images/5.png" alt="Profile & Settings" width="300"/></td>
-  </tr>
-</table>
 
 ---
 
