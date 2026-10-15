@@ -45,7 +45,7 @@ export const ku: Translation = {
 	[Key.resetToDefault]: "گەڕاندنەوە بۆ بنەڕەت",
 	[Key.searchPanel]: "پانێڵی گەڕان",
 	[Key.backToTop]: "گەڕانەوە بۆ سەرەوە",
-	[Key.switchLanguage]: "ئەم ماڵپەڕە بە ئینگلیزی بخوێنەوە",
+	[Key.language]: "زمان",
 	[Key.previousPage]: "پەڕەی پێشوو",
 	[Key.nextPage]: "پەڕەی دواتر",
 	[Key.pageNumber]: "پەڕەی {page}",

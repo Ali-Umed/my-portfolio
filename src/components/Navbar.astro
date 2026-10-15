@@ -3,7 +3,7 @@ import { Icon } from "astro-icon/components";
 import { siteConfig } from "../config";
 import { getNavBarLinks } from "../constants/link-presets";
 import I18nKey from "../i18n/i18nKey";
-import { languages, otherLang, toLang } from "../i18n/lang";
+import { type Lang, languages, toLang } from "../i18n/lang";
 import { useTranslations } from "../i18n/translation";
 import { localeUrl, switchLangPath, url } from "../utils/url-utils";
 import LightDarkSwitch from "./LightDarkSwitch.svelte";
@@ -16,7 +16,6 @@ const className = Astro.props.class;
 const lang = toLang(Astro.currentLocale);
 const t = useTranslations(lang);
 const links = getNavBarLinks(lang);
-const switchTo = otherLang(lang);
 ---
 <div id="navbar" class="z-50 onload-animation">
     <div class:list={[
@@ -43,13 +42,35 @@ const switchTo = otherLang(lang);
         <div class="flex">
             <!--<SearchPanel client:load>-->
             <Search lang={lang} client:only="svelte"></Search>
-            <!-- Full page load: swup only swaps <main>, so the rest of the page would stay in the old language -->
-            <a href={switchLangPath(Astro.originPathname, switchTo)} hreflang={languages[switchTo].htmlLang}
-               data-lang-switch={switchTo} data-no-swup aria-label={t(I18nKey.switchLanguage)} title={t(I18nKey.switchLanguage)}
-               class="btn-round h-10 px-3 gap-1.5 ms-1.5 text-sm font-extrabold">
-                <Icon name="material-symbols:translate-rounded" class="text-[1.125rem] hidden sm:block"></Icon>
-                <span lang={languages[switchTo].htmlLang}>{languages[switchTo].name}</span>
-            </a>
+            <!-- Language menu: the current language, with a link to the same page in the other one -->
+            <div class="relative ms-1.5">
+                <button id="lang-switch" aria-label={t(I18nKey.language)} title={t(I18nKey.language)}
+                        aria-haspopup="menu" aria-expanded="false" aria-controls="lang-panel"
+                        class="btn-round h-10 px-2.5 sm:px-3 gap-1 text-sm font-extrabold">
+                    <Icon name="material-symbols:translate-rounded" class="text-[1.125rem]"></Icon>
+                    <span class="hidden sm:inline" lang={languages[lang].htmlLang}>{languages[lang].name}</span>
+                    <Icon name="material-symbols:keyboard-arrow-down-rounded" class="text-base"></Icon>
+                </button>
+                <div id="lang-panel" class="float-panel-closed absolute top-11 -end-2 pt-2 z-50 transition">
+                    <div class="card-base float-panel p-2 min-w-40" role="menu">
+                        {(Object.keys(languages) as Lang[]).map((code) => code === lang ? (
+                            <span role="menuitem" aria-current="true" lang={languages[code].htmlLang}
+                                  class="flex whitespace-nowrap items-center !justify-start gap-3 w-full btn-plain !text-[var(--primary)] rounded-lg h-9 px-3 font-bold">
+                                <Icon name="material-symbols:check-rounded" class="text-[1.25rem]"></Icon>
+                                {languages[code].name}
+                            </span>
+                        ) : (
+                            <!-- Full page load: swup only swaps <main>, so the rest of the page would stay in the old language -->
+                            <a role="menuitem" href={switchLangPath(Astro.originPathname, code)} hreflang={languages[code].htmlLang}
+                               lang={languages[code].htmlLang} data-lang-switch={code} data-no-swup
+                               class="flex whitespace-nowrap items-center !justify-start gap-3 w-full btn-plain scale-animation rounded-lg h-9 px-3 font-bold active:scale-95 mt-0.5">
+                                <span class="w-5 shrink-0"></span>
+                                {languages[code].name}
+                            </a>
+                        ))}
+                    </div>
+                </div>
+            </div>
             {!siteConfig.themeColor.fixed && (
                     <button aria-label={t(I18nKey.displaySettings)} class="btn-round h-10 w-10 ms-1.5" id="display-settings-switch">
                         <Icon name="material-symbols:palette-outline" class="text-[1.25rem]"></Icon>
@@ -79,6 +100,26 @@ function updateLanguageSwitch() {
 }
 updateLanguageSwitch();
 document.addEventListener("swup:page:view", updateLanguageSwitch);
+
+// Open and close the language menu (click, outside click, Escape)
+function setupLanguageMenu() {
+    const button = document.getElementById("lang-switch");
+    const panel = document.getElementById("lang-panel");
+    if (!button || !panel) return;
+    const setOpen = (open: boolean) => {
+        panel.classList.toggle("float-panel-closed", !open);
+        button.setAttribute("aria-expanded", String(open));
+    };
+    button.addEventListener("click", () => setOpen(panel.classList.contains("float-panel-closed")));
+    document.addEventListener("click", (event) => {
+        const target = event.target;
+        if (target instanceof Node && !button.contains(target) && !panel.contains(target)) setOpen(false);
+    });
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") setOpen(false);
+    });
+}
+setupLanguageMenu();
 
 function switchTheme() {
     if (localStorage.theme === 'dark') {

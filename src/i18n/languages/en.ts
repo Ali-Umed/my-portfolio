@@ -44,7 +44,7 @@ export const en: Translation = {
 	[Key.resetToDefault]: "Reset to Default",
 	[Key.searchPanel]: "Search Panel",
 	[Key.backToTop]: "Back to Top",
-	[Key.switchLanguage]: "Read this site in Kurdish",
+	[Key.language]: "Language",
 	[Key.previousPage]: "Previous Page",
 	[Key.nextPage]: "Next Page",
 	[Key.pageNumber]: "Page {page}",

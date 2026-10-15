@@ -42,7 +42,7 @@ enum I18nKey {
 	resetToDefault = "resetToDefault",
 	searchPanel = "searchPanel",
 	backToTop = "backToTop",
-	switchLanguage = "switchLanguage",
+	language = "language",
 	previousPage = "previousPage",
 	nextPage = "nextPage",
 	pageNumber = "pageNumber",

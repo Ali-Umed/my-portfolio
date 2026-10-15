@@ -24,10 +24,6 @@ export function toLang(value: string | null | undefined): Lang {
 	return value === "ku" ? "ku" : defaultLang;
 }
 
-export function otherLang(lang: Lang): Lang {
-	return lang === "ku" ? "en" : "ku";
-}
-
 export function formatDate(
 	date: Date,
 	lang: Lang,
