@@ -16,7 +16,7 @@ const t = useTranslations(lang);
 const profileUrl = "https://www.pinterest.com/ali_umed/_created/";
 
 // Pictures shown at first and added each time the visitor reaches the end
-const PAGE_SIZE = 24;
+const PAGE_SIZE = 10;
 
 // Board names can be Kurdish or Arabic, so the filters use plain ids like "b0"
 const slug = (board: (typeof pinBoards)[number]) => `b${pinBoards.indexOf(board)}`;
@@ -55,17 +55,19 @@ const filters = [
             </div>
         </div>
 
-        <!-- Masonry columns; pictures open in the lightbox (see Layout.astro), only the ones the filter shows -->
-        <div class="columns-2 md:columns-3 gap-2 sm:gap-3 mb-4" dir="ltr" data-gallery>
+        <!-- Pictures are placed into columns by setupPins (Layout.astro) so each keeps its place while others load;
+             they open in the lightbox, only the ones the filter shows -->
+        <div id="pin-grid" class="flex items-start gap-2 sm:gap-3 mb-4" dir="ltr" data-gallery>
             {pins.map((pin, index) => (
                 <a href={pinImageUrl(pin.image)} target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer"
                    hidden={index >= PAGE_SIZE}
+                   data-index={index}
                    data-boards={pin.boards.map(slug).join(" ")}
                    class="pin-item block mb-2 sm:mb-3 break-inside-avoid overflow-hidden rounded-2xl border border-[var(--card-border)] bg-[var(--btn-regular-bg)] cursor-zoom-in">
                     <!-- no-referrer: Pinterest's CDN can refuse images requested from other sites -->
                     <img src={pinImageUrl(pin.image)} alt={pin.boards.map((board) => pinBoardLabels[board][lang]).join(", ")}
-                         loading={index < 6 ? "eager" : "lazy"} decoding="async" referrerpolicy="no-referrer"
-                         onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.remove()"
+                         loading={index < PAGE_SIZE ? "eager" : "lazy"} decoding="async" referrerpolicy="no-referrer"
+                         onload="this.closest('.pin-item')?.classList.add('loaded')" onerror="this.closest('.pin-item')?.remove()"
                          class="w-full h-auto hover:scale-[1.03] transition duration-300" />
                 </a>
             ))}
@@ -85,6 +87,10 @@ const filters = [
     .pin-item[hidden],
     #pins-more[hidden] {
         display: none;
+    }
+    #pin-grid > :global(.pin-column) {
+        flex: 1 1 0;
+        min-width: 0;
     }
     .pin-filter[aria-pressed="true"] {
         background: var(--primary-solid);

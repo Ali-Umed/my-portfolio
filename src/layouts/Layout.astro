@@ -573,9 +573,10 @@ const galleryOptions = {
 }
 
 async function openGallery(gallery: HTMLElement, clicked: HTMLImageElement) {
-	const images = [...gallery.querySelectorAll<HTMLImageElement>("img")].filter(
-		(img) => img.offsetParent !== null,
-	)
+	const order = (img: HTMLImageElement) => Number(img.closest<HTMLElement>("[data-index]")?.dataset.index ?? 0)
+	const images = [...gallery.querySelectorAll<HTMLImageElement>("img")]
+		.filter((img) => img.offsetParent !== null)
+		.sort((a, b) => order(a) - order(b))
 	const dataSource = images.map((img) => ({
 		src: img.currentSrc || img.src,
 		msrc: img.currentSrc || img.src,
@@ -696,12 +697,39 @@ function setupPins() {
     let filter = "all";
     let limit = pageSize;
 
+    const grid = root.querySelector<HTMLElement>("#pin-grid");
+    const columnCount = () => (window.innerWidth >= 768 ? 3 : 2);
+    let columns: HTMLElement[] = [];
+
+    // Picture n goes to column n % count, so the first ones are along the top row and
+    // a picture never moves when the ones above it finish loading or more are added
     const render = () => {
         const matching = items.filter((item) => item.isConnected && (filter === "all" || item.dataset.boards?.split(" ").includes(filter)));
+        const shown = matching.slice(0, limit);
+        if (grid && columns.length !== columnCount()) {
+            for (const column of columns) column.remove();
+            columns = Array.from({ length: columnCount() }, () => {
+                const column = document.createElement("div");
+                column.className = "pin-column";
+                grid.appendChild(column);
+                return column;
+            });
+        }
         for (const item of items) item.hidden = true;
-        matching.slice(0, limit).forEach((item) => { item.hidden = false; });
+        shown.forEach((item, index) => {
+            // Appending in order keeps the pictures already placed where they are
+            columns[index % columns.length]?.appendChild(item);
+            item.hidden = false;
+        });
         if (more) more.hidden = matching.length <= limit;
     };
+    let resizeTimer: number | undefined;
+    window.addEventListener("resize", () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = window.setTimeout(() => {
+            if (root.isConnected && columns.length !== columnCount()) render();
+        }, 150);
+    });
 
     for (const button of buttons) {
         button.addEventListener("click", () => {
@@ -722,7 +750,7 @@ function setupPins() {
     if (more && "IntersectionObserver" in window) {
         observer = new IntersectionObserver((entries) => {
             if (entries.some((entry) => entry.isIntersecting) && !more.hidden) more.click();
-        }, { rootMargin: "400px" });
+        }, { rootMargin: "200px" });
         observer.observe(more);
     }
 
