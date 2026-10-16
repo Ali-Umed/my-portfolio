@@ -1,12 +1,11 @@
 // Pictures shown on /pinterest/, grouped by the Pinterest board they belong to.
 // Each entry is the image path on Pinterest's CDN (https://i.pinimg.com/736x/<path>.jpg).
 // A picture saved to several boards is listed once with all of its boards.
-export const pinBoards = ["Development", "Flower", "Image Collection", "Animal", "Image Quality", "Photography", "Quran القران", "وتە Quote"] as const;
+export const pinBoards = ["Development", "Flower", "Image Collection", "Animal", "Photography", "Quran القران", "وتە Quote"] as const;
 
 export type PinBoard = (typeof pinBoards)[number];
 
 export const pins: { image: string; boards: PinBoard[] }[] = [
-	{ image: "d2/a7/14/d2a7145ec9eeacf68787aecc9af2a824", boards: ["Animal"] },
 	{ image: "e2/94/ca/e294ca5ea6f773dac8043e45710ec3eb", boards: ["Development"] },
 	{ image: "7d/97/e7/7d97e7e9d029e1a0c79af805b788ce32", boards: ["Development"] },
 	{ image: "90/f8/ff/90f8ff5679e527dce0f54a1bea0137e6", boards: ["Development"] },
@@ -26,7 +25,6 @@ export const pins: { image: string; boards: PinBoard[] }[] = [
 	{ image: "f6/b0/e4/f6b0e46419bede9e6b7064c04a7da04f", boards: ["Image Collection", "Animal", "Photography"] },
 	{ image: "5b/72/36/5b72365ca690629ea30a391dcf0b776a", boards: ["Image Collection", "Photography"] },
 	{ image: "f6/29/ce/f629ce5b14b5336980319160a61759da", boards: ["Image Collection", "Animal", "Photography"] },
-	{ image: "54/4c/c7/544cc7c4165d715caa8b14eae704420e", boards: ["Image Collection"] },
 	{ image: "e5/c8/bc/e5c8bc74087cdfa44bb4a92e8f4e6d2f", boards: ["Animal"] },
 	{ image: "55/55/3e/55553e3e0e3f0e7cb4394880c30f8b21", boards: ["Animal"] },
 	{ image: "5b/4e/19/5b4e19f2b0742cb9c790d22b14b57325", boards: ["Animal"] },
@@ -44,13 +42,8 @@ export const pins: { image: string; boards: PinBoard[] }[] = [
 	{ image: "45/99/ab/4599ab3cb050d5958a6cb0f31ba2aebb", boards: ["Animal"] },
 	{ image: "68/8d/6e/688d6e7f8640a45784eaf4683345abfe", boards: ["Animal"] },
 	{ image: "8f/17/e7/8f17e7f0caa47a872aa3f8e9aa75af8b", boards: ["Animal"] },
-	{ image: "12/70/84/127084186d131c3ed92e968ce0f3f4ca", boards: ["Image Quality"] },
-	{ image: "4a/95/3f/4a953f994eb79280c2477b6d548527e5", boards: ["Image Quality"] },
-	{ image: "3b/50/c7/3b50c746494e724843a1cebe7d21c059", boards: ["Image Quality"] },
-	{ image: "0c/a0/e8/0ca0e88f35fedcf9524495f6f1a57449", boards: ["Photography"] },
 	{ image: "30/fd/37/30fd37bf952d19e522b33671e5d1b099", boards: ["Photography"] },
 	{ image: "f5/b5/cb/f5b5cbd0be740f6e9b9aca78878050c0", boards: ["Photography"] },
-	{ image: "10/03/9d/10039d694eedb1b05ff18d59a7cf862c", boards: ["Photography"] },
 	{ image: "cc/3c/8b/cc3c8b015bceeccc1f22f9865a4834c5", boards: ["Photography"] },
 	{ image: "1d/a3/18/1da31812e1a90d455749bcd4c113dc2c", boards: ["Photography"] },
 	{ image: "4d/3d/9d/4d3d9d04d492e62800825fbeee17f7db", boards: ["Photography"] },
