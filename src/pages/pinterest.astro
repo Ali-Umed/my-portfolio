@@ -1,45 +1,107 @@
 ---
 import { Icon } from "astro-icon/components";
+import { pinBoards, pins } from "../data/pinterest";
 import I18nKey from "../i18n/i18nKey";
 import { toLang } from "../i18n/lang";
 import { useTranslations } from "../i18n/translation";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
-import { getPins, pinterestProfileUrl } from "../utils/pinterest";
 
 const t = useTranslations(toLang(Astro.currentLocale));
-const pins = await getPins();
+const profileUrl = "https://www.pinterest.com/ali_umed/_created/";
+
+const slug = (board: string) => board.toLowerCase().replace(/\s+/g, "-");
+const filters = [
+	{ id: "all", label: t(I18nKey.filterAll), count: pins.length },
+	...pinBoards.map((board) => ({
+		id: slug(board),
+		label: board,
+		count: pins.filter((pin) => pin.boards.includes(board)).length,
+	})),
+];
+
+// CSS-only filter, like the projects page: the checked radio hides pins from other boards
+const filterCss = filters
+	.slice(1)
+	.map(
+		({ id }) =>
+			`.pins:has(#pin-filter-${id}:checked) label[data-filter="${id}"]{background:var(--primary-solid);color:var(--on-primary)}` +
+			`.pins:has(#pin-filter-${id}:checked) .pin-item:not([data-boards~="${id}"]){display:none}`,
+	)
+	.join("");
 ---
 
 <MainGridLayout title={t(I18nKey.pinterest)} description={t(I18nKey.pinterestDescription)}>
-    <div class="card-base onload-animation flex flex-wrap items-center justify-between gap-3 p-3 ps-5 mb-4">
-        <div class="flex items-center gap-3 min-w-0">
-            <Icon name="fa6-brands:pinterest" class="text-2xl text-[#e60023] shrink-0"></Icon>
-            <div class="font-extrabold text-[var(--ink)]">{t(I18nKey.pinterestDescription)}</div>
-        </div>
-        <a href={pinterestProfileUrl} target="_blank" rel="me noopener" class="btn-outline">
-            {t(I18nKey.openOnPinterest)}
-            <Icon name="fa6-solid:arrow-up-right-from-square" class="text-xs"></Icon>
-        </a>
-    </div>
+    <Fragment set:html={`<style>${filterCss}</style>`} />
+    <div class="pins">
+        {filters.map((filter, index) => (
+            <input type="radio" name="pin-filter" id={`pin-filter-${filter.id}`} class="sr-only" checked={index === 0} />
+        ))}
 
-    {pins.length > 0 ? (
-        <div class="columns-2 md:columns-3 gap-3 mb-4">
-            {pins.map((pin, index) => (
-                <a href={pin.link} target="_blank" rel="noopener" title={pin.title || undefined}
-                   class="onload-animation block mb-3 break-inside-avoid overflow-hidden rounded-2xl border border-[var(--card-border)] bg-[var(--card-bg)] active:scale-[0.98] transition"
-                   style={`animation-delay: calc(var(--content-delay) + ${Math.min(index, 12) * 40}ms);`}>
-                    <img src={pin.image} alt={pin.title} loading={index < 6 ? "eager" : "lazy"} decoding="async"
-                         class="w-full h-auto hover:scale-[1.03] transition duration-300" />
+        <div class="card-base onload-animation p-3 mb-4">
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-3 ps-2">
+                <div class="flex items-center gap-3 min-w-0">
+                    <Icon name="fa6-brands:pinterest" class="text-2xl text-[#e60023] shrink-0"></Icon>
+                    <div class="font-extrabold text-[var(--ink)]">{t(I18nKey.pinterestDescription)}</div>
+                </div>
+                <a href={profileUrl} target="_blank" rel="me noopener" class="btn-outline">
+                    {t(I18nKey.openOnPinterest)}
+                    <Icon name="fa6-solid:arrow-up-right-from-square" class="text-xs"></Icon>
                 </a>
+            </div>
+            <div class="filter-tabs flex flex-wrap gap-1">
+                {filters.map((filter) => (
+                    <label for={`pin-filter-${filter.id}`} data-filter={filter.id}
+                           class="cursor-pointer select-none px-4 h-10 inline-flex items-center rounded-full border border-[var(--card-border)] text-sm font-extrabold text-[var(--ink)] hover:text-[var(--primary)] transition">
+                        {filter.label}
+                        <span class="ms-1.5 text-xs opacity-60">{filter.count}</span>
+                    </label>
+                ))}
+            </div>
+        </div>
+
+        <div class="columns-1 sm:columns-2 md:columns-3 gap-3 mb-4" dir="ltr">
+            {pins.map((pin) => (
+                <div class="pin-item mb-3 break-inside-avoid flex justify-center" data-boards={pin.boards.map(slug).join(" ")}>
+                    <a data-pin-do="embedPin" data-pin-width="medium" href={`https://www.pinterest.com/pin/${pin.id}/`}
+                       target="_blank" rel="noopener"
+                       class="block w-full p-4 rounded-2xl border border-[var(--card-border)] bg-[var(--card-bg)] text-sm font-bold text-75 hover:text-[var(--primary)] transition">
+                        {t(I18nKey.openOnPinterest)}
+                    </a>
+                </div>
             ))}
         </div>
-    ) : (
-        <div class="card-base onload-animation p-8 mb-4 text-center">
-            <p class="text-75 font-bold mb-4">{t(I18nKey.pinterestEmpty)}</p>
-            <a href={pinterestProfileUrl} target="_blank" rel="me noopener" class="btn-bold">
-                <Icon name="fa6-brands:pinterest" class="text-xl"></Icon>
-                {t(I18nKey.openOnPinterest)}
-            </a>
-        </div>
-    )}
+    </div>
 </MainGridLayout>
+
+<script>
+    // Pinterest's embed script turns each data-pin-do link into the pin's picture.
+    // Pages are swapped by swup, so build again on every visit to this page.
+    function buildPins() {
+        if (!document.querySelector("[data-pin-do]")) return;
+        const w = window as unknown as { PinUtils?: { build: () => void } };
+        if (w.PinUtils) {
+            w.PinUtils.build();
+            return;
+        }
+        if (document.getElementById("pinit-js")) return;
+        const script = document.createElement("script");
+        script.id = "pinit-js";
+        script.async = true;
+        script.src = "https://assets.pinterest.com/js/pinit.js";
+        document.body.appendChild(script);
+    }
+    buildPins();
+    document.addEventListener("swup:page:view", buildPins);
+</script>
+
+<style>
+    .pins:has(#pin-filter-all:checked) label[data-filter="all"] {
+        background: var(--primary-solid);
+        color: var(--on-primary);
+    }
+    .pins:has(input:focus-visible) .filter-tabs {
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+        border-radius: 1rem;
+    }
+</style>

@@ -112,7 +112,7 @@ export const en: Translation = {
 	[Key.skills]: "Skills",
 
 	[Key.pinterest]: "Pinterest",
-	[Key.pinterestDescription]: "My latest pins",
+	[Key.pinterestDescription]: "My pins",
 	[Key.pinterestEmpty]: "The pins couldn't be loaded right now.",
 	[Key.openOnPinterest]: "Open on Pinterest",
 

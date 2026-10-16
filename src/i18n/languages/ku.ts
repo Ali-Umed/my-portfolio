@@ -114,7 +114,7 @@ export const ku: Translation = {
 	[Key.skills]: "شارەزاییەکان",
 
 	[Key.pinterest]: "پینتەرێست",
-	[Key.pinterestDescription]: "دوایین پینەکانم",
+	[Key.pinterestDescription]: "پینەکانم",
 	[Key.pinterestEmpty]: "ئێستا ناتوانرێت پینەکان بار بکرێن.",
 	[Key.openOnPinterest]: "لە پینتەرێست بیکەرەوە",
 
