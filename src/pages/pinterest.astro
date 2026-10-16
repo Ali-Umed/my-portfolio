@@ -1,6 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
-import { pinBoards, pins } from "../data/pinterest";
+import { pinBoards, pinImageUrl, pins } from "../data/pinterest";
 import I18nKey from "../i18n/i18nKey";
 import { toLang } from "../i18n/lang";
 import { useTranslations } from "../i18n/translation";
@@ -9,7 +9,8 @@ import MainGridLayout from "../layouts/MainGridLayout.astro";
 const t = useTranslations(toLang(Astro.currentLocale));
 const profileUrl = "https://www.pinterest.com/ali_umed/_created/";
 
-const slug = (board: string) => board.toLowerCase().replace(/\s+/g, "-");
+// Board names can be Kurdish or Arabic, so the filters use plain ids like "b0"
+const slug = (board: (typeof pinBoards)[number]) => `b${pinBoards.indexOf(board)}`;
 const filters = [
 	{ id: "all", label: t(I18nKey.filterAll), count: pins.length },
 	...pinBoards.map((board) => ({
@@ -60,39 +61,20 @@ const filterCss = filters
         </div>
 
         <div class="columns-1 sm:columns-2 md:columns-3 gap-3 mb-4" dir="ltr">
-            {pins.map((pin) => (
+            {pins.map((pin, index) => (
                 <div class="pin-item mb-3 break-inside-avoid flex justify-center" data-boards={pin.boards.map(slug).join(" ")}>
-                    <a data-pin-do="embedPin" data-pin-width="medium" href={`https://www.pinterest.com/pin/${pin.id}/`}
-                       target="_blank" rel="noopener"
-                       class="block w-full p-4 rounded-2xl border border-[var(--card-border)] bg-[var(--card-bg)] text-sm font-bold text-75 hover:text-[var(--primary)] transition">
-                        {t(I18nKey.openOnPinterest)}
+                    <a href={pinImageUrl(pin.image)} target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer"
+                       class="block w-full overflow-hidden rounded-2xl border border-[var(--card-border)] bg-[var(--btn-regular-bg)] active:scale-[0.98] transition">
+                        <!-- no-referrer: Pinterest's CDN can refuse images requested from other sites -->
+                        <img src={pinImageUrl(pin.image)} alt={pin.boards.join(", ")} loading={index < 6 ? "eager" : "lazy"}
+                             decoding="async" referrerpolicy="no-referrer"
+                             class="w-full h-auto hover:scale-[1.03] transition duration-300" />
                     </a>
                 </div>
             ))}
         </div>
     </div>
 </MainGridLayout>
-
-<script>
-    // Pinterest's embed script turns each data-pin-do link into the pin's picture.
-    // Pages are swapped by swup, so build again on every visit to this page.
-    function buildPins() {
-        if (!document.querySelector("[data-pin-do]")) return;
-        const w = window as unknown as { PinUtils?: { build: () => void } };
-        if (w.PinUtils) {
-            w.PinUtils.build();
-            return;
-        }
-        if (document.getElementById("pinit-js")) return;
-        const script = document.createElement("script");
-        script.id = "pinit-js";
-        script.async = true;
-        script.src = "https://assets.pinterest.com/js/pinit.js";
-        document.body.appendChild(script);
-    }
-    buildPins();
-    document.addEventListener("swup:page:view", buildPins);
-</script>
 
 <style>
     .pins:has(#pin-filter-all:checked) label[data-filter="all"] {
