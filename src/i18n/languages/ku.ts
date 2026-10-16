@@ -113,6 +113,11 @@ export const ku: Translation = {
 	[Key.experience]: "ئەزموون",
 	[Key.skills]: "شارەزاییەکان",
 
+	[Key.pinterest]: "پینتەرێست",
+	[Key.pinterestDescription]: "دوایین پینەکانم",
+	[Key.pinterestEmpty]: "ئێستا ناتوانرێت پینەکان بار بکرێن.",
+	[Key.openOnPinterest]: "لە پینتەرێست بیکەرەوە",
+
 	[Key.notFoundTitle]: "پەڕەکە نەدۆزرایەوە",
 	[Key.notFoundHeading]: "ئەم پەڕەیە بوونی نییە",
 	[Key.notFoundChip]: "بەستەری شکاو یان کۆن",

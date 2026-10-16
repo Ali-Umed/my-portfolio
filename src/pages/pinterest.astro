@@ -1,0 +1,45 @@
+---
+import { Icon } from "astro-icon/components";
+import I18nKey from "../i18n/i18nKey";
+import { toLang } from "../i18n/lang";
+import { useTranslations } from "../i18n/translation";
+import MainGridLayout from "../layouts/MainGridLayout.astro";
+import { getPins, pinterestProfileUrl } from "../utils/pinterest";
+
+const t = useTranslations(toLang(Astro.currentLocale));
+const pins = await getPins();
+---
+
+<MainGridLayout title={t(I18nKey.pinterest)} description={t(I18nKey.pinterestDescription)}>
+    <div class="card-base onload-animation flex flex-wrap items-center justify-between gap-3 p-3 ps-5 mb-4">
+        <div class="flex items-center gap-3 min-w-0">
+            <Icon name="fa6-brands:pinterest" class="text-2xl text-[#e60023] shrink-0"></Icon>
+            <div class="font-extrabold text-[var(--ink)]">{t(I18nKey.pinterestDescription)}</div>
+        </div>
+        <a href={pinterestProfileUrl} target="_blank" rel="me noopener" class="btn-outline">
+            {t(I18nKey.openOnPinterest)}
+            <Icon name="fa6-solid:arrow-up-right-from-square" class="text-xs"></Icon>
+        </a>
+    </div>
+
+    {pins.length > 0 ? (
+        <div class="columns-2 md:columns-3 gap-3 mb-4">
+            {pins.map((pin, index) => (
+                <a href={pin.link} target="_blank" rel="noopener" title={pin.title || undefined}
+                   class="onload-animation block mb-3 break-inside-avoid overflow-hidden rounded-2xl border border-[var(--card-border)] bg-[var(--card-bg)] active:scale-[0.98] transition"
+                   style={`animation-delay: calc(var(--content-delay) + ${Math.min(index, 12) * 40}ms);`}>
+                    <img src={pin.image} alt={pin.title} loading={index < 6 ? "eager" : "lazy"} decoding="async"
+                         class="w-full h-auto hover:scale-[1.03] transition duration-300" />
+                </a>
+            ))}
+        </div>
+    ) : (
+        <div class="card-base onload-animation p-8 mb-4 text-center">
+            <p class="text-75 font-bold mb-4">{t(I18nKey.pinterestEmpty)}</p>
+            <a href={pinterestProfileUrl} target="_blank" rel="me noopener" class="btn-bold">
+                <Icon name="fa6-brands:pinterest" class="text-xl"></Icon>
+                {t(I18nKey.openOnPinterest)}
+            </a>
+        </div>
+    )}
+</MainGridLayout>

@@ -111,6 +111,11 @@ export const en: Translation = {
 	[Key.experience]: "Experience",
 	[Key.skills]: "Skills",
 
+	[Key.pinterest]: "Pinterest",
+	[Key.pinterestDescription]: "My latest pins",
+	[Key.pinterestEmpty]: "The pins couldn't be loaded right now.",
+	[Key.openOnPinterest]: "Open on Pinterest",
+
 	[Key.notFoundTitle]: "Page not found",
 	[Key.notFoundHeading]: "This page doesn't exist",
 	[Key.notFoundChip]: "Broken or old link",

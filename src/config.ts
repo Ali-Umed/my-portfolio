@@ -46,11 +46,7 @@ export const navBarConfig: NavBarConfig = {
 		LinkPreset.Blogs,
 		// LinkPreset.Archive, // hidden for now; /archive/ still serves tag and category filters
 		LinkPreset.About,
-		{
-			name: "Pinterest",
-			url: "https://www.pinterest.com/ali_umed/_created/",
-			external: true,
-		},
+		LinkPreset.Pinterest,
 		// {
 		//   name: "GitHub",
 		//   url: "https://github.com/Ali-Umed", // Internal links should not include the base path, as it is automatically added

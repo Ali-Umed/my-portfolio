@@ -114,6 +114,12 @@ enum I18nKey {
 	experience = "experience",
 	skills = "skills",
 
+	// Pinterest
+	pinterest = "pinterest",
+	pinterestDescription = "pinterestDescription",
+	pinterestEmpty = "pinterestEmpty",
+	openOnPinterest = "openOnPinterest",
+
 	// 404
 	notFoundTitle = "notFoundTitle",
 	notFoundHeading = "notFoundHeading",
