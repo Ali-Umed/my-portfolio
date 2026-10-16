@@ -60,9 +60,9 @@ const filterCss = filters
             </div>
         </div>
 
-        <div class="columns-1 sm:columns-2 md:columns-3 gap-3 mb-4" dir="ltr">
+        <div class="columns-2 md:columns-3 gap-2 sm:gap-3 mb-4" dir="ltr">
             {pins.map((pin, index) => (
-                <div class="pin-item mb-3 break-inside-avoid flex justify-center" data-boards={pin.boards.map(slug).join(" ")}>
+                <div class="pin-item mb-2 sm:mb-3 break-inside-avoid flex justify-center" data-boards={pin.boards.map(slug).join(" ")}>
                     <a href={pinImageUrl(pin.image)} target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer"
                        class="block w-full overflow-hidden rounded-2xl border border-[var(--card-border)] bg-[var(--btn-regular-bg)] active:scale-[0.98] transition">
                         <!-- no-referrer: Pinterest's CDN can refuse images requested from other sites -->
