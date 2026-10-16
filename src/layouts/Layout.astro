@@ -626,8 +626,6 @@ function updateReadingProgress() {
 }
 window.addEventListener("scroll", updateReadingProgress, { passive: true })
 window.addEventListener("resize", updateReadingProgress, { passive: true })
-document.addEventListener("swup:page:view", updateReadingProgress)
-updateReadingProgress()
 
 // "Copy link" buttons (CopyLinkButton.astro): copy the page address and say so for two seconds
 document.addEventListener("click", async (event) => {
@@ -675,8 +673,65 @@ function setupReveal() {
 		revealObserver.observe(el)
 	}
 }
-setupReveal()
-document.addEventListener("swup:page:view", setupReveal)
+// Runs on the first load and after every swup page change. Page scripts don't run again when swup
+// swaps in a page, so page behaviour that must work after navigation is set up from here.
+function onEveryPage(fn: () => void) {
+	fn()
+	const hook = () => window.swup.hooks.on("page:view", fn)
+	if (window.swup) hook()
+	else document.addEventListener("swup:enable", hook)
+}
+// Filters and "load more": the first pictures of the chosen board show, more come in at the end of the list
+let observer: IntersectionObserver | undefined;
+
+function setupPins() {
+    const root = document.getElementById("pins");
+    if (!root || root.dataset.ready) return;
+    root.dataset.ready = "true";
+
+    const pageSize = Number(root.dataset.pageSize);
+    const items = [...root.querySelectorAll<HTMLElement>(".pin-item")];
+    const buttons = [...root.querySelectorAll<HTMLButtonElement>(".pin-filter")];
+    const more = root.querySelector<HTMLButtonElement>("#pins-more");
+    let filter = "all";
+    let limit = pageSize;
+
+    const render = () => {
+        const matching = items.filter((item) => item.isConnected && (filter === "all" || item.dataset.boards?.split(" ").includes(filter)));
+        for (const item of items) item.hidden = true;
+        matching.slice(0, limit).forEach((item) => { item.hidden = false; });
+        if (more) more.hidden = matching.length <= limit;
+    };
+
+    for (const button of buttons) {
+        button.addEventListener("click", () => {
+            filter = button.dataset.filter ?? "all";
+            limit = pageSize;
+            for (const other of buttons) other.setAttribute("aria-pressed", String(other === button));
+            render();
+        });
+    }
+
+    more?.addEventListener("click", () => {
+        limit += pageSize;
+        render();
+    });
+
+    // Load the next pictures on their own when the button scrolls into view
+    observer?.disconnect();
+    if (more && "IntersectionObserver" in window) {
+        observer = new IntersectionObserver((entries) => {
+            if (entries.some((entry) => entry.isIntersecting) && !more.hidden) more.click();
+        }, { rootMargin: "400px" });
+        observer.observe(more);
+    }
+
+    render();
+}
+
+onEveryPage(setupReveal)
+onEveryPage(updateReadingProgress)
+onEveryPage(setupPins)
 
 document.addEventListener("click", (event) => {
 	const img = (event.target as HTMLElement | null)?.closest?.("img")

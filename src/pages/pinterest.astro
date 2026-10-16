@@ -31,6 +31,7 @@ const filters = [
 ---
 
 <MainGridLayout title={t(I18nKey.pinterest)} description={t(I18nKey.pinterestDescription)}>
+    <!-- Filters and loading more are in Layout.astro (setupPins), which also runs after swup page changes -->
     <div id="pins" data-page-size={PAGE_SIZE}>
         <div class="card-base onload-animation p-3 mb-4">
             <div class="flex flex-wrap items-center justify-between gap-3 mb-3 ps-2">
@@ -79,60 +80,11 @@ const filters = [
     </div>
 </MainGridLayout>
 
-<script>
-    // Filters and "load more": the first pictures of the chosen board show, more come in at the end of the list
-    let observer: IntersectionObserver | undefined;
-
-    function setupPins() {
-        const root = document.getElementById("pins");
-        if (!root || root.dataset.ready) return;
-        root.dataset.ready = "true";
-
-        const pageSize = Number(root.dataset.pageSize);
-        const items = [...root.querySelectorAll<HTMLElement>(".pin-item")];
-        const buttons = [...root.querySelectorAll<HTMLButtonElement>(".pin-filter")];
-        const more = root.querySelector<HTMLButtonElement>("#pins-more");
-        let filter = "all";
-        let limit = pageSize;
-
-        const render = () => {
-            const matching = items.filter((item) => item.isConnected && (filter === "all" || item.dataset.boards?.split(" ").includes(filter)));
-            for (const item of items) item.hidden = true;
-            matching.slice(0, limit).forEach((item) => { item.hidden = false; });
-            if (more) more.hidden = matching.length <= limit;
-        };
-
-        for (const button of buttons) {
-            button.addEventListener("click", () => {
-                filter = button.dataset.filter ?? "all";
-                limit = pageSize;
-                for (const other of buttons) other.setAttribute("aria-pressed", String(other === button));
-                render();
-            });
-        }
-
-        more?.addEventListener("click", () => {
-            limit += pageSize;
-            render();
-        });
-
-        // Load the next pictures on their own when the button scrolls into view
-        observer?.disconnect();
-        if (more && "IntersectionObserver" in window) {
-            observer = new IntersectionObserver((entries) => {
-                if (entries.some((entry) => entry.isIntersecting) && !more.hidden) more.click();
-            }, { rootMargin: "400px" });
-            observer.observe(more);
-        }
-
-        render();
-    }
-
-    setupPins();
-    document.addEventListener("swup:page:view", setupPins);
-</script>
-
 <style>
+    /* The "block" class would otherwise win over the hidden attribute and keep filtered pictures on screen */
+    .pin-item[hidden] {
+        display: none;
+    }
     .pin-filter[aria-pressed="true"] {
         background: var(--primary-solid);
         color: var(--on-primary);
