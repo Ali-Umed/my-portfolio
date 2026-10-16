@@ -16,11 +16,25 @@ const t = useTranslations(lang);
             <Icon name="material-symbols:link-off-rounded" class="text-sm"></Icon>
             {t(I18nKey.notFoundChip)}
         </span>
-        <div class="font-black tracking-tighter leading-none text-[7rem] md:text-[10rem] text-[var(--primary)]">404</div>
+        <!-- A lost phone looking for the page, with the 0 of 404 drawn as its screen -->
+        <svg viewBox="0 0 320 180" class="w-full max-w-sm h-auto text-[var(--primary)]" role="img" aria-label="404">
+            <text x="20" y="150" font-size="150" font-weight="900" fill="currentColor" font-family="Roboto, sans-serif">4</text>
+            <text x="212" y="150" font-size="150" font-weight="900" fill="currentColor" font-family="Roboto, sans-serif">4</text>
+            <g class="lost-phone">
+                <rect x="122" y="22" width="76" height="132" rx="16" fill="var(--card-bg)" stroke="currentColor" stroke-width="7"/>
+                <rect x="148" y="32" width="24" height="5" rx="2.5" fill="currentColor" opacity="0.5"/>
+                <circle cx="146" cy="78" r="5" fill="currentColor"/>
+                <circle cx="174" cy="78" r="5" fill="currentColor"/>
+                <path d="M144 112 q16 -14 32 0" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+                <path d="M182 60 q6 -8 0 -14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+            </g>
+            <text x="230" y="40" font-size="26" font-weight="900" fill="currentColor" opacity="0.6" class="lost-q">?</text>
+        </svg>
         <h1 class="font-black tracking-tight text-3xl md:text-4xl text-[var(--ink)] mt-4">{t(I18nKey.notFoundHeading)}</h1>
         <p class="text-base md:text-lg font-medium text-75 mt-3 max-w-md">
             {t(I18nKey.notFoundBody)}
         </p>
+        <p class="text-sm font-bold text-50 mt-2 max-w-md">{t(I18nKey.notFoundJoke)} 😅</p>
         <div class="flex flex-wrap justify-center gap-3 mt-8">
             <a href={localeUrl("/", lang)} class="btn-bold">
                 <Icon name="material-symbols:home-outline-rounded" class="text-xl"></Icon>
@@ -31,3 +45,23 @@ const t = useTranslations(lang);
         </div>
     </section>
 </MainGridLayout>
+
+<style>
+    .lost-phone {
+        transform-origin: 160px 150px;
+        animation: lost-wobble 3s ease-in-out infinite;
+    }
+    .lost-q {
+        animation: lost-float 2s ease-in-out infinite;
+    }
+    @keyframes lost-wobble {
+        0%, 100% { transform: rotate(-6deg); }
+        50% { transform: rotate(6deg); }
+    }
+    @keyframes lost-float {
+        50% { transform: translateY(-6px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .lost-phone, .lost-q { animation: none; }
+    }
+</style>

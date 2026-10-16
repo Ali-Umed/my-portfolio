@@ -1,0 +1,21 @@
+---
+import { Icon } from "astro-icon/components";
+import I18nKey from "../../i18n/i18nKey";
+import { type Lang, toLang } from "../../i18n/lang";
+import { useTranslations } from "../../i18n/translation";
+
+interface Props {
+	// Language of the text around the button; the page language by default
+	lang?: Lang;
+	class?: string;
+}
+
+const t = useTranslations(Astro.props.lang ?? toLang(Astro.currentLocale));
+---
+<!-- Copies the page address; the click handler lives in Layout.astro so it keeps working after swup page changes -->
+<button type="button" data-copy-link data-copied-label={t(I18nKey.linkCopied)}
+        class:list={["chip h-7 px-2.5 text-xs cursor-pointer hover:text-[var(--primary)] transition", Astro.props.class]}>
+    <Icon name="material-symbols:link-rounded" class="text-sm copy-icon"></Icon>
+    <Icon name="material-symbols:check-rounded" class="text-sm done-icon hidden"></Icon>
+    <span class="copy-label">{t(I18nKey.copyLink)}</span>
+</button>

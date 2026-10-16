@@ -119,6 +119,13 @@ enum I18nKey {
 	pinterestDescription = "pinterestDescription",
 	pinterestEmpty = "pinterestEmpty",
 	openOnPinterest = "openOnPinterest",
+	loadMore = "loadMore",
+
+	// Sharing and reading
+	copyLink = "copyLink",
+	linkCopied = "linkCopied",
+	relatedArticles = "relatedArticles",
+	notFoundJoke = "notFoundJoke",
 
 	// 404
 	notFoundTitle = "notFoundTitle",

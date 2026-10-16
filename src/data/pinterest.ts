@@ -81,3 +81,14 @@ export const pins: { image: string; boards: PinBoard[] }[] = [
 
 export const pinImageUrl = (image: string) =>
 	`https://i.pinimg.com/736x/${image}.jpg`;
+
+// Filter button names on the English and Kurdish pages
+export const pinBoardLabels: Record<PinBoard, { en: string; ku: string }> = {
+	Development: { en: "Development", ku: "گەشەپێدان" },
+	Flower: { en: "Flowers", ku: "گوڵ" },
+	"Image Collection": { en: "Collections", ku: "کۆمەڵە وێنە" },
+	Animal: { en: "Animals", ku: "ئاژەڵ" },
+	Photography: { en: "Photography", ku: "وێنەگری" },
+	"Quran القران": { en: "Quran", ku: "قورئان" },
+	"وتە Quote": { en: "Quotes", ku: "وتە" },
+};

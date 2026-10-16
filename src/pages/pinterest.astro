@@ -1,13 +1,22 @@
 ---
 import { Icon } from "astro-icon/components";
-import { pinBoards, pinImageUrl, pins } from "../data/pinterest";
+import {
+	pinBoardLabels,
+	pinBoards,
+	pinImageUrl,
+	pins,
+} from "../data/pinterest";
 import I18nKey from "../i18n/i18nKey";
 import { toLang } from "../i18n/lang";
 import { useTranslations } from "../i18n/translation";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
 
-const t = useTranslations(toLang(Astro.currentLocale));
+const lang = toLang(Astro.currentLocale);
+const t = useTranslations(lang);
 const profileUrl = "https://www.pinterest.com/ali_umed/_created/";
+
+// Pictures shown at first and added each time the visitor reaches the end
+const PAGE_SIZE = 24;
 
 // Board names can be Kurdish or Arabic, so the filters use plain ids like "b0"
 const slug = (board: (typeof pinBoards)[number]) => `b${pinBoards.indexOf(board)}`;
@@ -15,29 +24,14 @@ const filters = [
 	{ id: "all", label: t(I18nKey.filterAll), count: pins.length },
 	...pinBoards.map((board) => ({
 		id: slug(board),
-		label: board,
+		label: pinBoardLabels[board][lang],
 		count: pins.filter((pin) => pin.boards.includes(board)).length,
 	})),
 ];
-
-// CSS-only filter, like the projects page: the checked radio hides pins from other boards
-const filterCss = filters
-	.slice(1)
-	.map(
-		({ id }) =>
-			`.pins:has(#pin-filter-${id}:checked) label[data-filter="${id}"]{background:var(--primary-solid);color:var(--on-primary)}` +
-			`.pins:has(#pin-filter-${id}:checked) .pin-item:not([data-boards~="${id}"]){display:none}`,
-	)
-	.join("");
 ---
 
 <MainGridLayout title={t(I18nKey.pinterest)} description={t(I18nKey.pinterestDescription)}>
-    <Fragment set:html={`<style>${filterCss}</style>`} />
-    <div class="pins">
-        {filters.map((filter, index) => (
-            <input type="radio" name="pin-filter" id={`pin-filter-${filter.id}`} class="sr-only" checked={index === 0} />
-        ))}
-
+    <div id="pins" data-page-size={PAGE_SIZE}>
         <div class="card-base onload-animation p-3 mb-4">
             <div class="flex flex-wrap items-center justify-between gap-3 mb-3 ps-2">
                 <div class="flex items-center gap-3 min-w-0">
@@ -49,41 +43,116 @@ const filterCss = filters
                     <Icon name="fa6-solid:arrow-up-right-from-square" class="text-xs"></Icon>
                 </a>
             </div>
-            <div class="filter-tabs flex flex-wrap gap-1">
-                {filters.map((filter) => (
-                    <label for={`pin-filter-${filter.id}`} data-filter={filter.id}
-                           class="cursor-pointer select-none px-4 h-10 inline-flex items-center rounded-full border border-[var(--card-border)] text-sm font-extrabold text-[var(--ink)] hover:text-[var(--primary)] transition">
+            <div class="flex flex-wrap gap-1" role="group">
+                {filters.map((filter, index) => (
+                    <button type="button" data-filter={filter.id} aria-pressed={index === 0 ? "true" : "false"}
+                            class="pin-filter px-4 h-10 inline-flex items-center rounded-full border border-[var(--card-border)] text-sm font-extrabold text-[var(--ink)] hover:text-[var(--primary)] transition">
                         {filter.label}
                         <span class="ms-1.5 text-xs opacity-60">{filter.count}</span>
-                    </label>
+                    </button>
                 ))}
             </div>
         </div>
 
-        <div class="columns-2 md:columns-3 gap-2 sm:gap-3 mb-4" dir="ltr">
+        <!-- Masonry columns; pictures open in the lightbox (see Layout.astro), only the ones the filter shows -->
+        <div class="columns-2 md:columns-3 gap-2 sm:gap-3 mb-4" dir="ltr" data-gallery>
             {pins.map((pin, index) => (
-                <div class="pin-item mb-2 sm:mb-3 break-inside-avoid flex justify-center" data-boards={pin.boards.map(slug).join(" ")}>
-                    <a href={pinImageUrl(pin.image)} target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer"
-                       class="block w-full overflow-hidden rounded-2xl border border-[var(--card-border)] bg-[var(--btn-regular-bg)] active:scale-[0.98] transition">
-                        <!-- no-referrer: Pinterest's CDN can refuse images requested from other sites -->
-                        <img src={pinImageUrl(pin.image)} alt={pin.boards.join(", ")} loading={index < 6 ? "eager" : "lazy"}
-                             decoding="async" referrerpolicy="no-referrer"
-                             class="w-full h-auto hover:scale-[1.03] transition duration-300" />
-                    </a>
-                </div>
+                <a href={pinImageUrl(pin.image)} target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer"
+                   hidden={index >= PAGE_SIZE}
+                   data-boards={pin.boards.map(slug).join(" ")}
+                   class="pin-item block mb-2 sm:mb-3 break-inside-avoid overflow-hidden rounded-2xl border border-[var(--card-border)] bg-[var(--btn-regular-bg)] cursor-zoom-in">
+                    <!-- no-referrer: Pinterest's CDN can refuse images requested from other sites -->
+                    <img src={pinImageUrl(pin.image)} alt={pin.boards.map((board) => pinBoardLabels[board][lang]).join(", ")}
+                         loading={index < 6 ? "eager" : "lazy"} decoding="async" referrerpolicy="no-referrer"
+                         onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.remove()"
+                         class="w-full h-auto hover:scale-[1.03] transition duration-300" />
+                </a>
             ))}
+        </div>
+
+        <div class="flex justify-center mb-4">
+            <button type="button" id="pins-more" class="btn-outline" hidden>
+                <Icon name="material-symbols:expand-more-rounded" class="text-xl"></Icon>
+                {t(I18nKey.loadMore)}
+            </button>
         </div>
     </div>
 </MainGridLayout>
 
+<script>
+    // Filters and "load more": the first pictures of the chosen board show, more come in at the end of the list
+    let observer: IntersectionObserver | undefined;
+
+    function setupPins() {
+        const root = document.getElementById("pins");
+        if (!root || root.dataset.ready) return;
+        root.dataset.ready = "true";
+
+        const pageSize = Number(root.dataset.pageSize);
+        const items = [...root.querySelectorAll<HTMLElement>(".pin-item")];
+        const buttons = [...root.querySelectorAll<HTMLButtonElement>(".pin-filter")];
+        const more = root.querySelector<HTMLButtonElement>("#pins-more");
+        let filter = "all";
+        let limit = pageSize;
+
+        const render = () => {
+            const matching = items.filter((item) => item.isConnected && (filter === "all" || item.dataset.boards?.split(" ").includes(filter)));
+            for (const item of items) item.hidden = true;
+            matching.slice(0, limit).forEach((item) => { item.hidden = false; });
+            if (more) more.hidden = matching.length <= limit;
+        };
+
+        for (const button of buttons) {
+            button.addEventListener("click", () => {
+                filter = button.dataset.filter ?? "all";
+                limit = pageSize;
+                for (const other of buttons) other.setAttribute("aria-pressed", String(other === button));
+                render();
+            });
+        }
+
+        more?.addEventListener("click", () => {
+            limit += pageSize;
+            render();
+        });
+
+        // Load the next pictures on their own when the button scrolls into view
+        observer?.disconnect();
+        if (more && "IntersectionObserver" in window) {
+            observer = new IntersectionObserver((entries) => {
+                if (entries.some((entry) => entry.isIntersecting) && !more.hidden) more.click();
+            }, { rootMargin: "400px" });
+            observer.observe(more);
+        }
+
+        render();
+    }
+
+    setupPins();
+    document.addEventListener("swup:page:view", setupPins);
+</script>
+
 <style>
-    .pins:has(#pin-filter-all:checked) label[data-filter="all"] {
+    .pin-filter[aria-pressed="true"] {
         background: var(--primary-solid);
         color: var(--on-primary);
+        border-color: transparent;
     }
-    .pins:has(input:focus-visible) .filter-tabs {
-        outline: 2px solid var(--primary);
-        outline-offset: 2px;
-        border-radius: 1rem;
+    /* Placeholder until the picture arrives, so the columns don't jump while loading */
+    .pin-item:not(.loaded) {
+        min-height: 12rem;
+        animation: pin-pulse 1.4s ease-in-out infinite;
+    }
+    .pin-item:not(.loaded) img {
+        opacity: 0;
+    }
+    .pin-item img {
+        transition: opacity 0.3s, transform 0.3s;
+    }
+    @keyframes pin-pulse {
+        50% { opacity: 0.55; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .pin-item:not(.loaded) { animation: none; }
     }
 </style>

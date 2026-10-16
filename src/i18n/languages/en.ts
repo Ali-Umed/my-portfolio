@@ -116,6 +116,12 @@ export const en: Translation = {
 	[Key.pinterestEmpty]: "The pins couldn't be loaded right now.",
 	[Key.openOnPinterest]: "Open on Pinterest",
 
+	[Key.loadMore]: "Load more",
+	[Key.copyLink]: "Copy link",
+	[Key.linkCopied]: "Link copied",
+	[Key.relatedArticles]: "Related articles",
+	[Key.notFoundJoke]: "I searched every folder for it. Even node_modules.",
+
 	[Key.notFoundTitle]: "Page not found",
 	[Key.notFoundHeading]: "This page doesn't exist",
 	[Key.notFoundChip]: "Broken or old link",

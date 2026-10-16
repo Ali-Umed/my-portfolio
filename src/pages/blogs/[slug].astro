@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import { Icon } from "astro-icon/components";
 import BlogCard from "../../components/BlogCard.astro";
+import CopyLinkButton from "../../components/misc/CopyLinkButton.astro";
 import I18nKey from "../../i18n/i18nKey";
 import { formatDate, languages, toLang } from "../../i18n/lang";
 import { useTranslations } from "../../i18n/translation";
@@ -41,16 +42,21 @@ const readingMinutes = readingTime(post.body);
 const sortedBlogs = (await getCollection("blogs"))
 	.filter((blog) => !blog.data.draft)
 	.sort((a, b) => b.data.published.getTime() - a.data.published.getTime());
-const currentIndex = sortedBlogs.findIndex((blog) => blog.slug === post.slug);
-const nextBlog =
-	sortedBlogs.length > 1
-		? sortedBlogs[(currentIndex + 1) % sortedBlogs.length]
-		: undefined;
+// Related articles: the ones sharing the most tags (then the same category), newest first
+const others = sortedBlogs.filter((blog) => blog.slug !== post.slug);
+const score = (blog: (typeof others)[number]) =>
+	blog.data.tags.filter((tag) => tags.includes(tag)).length * 2 +
+	(category && blog.data.category === category ? 1 : 0);
+const relatedBlogs = others
+	.map((blog, index) => ({ blog, index, score: score(blog) }))
+	.sort((a, b) => b.score - a.score || a.index - b.index)
+	.slice(0, 3)
+	.map(({ blog }) => blog);
 ---
 
 <MainGridLayout title={title} description={description || ""} headings={[]}>
   <!-- data-pagefind-body: articles show up in the site search -->
-  <div class="card-base pt-2" dir={languages[postLang].dir} lang={languages[postLang].htmlLang} data-pagefind-body>
+  <div class="card-base pt-2" data-reading-article dir={languages[postLang].dir} lang={languages[postLang].htmlLang} data-pagefind-body>
     <div class="pt-6 px-6 md:px-8">
       <header class="mb-0">
         <div class="flex flex-wrap gap-2  mb-0" data-pagefind-ignore>
@@ -78,6 +84,7 @@ const nextBlog =
               day: 'numeric'
             })}
           </time>
+          <CopyLinkButton lang={postLang} />
         </div>
       </header>
     </div>
@@ -102,11 +109,11 @@ const nextBlog =
   </div>
 
   <div class="flex flex-col gap-4 mt-4 mb-4">
-    {nextBlog && (
-      <div>
-        <div class="text-sm font-extrabold text-50 uppercase tracking-wider mb-2 px-4 md:px-1">{t(I18nKey.readNext)}</div>
-        <BlogCard entry={nextBlog} />
-      </div>
+    {relatedBlogs.length > 0 && (
+      <section class="flex flex-col gap-4">
+        <h2 class="text-sm font-extrabold text-50 uppercase tracking-wider px-4 md:px-1">{t(I18nKey.relatedArticles)}</h2>
+        {relatedBlogs.map((blog) => <BlogCard entry={blog} />)}
+      </section>
     )}
     <a href={localeUrl("/blogs/", pageLang)} class="btn-outline self-start ms-4 md:ms-0">
       <Icon name="material-symbols:arrow-back-rounded" class="text-xl rtl:-scale-x-100"></Icon>

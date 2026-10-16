@@ -162,6 +162,8 @@ const bannerOffset =
 		  data-overlayscrollbars-initialize
 	>
 		<ConfigCarrier></ConfigCarrier>
+		<!-- Reading progress for articles and project pages ([data-reading-article]); hidden on other pages -->
+		<div id="reading-progress" aria-hidden="true" class="fixed top-0 inset-x-0 h-1 z-[100] pointer-events-none bg-[var(--primary)] origin-left rtl:origin-right transition-opacity opacity-0" style="transform: scaleX(0)"></div>
 		<slot />
 
 		<!-- increase the page height during page transition to prevent the scrolling animation from jumping -->
@@ -530,7 +532,7 @@ let pswp = import("photoswipe")
 
 function createPhotoSwipe() {
 	lightbox = new PhotoSwipeLightbox({
-		gallery: ".custom-md img, #post-cover img, #screenshots img",
+		gallery: ".custom-md img, #post-cover img",
 		pswpModule: () => pswp,
 		closeSVG: '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z"/></svg>',
 		zoomSVG: '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="M340-540h-40q-17 0-28.5-11.5T260-580q0-17 11.5-28.5T300-620h40v-40q0-17 11.5-28.5T380-700q17 0 28.5 11.5T420-660v40h40q17 0 28.5 11.5T500-580q0 17-11.5 28.5T460-540h-40v40q0 17-11.5 28.5T380-460q-17 0-28.5-11.5T340-500v-40Zm40 220q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l224 224q11 11 11 28t-11 28q-11 11-28 11t-28-11L532-372q-30 24-69 38t-83 14Zm0-80q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>',
@@ -558,6 +560,131 @@ function createPhotoSwipe() {
 
 	lightbox.init()
 }
+
+// Galleries ([data-gallery]): screenshots and Pinterest pictures open as one set, with arrows and swipe between them.
+// Only the pictures shown right now are in the set, so a filtered Pinterest page only shows that board.
+const galleryOptions = {
+	padding: { top: 20, bottom: 20, left: 20, right: 20 },
+	wheelToZoom: true,
+	imageClickAction: "close" as const,
+	tapAction: "close" as const,
+	doubleTapAction: "zoom" as const,
+	bgOpacity: 0.92,
+}
+
+async function openGallery(gallery: HTMLElement, clicked: HTMLImageElement) {
+	const images = [...gallery.querySelectorAll<HTMLImageElement>("img")].filter(
+		(img) => img.offsetParent !== null,
+	)
+	const dataSource = images.map((img) => ({
+		src: img.currentSrc || img.src,
+		msrc: img.currentSrc || img.src,
+		alt: img.alt,
+		// Pictures still loading get a guessed portrait size, fixed once they arrive
+		w: img.naturalWidth || 736,
+		h: img.naturalHeight || 1100,
+		element: img,
+	}))
+	const { default: PhotoSwipe } = await pswp
+	const viewer = new PhotoSwipe({
+		...galleryOptions,
+		dataSource,
+		index: Math.max(0, images.indexOf(clicked)),
+		closeSVG: lightbox?.options.closeSVG,
+		zoomSVG: lightbox?.options.zoomSVG,
+	})
+	// Same as the page's pictures: Pinterest's CDN can refuse images requested with another site's address
+	viewer.on("contentLoadImage", ({ content }) => {
+		if (content.element instanceof HTMLImageElement) content.element.referrerPolicy = "no-referrer"
+	})
+	viewer.on("loadComplete", ({ content, slide }) => {
+		const img = content.element as HTMLImageElement | undefined
+		const data = content.data as { w?: number; h?: number }
+		if (img?.naturalWidth && (img.naturalWidth !== data.w || img.naturalHeight !== data.h)) {
+			data.w = img.naturalWidth
+			data.h = img.naturalHeight
+			viewer.refreshSlideContent(slide.index)
+		}
+	})
+	viewer.init()
+}
+
+// Reading progress bar: how far the article has been scrolled past
+function updateReadingProgress() {
+	const bar = document.getElementById("reading-progress")
+	const article = document.querySelector<HTMLElement>("[data-reading-article]")
+	if (!bar) return
+	if (!article) {
+		bar.style.opacity = "0"
+		return
+	}
+	const rect = article.getBoundingClientRect()
+	const total = rect.height - window.innerHeight
+	const progress = total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : 1
+	bar.style.opacity = progress > 0 ? "1" : "0"
+	bar.style.transform = `scaleX(${progress})`
+}
+window.addEventListener("scroll", updateReadingProgress, { passive: true })
+window.addEventListener("resize", updateReadingProgress, { passive: true })
+document.addEventListener("swup:page:view", updateReadingProgress)
+updateReadingProgress()
+
+// "Copy link" buttons (CopyLinkButton.astro): copy the page address and say so for two seconds
+document.addEventListener("click", async (event) => {
+	const button = (event.target as HTMLElement | null)?.closest?.<HTMLElement>("[data-copy-link]")
+	if (!button) return
+	const href = window.location.href.split("#")[0]
+	try {
+		await navigator.clipboard.writeText(href)
+	} catch {
+		window.prompt("", href)
+		return
+	}
+	const label = button.querySelector(".copy-label")
+	const original = label?.textContent ?? ""
+	if (label) label.textContent = button.dataset.copiedLabel ?? original
+	button.querySelector(".copy-icon")?.classList.add("hidden")
+	button.querySelector(".done-icon")?.classList.remove("hidden")
+	setTimeout(() => {
+		if (label) label.textContent = original
+		button.querySelector(".copy-icon")?.classList.remove("hidden")
+		button.querySelector(".done-icon")?.classList.add("hidden")
+	}, 2000)
+})
+
+// Sections fade in as they scroll into view. Only cards below the first screen are hidden first,
+// so nothing that is already visible flashes, and reduced-motion users see everything at once.
+let revealObserver: IntersectionObserver | undefined
+function setupReveal() {
+	revealObserver?.disconnect()
+	if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) return
+	revealObserver = new IntersectionObserver((entries) => {
+		for (const entry of entries) {
+			if (!entry.isIntersecting) continue
+			entry.target.classList.add("revealed")
+			revealObserver?.unobserve(entry.target)
+		}
+	}, { rootMargin: "0px 0px -8% 0px" })
+	const candidates = document.querySelectorAll<HTMLElement>(
+		"#swup-container .card-base, #swup-container section, #swup-container .pin-item, #swup-container .project-item, footer.card-base",
+	)
+	for (const el of candidates) {
+		if (el.parentElement?.closest(".reveal")) continue
+		if (el.getBoundingClientRect().top < window.innerHeight) continue
+		el.classList.add("reveal")
+		revealObserver.observe(el)
+	}
+}
+setupReveal()
+document.addEventListener("swup:page:view", setupReveal)
+
+document.addEventListener("click", (event) => {
+	const img = (event.target as HTMLElement | null)?.closest?.("img")
+	const gallery = img?.closest<HTMLElement>("[data-gallery]")
+	if (!img || !gallery || event.ctrlKey || event.metaKey || event.shiftKey) return
+	event.preventDefault()
+	openGallery(gallery, img)
+})
 
 const setup = () => {
 	if (!lightbox) {

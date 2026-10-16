@@ -118,6 +118,12 @@ export const ku: Translation = {
 	[Key.pinterestEmpty]: "ئێستا ناتوانرێت پینەکان بار بکرێن.",
 	[Key.openOnPinterest]: "لە پینتەرێست بیکەرەوە",
 
+	[Key.loadMore]: "زیاتر پیشان بدە",
+	[Key.copyLink]: "کۆپیکردنی بەستەر",
+	[Key.linkCopied]: "بەستەرەکە کۆپی کرا",
+	[Key.relatedArticles]: "وتاری پەیوەندیدار",
+	[Key.notFoundJoke]: "لە هەموو فۆڵدەرێک بۆی گەڕام، تەنانەت لە node_modules یش.",
+
 	[Key.notFoundTitle]: "پەڕەکە نەدۆزرایەوە",
 	[Key.notFoundHeading]: "ئەم پەڕەیە بوونی نییە",
 	[Key.notFoundChip]: "بەستەری شکاو یان کۆن",

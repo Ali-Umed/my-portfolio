@@ -5,6 +5,7 @@ import I18nKey from "../i18n/i18nKey";
 import { formatDate, toLang } from "../i18n/lang";
 import { getTagName } from "../i18n/tags";
 import { useTranslations } from "../i18n/translation";
+import CopyLinkButton from "./misc/CopyLinkButton.astro";
 import { getTagUrl, url } from "../utils/url-utils";
 
 interface Props {
@@ -64,6 +65,7 @@ const date = formatDate(published, lang, { year: "numeric", month: "short" });
                     <Icon name="material-symbols:schedule-outline-rounded" class="text-sm"></Icon>
                     {t(I18nKey.minRead, { minutes })}
                 </span>
+                <CopyLinkButton />
             </div>
         </div>
     </div>
