@@ -1,13 +1,12 @@
 // Pictures shown on /pinterest/, grouped by the Pinterest board they belong to.
 // Each entry is the image path on Pinterest's CDN (https://i.pinimg.com/736x/<path>.jpg).
 // A picture saved to several boards is listed once with all of its boards.
-export const pinBoards = ["AI", "Development", "Flower", "Image Collection", "Animal", "Image Quality", "Photography", "Quran القران", "وتە Quote"] as const;
+export const pinBoards = ["Development", "Flower", "Image Collection", "Animal", "Image Quality", "Photography", "Quran القران", "وتە Quote"] as const;
 
 export type PinBoard = (typeof pinBoards)[number];
 
 export const pins: { image: string; boards: PinBoard[] }[] = [
-	{ image: "d2/a7/14/d2a7145ec9eeacf68787aecc9af2a824", boards: ["AI", "Animal"] },
-	{ image: "dd/a9/02/dda902b5560fa15d00be421c71876066", boards: ["AI"] },
+	{ image: "d2/a7/14/d2a7145ec9eeacf68787aecc9af2a824", boards: ["Animal"] },
 	{ image: "e2/94/ca/e294ca5ea6f773dac8043e45710ec3eb", boards: ["Development"] },
 	{ image: "7d/97/e7/7d97e7e9d029e1a0c79af805b788ce32", boards: ["Development"] },
 	{ image: "90/f8/ff/90f8ff5679e527dce0f54a1bea0137e6", boards: ["Development"] },
