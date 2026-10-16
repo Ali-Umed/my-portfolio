@@ -82,7 +82,8 @@ const filters = [
 
 <style>
     /* The "block" class would otherwise win over the hidden attribute and keep filtered pictures on screen */
-    .pin-item[hidden] {
+    .pin-item[hidden],
+    #pins-more[hidden] {
         display: none;
     }
     .pin-filter[aria-pressed="true"] {
