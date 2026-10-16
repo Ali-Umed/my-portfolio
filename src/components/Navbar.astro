@@ -30,7 +30,7 @@ const links = getNavBarLinks(lang);
         <div class="hidden md:flex">
             {links.map((l) => {
                 return <a aria-label={l.name} href={l.external ? l.url : localeUrl(l.url, lang)} target={l.external ? "_blank" : null}
-                          class="btn-plain scale-animation rounded-full h-11 font-extrabold px-5 active:scale-95"
+                          class="btn-plain scale-animation rounded-full h-11 font-extrabold px-3 lg:px-5 active:scale-95"
                 >
                     <div class="flex items-center">
                         {l.name}
@@ -48,7 +48,7 @@ const links = getNavBarLinks(lang);
                         aria-haspopup="menu" aria-expanded="false" aria-controls="lang-panel"
                         class="btn-round h-10 px-2.5 sm:px-3 gap-1 text-sm font-extrabold">
                     <Icon name="material-symbols:translate-rounded" class="text-[1.125rem]"></Icon>
-                    <span class="hidden sm:inline" lang={languages[lang].htmlLang}>{languages[lang].name}</span>
+                    <span class="hidden sm:inline md:hidden lg:inline" lang={languages[lang].htmlLang}>{languages[lang].name}</span>
                     <Icon name="material-symbols:keyboard-arrow-down-rounded" class="text-base"></Icon>
                 </button>
                 <div id="lang-panel" class="float-panel-closed absolute top-11 -end-2 pt-2 z-50 transition">

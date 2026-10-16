@@ -46,6 +46,11 @@ export const navBarConfig: NavBarConfig = {
 		LinkPreset.Blogs,
 		// LinkPreset.Archive, // hidden for now; /archive/ still serves tag and category filters
 		LinkPreset.About,
+		{
+			name: "Pinterest",
+			url: "https://www.pinterest.com/ali_umed/_created/",
+			external: true,
+		},
 		// {
 		//   name: "GitHub",
 		//   url: "https://github.com/Ali-Umed", // Internal links should not include the base path, as it is automatically added
@@ -68,6 +73,11 @@ export const profileConfig: ProfileConfig = {
 			name: "LinkedIn",
 			icon: "fa6-brands:linkedin", // Iconify icon set: Font Awesome 6 Brands
 			url: "https://www.linkedin.com/in/ali-umed-076854286", // Replace with your actual LinkedIn URL
+		},
+		{
+			name: "Pinterest",
+			icon: "fa6-brands:pinterest",
+			url: "https://www.pinterest.com/ali_umed/_created/",
 		},
 		{
 			name: "Email",
