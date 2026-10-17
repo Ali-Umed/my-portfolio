@@ -1122,7 +1122,12 @@ document.addEventListener("keydown", (event) => {
 
 // A little cat walks along the bottom of the screen now and then (not with reduced motion)
 function walkCat() {
-	if (document.hidden || document.getElementById("walking-cat")) return
+	if (document.getElementById("walking-cat")) return
+	// While the tab is hidden, wait and try again instead of walking unseen
+	if (document.hidden) {
+		window.setTimeout(walkCat, CAT_PAUSE)
+		return
+	}
 	const cat = document.createElement("div")
 	cat.id = "walking-cat"
 	cat.setAttribute("aria-hidden", "true")
@@ -1142,11 +1147,16 @@ function walkCat() {
 		<circle cx="49" cy="14" r="1.4" fill="var(--page-bg, #fff)"/>
 	</svg>`
 	document.body.appendChild(cat)
-	cat.addEventListener("animationend", () => cat.remove())
+	cat.addEventListener("animationend", (event) => {
+		if (event.target !== cat) return
+		cat.remove()
+		window.setTimeout(walkCat, CAT_PAUSE)
+	})
 }
+// First walk 10 seconds after opening the site, then again 10 seconds after each walk ends
+const CAT_PAUSE = 10000
 if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
-	window.setTimeout(walkCat, 25000)
-	window.setInterval(walkCat, 120000)
+	window.setTimeout(walkCat, CAT_PAUSE)
 }
 
 onEveryPage(setupPhone)
