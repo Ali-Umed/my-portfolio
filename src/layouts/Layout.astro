@@ -1124,6 +1124,7 @@ document.addEventListener("keydown", (event) => {
 // Each walk picks a colour; sometimes it chases a ball;
 // clicking it makes it sit and meow. Typing "cat" sends a whole group running across.
 const CAT_PAUSE = 5000
+let catWalks = 0
 const catColours = [
 	{ body: "var(--primary)", eye: "#fff" },
 	{ body: "#2b2b2b", eye: "#f5c542" },
@@ -1147,12 +1148,12 @@ function catSvg(colour: (typeof catColours)[number]) {
 	</svg>`
 }
 const isRtl = () => document.documentElement.dir === "rtl"
-function makeCat(className: string) {
+function makeCat(className: string, colour = catColours[Math.floor(Math.random() * catColours.length)]) {
 	const cat = document.createElement("div")
 	cat.className = className
 	cat.setAttribute("aria-hidden", "true")
 	if (isRtl()) cat.classList.add("from-right")
-	cat.innerHTML = catSvg(catColours[Math.floor(Math.random() * catColours.length)])
+	cat.innerHTML = catSvg(colour)
 	document.body.appendChild(cat)
 	return cat
 }
@@ -1164,7 +1165,8 @@ function walkCat() {
 		window.setTimeout(walkCat, CAT_PAUSE)
 		return
 	}
-	const cat = makeCat("walking-cat")
+	// The first cat of every visit is orange; after that the colour is random
+	const cat = makeCat("walking-cat", catWalks++ === 0 ? catColours[0] : undefined)
 	cat.id = "walking-cat"
 	if (Math.random() < 0.35) {
 		// Sometimes there's a ball rolling ahead to chase
