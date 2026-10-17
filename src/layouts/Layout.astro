@@ -613,12 +613,13 @@ async function openGallery(gallery: HTMLElement, clicked: HTMLImageElement) {
 		.filter((img) => img.offsetParent !== null)
 		.sort((a, b) => order(a) - order(b))
 	const dataSource = images.map((img) => ({
-		src: img.currentSrc || img.src,
+		src: img.dataset.full || img.currentSrc || img.src,
 		msrc: img.currentSrc || img.src,
 		alt: img.alt,
 		// Pictures still loading get a guessed portrait size, fixed once they arrive
-		w: img.naturalWidth || 736,
-		h: img.naturalHeight || 1100,
+		// Size of the picture shown: the full-size copy keeps the same shape, so scale up from the page copy
+		w: img.dataset.full && img.naturalWidth ? 1320 : img.naturalWidth || 736,
+		h: img.dataset.full && img.naturalWidth ? Math.round((1320 * img.naturalHeight) / img.naturalWidth) : img.naturalHeight || 1100,
 		element: img,
 	}))
 	const { default: PhotoSwipe } = await pswp

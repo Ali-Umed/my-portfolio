@@ -128,6 +128,7 @@ export const en: Translation = {
 	[Key.onThisPage]: "On this page",
 	[Key.clickSounds]: "Click sounds",
 	[Key.scanToOpen]: "Scan with your phone",
+	[Key.getTheApp]: "Get the app",
 
 	[Key.notFoundTitle]: "Page not found",
 	[Key.notFoundHeading]: "This page doesn't exist",

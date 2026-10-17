@@ -37,6 +37,7 @@ const actions = [
 ].filter(Boolean) as { href: string; label: string; icon: string }[];
 
 const date = formatDate(published, lang, { year: "numeric", month: "short" });
+const goUrl = new URL(`/go/${entry.slug}/`, Astro.site).href;
 ---
 <header class="mb-6">
     <div class="flex flex-col sm:flex-row sm:items-center gap-5">
@@ -82,22 +83,22 @@ const date = formatDate(published, lang, { year: "numeric", month: "short" });
         </div>
     )}
 
-    <!-- QR codes for the store links, for desktop visitors to open the app on their phone -->
+    <!-- One QR code for the app: /go/<project>/ sends iPhones to the App Store and Android phones to Google Play -->
     {(appStore || playStore) && (
-        <div class="hidden md:flex flex-wrap gap-3 mt-5">
-            {[appStore && { href: appStore, label: "App Store" }, playStore && { href: playStore, label: "Google Play" }]
-                .filter(Boolean)
-                .map((store) => store && (
-                    <a href={store.href} target="_blank" rel="noopener"
-                       class="flex items-center gap-3 rounded-2xl border border-[var(--card-border)] p-2 pe-4 hover:border-[var(--primary)] transition">
-                        <img src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&margin=0&data=${encodeURIComponent(store.href)}`}
-                             alt="" width="72" height="72" loading="lazy" class="w-[4.5rem] h-[4.5rem] rounded-lg bg-white p-1" />
-                        <span class="text-sm">
-                            <span class="block font-extrabold text-[var(--ink)]">{store.label}</span>
-                            <span class="block text-50 font-bold">{t(I18nKey.scanToOpen)}</span>
-                        </span>
-                    </a>
-                ))}
+        <div class="hidden md:flex mt-5">
+            <a href={goUrl} target="_blank" rel="noopener"
+               class="flex items-center gap-3 rounded-2xl border border-[var(--card-border)] p-2 pe-4 hover:border-[var(--primary)] transition">
+                <img src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&margin=0&data=${encodeURIComponent(goUrl)}`}
+                     alt="" width="72" height="72" loading="lazy" class="w-[4.5rem] h-[4.5rem] rounded-lg bg-white p-1" />
+                <span class="text-sm">
+                    <span class="flex items-center gap-1.5 font-extrabold text-[var(--ink)]">
+                        {appStore && <Icon name="fa6-brands:apple" class="text-base"></Icon>}
+                        {playStore && <Icon name="fa6-brands:google-play" class="text-sm"></Icon>}
+                        {t(I18nKey.getTheApp)}
+                    </span>
+                    <span class="block text-50 font-bold">{t(I18nKey.scanToOpen)}</span>
+                </span>
+            </a>
         </div>
     )}
 

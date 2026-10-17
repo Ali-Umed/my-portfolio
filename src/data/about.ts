@@ -121,8 +121,3 @@ export const education: Record<
 		period: "2020 – 2024",
 	},
 };
-
-export const quote: Record<Lang, string> = {
-	en: "Code is not just about solving problems, it's about creating experiences.",
-	ku: "کۆد تەنها بۆ چارەسەرکردنی کێشە نییە، بەڵکو بۆ دروستکردنی ئەزموونە.",
-};

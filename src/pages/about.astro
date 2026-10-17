@@ -6,7 +6,6 @@ import {
 	codingSince,
 	education,
 	experience,
-	quote,
 	skillGroups,
 } from "../data/about";
 import I18nKey from "../i18n/i18nKey";
@@ -126,6 +125,18 @@ const socials = profileConfig.links.filter((link) => link !== email);
             </ol>
         </section>
 
+        <!-- Education -->
+        <section class="card-base onload-animation p-6 md:p-8 flex items-center gap-4">
+            <span class="w-12 h-12 shrink-0 rounded-[var(--radius-btn)] bg-[var(--primary-solid)] text-[var(--on-primary)] flex items-center justify-center">
+                <Icon name="material-symbols:school-outline-rounded" class="text-2xl"></Icon>
+            </span>
+            <div class="min-w-0">
+                <div class="font-extrabold tracking-tight text-lg text-[var(--ink)]">{school.school}</div>
+                <div class="text-sm md:text-base font-medium text-75">{school.degree}</div>
+                <div class="text-xs font-bold text-50 mt-1">{school.period}</div>
+            </div>
+        </section>
+
         <!-- Skills -->
         <section class="card-base onload-animation p-6 md:p-8">
             <h2 class="flex items-center gap-2 font-black tracking-tight text-2xl text-[var(--ink)] mb-6">
@@ -151,22 +162,5 @@ const socials = profileConfig.links.filter((link) => link !== email);
             </div>
         </section>
 
-        <!-- Education -->
-        <section class="card-base onload-animation p-6 md:p-8 flex items-center gap-4">
-            <span class="w-12 h-12 shrink-0 rounded-[var(--radius-btn)] bg-[var(--primary-solid)] text-[var(--on-primary)] flex items-center justify-center">
-                <Icon name="material-symbols:school-outline-rounded" class="text-2xl"></Icon>
-            </span>
-            <div class="min-w-0">
-                <div class="font-extrabold tracking-tight text-lg text-[var(--ink)]">{school.school}</div>
-                <div class="text-sm md:text-base font-medium text-75">{school.degree}</div>
-                <div class="text-xs font-bold text-50 mt-1">{school.period}</div>
-            </div>
-        </section>
-
-        <!-- Quote -->
-        <section class="card-base onload-animation p-6 md:p-8 text-center">
-            <Icon name="material-symbols:format-quote-rounded" class="text-4xl text-[var(--primary)] mx-auto"></Icon>
-            <p class="font-extrabold tracking-tight text-xl md:text-2xl text-[var(--ink)] mt-2">{quote[lang]}</p>
-        </section>
     </div>
 </MainGridLayout>

@@ -132,6 +132,7 @@ enum I18nKey {
 	onThisPage = "onThisPage",
 	clickSounds = "clickSounds",
 	scanToOpen = "scanToOpen",
+	getTheApp = "getTheApp",
 
 	// 404
 	notFoundTitle = "notFoundTitle",
