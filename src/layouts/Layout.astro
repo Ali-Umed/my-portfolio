@@ -1120,22 +1120,21 @@ document.addEventListener("keydown", (event) => {
 	setTimeout(() => toast.remove(), 2200)
 })
 
-// A little cat walks along the bottom of the screen now and then (not with reduced motion)
-function walkCat() {
-	if (document.getElementById("walking-cat")) return
-	// While the tab is hidden, wait and try again instead of walking unseen
-	if (document.hidden) {
-		window.setTimeout(walkCat, CAT_PAUSE)
-		return
-	}
-	const cat = document.createElement("div")
-	cat.id = "walking-cat"
-	cat.setAttribute("aria-hidden", "true")
-	const rtl = document.documentElement.dir === "rtl"
-	if (rtl) cat.classList.add("from-right")
-	cat.innerHTML = `<svg viewBox="0 0 64 40" width="64" height="40">
-		<g class="cat-body" fill="currentColor">
-			<path class="cat-tail" d="M8 20 q-8 -6 -4 -16" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+// A little cat walks along the bottom of the screen now and then (not with reduced motion).
+// Each walk picks a colour; sometimes it chases a ball; at night it sleeps in the corner instead;
+// clicking it makes it sit and meow. Typing "cat" sends a whole group running across.
+const CAT_PAUSE = 5000
+const catColours = [
+	{ body: "var(--primary)", eye: "#fff" },
+	{ body: "#2b2b2b", eye: "#f5c542" },
+	{ body: "#f4f1ec", eye: "#2b2b2b", outline: "#9a948c" },
+	{ body: "#8f8a85", eye: "#fff" },
+]
+function catSvg(colour: (typeof catColours)[number]) {
+	const stroke = colour.outline ? `stroke="${colour.outline}" stroke-width="1.2"` : ""
+	return `<svg viewBox="0 0 64 40" width="64" height="40" style="color:${colour.body}">
+		<g class="cat-body" fill="currentColor" ${stroke}>
+			<path class="cat-tail" d="M8 20 q-8 -6 -4 -16" fill="none" stroke="${colour.outline ?? "currentColor"}" stroke-width="3.5" stroke-linecap="round"/>
 			<ellipse cx="26" cy="22" rx="18" ry="9"/>
 			<circle cx="46" cy="15" r="8"/>
 			<path d="M40 10 l2 -8 l5 6 z M47 8 l5 -6 l1 8 z"/>
@@ -1144,20 +1143,84 @@ function walkCat() {
 			<rect class="cat-leg leg-a" x="31" y="27" width="4" height="11" rx="2"/>
 			<rect class="cat-leg leg-b" x="38" y="27" width="4" height="11" rx="2"/>
 		</g>
-		<circle cx="49" cy="14" r="1.4" fill="var(--page-bg, #fff)"/>
+		<circle cx="49" cy="14" r="1.4" fill="${colour.eye}"/>
 	</svg>`
+}
+const isRtl = () => document.documentElement.dir === "rtl"
+const isNight = () => {
+	const hour = new Date().getHours()
+	return hour >= 22 || hour < 6
+}
+function makeCat(className: string) {
+	const cat = document.createElement("div")
+	cat.className = className
+	cat.setAttribute("aria-hidden", "true")
+	if (isRtl()) cat.classList.add("from-right")
+	cat.innerHTML = catSvg(catColours[Math.floor(Math.random() * catColours.length)])
 	document.body.appendChild(cat)
-	cat.addEventListener("animationend", (event) => {
+	return cat
+}
+
+function walkCat() {
+	if (document.getElementById("walking-cat")) return
+	// While the tab is hidden, wait and try again instead of walking unseen
+	if (document.hidden) {
+		window.setTimeout(walkCat, CAT_PAUSE)
+		return
+	}
+	const cat = makeCat("walking-cat")
+	cat.id = "walking-cat"
+	if (isNight()) {
+		// Night: curled up asleep in the bottom corner for a while
+		cat.classList.add("sleeping")
+		cat.insertAdjacentHTML("beforeend", '<span class="cat-zzz">z<span>z</span><span>z</span></span>')
+	} else if (Math.random() < 0.35) {
+		// Sometimes there's a ball rolling ahead to chase
+		cat.insertAdjacentHTML("afterbegin", '<span class="cat-ball"></span>')
+	}
+	const done = (event: AnimationEvent) => {
 		if (event.target !== cat) return
 		cat.remove()
 		window.setTimeout(walkCat, CAT_PAUSE)
+	}
+	cat.addEventListener("animationend", done)
+	// Click: sit, meow, then carry on
+	cat.addEventListener("click", () => {
+		if (cat.classList.contains("sitting") || cat.classList.contains("sleeping")) return
+		cat.classList.add("sitting")
+		const bubble = document.createElement("span")
+		bubble.className = "cat-meow"
+		bubble.textContent = document.documentElement.lang === "ckb" ? "میاو!" : "Meow!"
+		cat.appendChild(bubble)
+		navigator.vibrate?.(20)
+		window.setTimeout(() => {
+			bubble.remove()
+			cat.classList.remove("sitting")
+		}, 1800)
 	})
 }
-// First walk 10 seconds after opening the site, then again 10 seconds after each walk ends
-const CAT_PAUSE = 10000
 if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
 	window.setTimeout(walkCat, CAT_PAUSE)
 }
+
+// Typing "cat" anywhere (outside text fields) sends ten cats running across
+let typed = ""
+document.addEventListener("keydown", (event) => {
+	if ((event.target as HTMLElement | null)?.closest?.("input, textarea, [contenteditable]")) return
+	typed = (typed + event.key.toLowerCase()).slice(-3)
+	if (typed !== "cat" || matchMedia("(prefers-reduced-motion: reduce)").matches) return
+	typed = ""
+	for (let n = 0; n < 10; n++) {
+		const cat = makeCat("running-cat")
+		cat.style.bottom = `${6 + Math.random() * 60}px`
+		cat.style.animationDuration = `${2.2 + Math.random() * 2}s`
+		cat.style.animationDelay = `${Math.random() * 1.5}s`
+		cat.style.scale = String(0.7 + Math.random() * 0.6)
+		cat.addEventListener("animationend", (event) => {
+			if (event.target === cat) cat.remove()
+		})
+	}
+})
 
 onEveryPage(setupPhone)
 onEveryPage(bounceHomeIcon)

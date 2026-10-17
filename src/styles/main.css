@@ -353,45 +353,59 @@
     .home-bounce { animation: none; }
 }
 
-/* Walking cat */
-#walking-cat {
+/* Walking cat (see walkCat in Layout.astro) */
+.walking-cat,
+.running-cat {
     position: fixed;
     bottom: 6px;
     left: 0;
     z-index: 90;
     pointer-events: none;
-    color: var(--primary);
-    opacity: 0.85;
     animation: cat-walk 16s linear forwards;
 }
-#walking-cat.from-right {
+.walking-cat svg {
+    pointer-events: auto;
+    cursor: pointer;
+}
+.running-cat {
+    animation-name: cat-walk;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+}
+.running-cat .cat-leg { animation-duration: 0.15s !important; }
+.walking-cat.from-right,
+.running-cat.from-right {
     animation-name: cat-walk-rtl;
 }
-#walking-cat.from-right svg {
+.from-right svg {
     transform: scaleX(-1);
 }
 @keyframes cat-walk {
-    from { transform: translateX(-80px); }
-    to { transform: translateX(calc(100vw + 20px)); }
+    from { transform: translateX(-90px); }
+    to { transform: translateX(calc(100vw + 30px)); }
 }
 @keyframes cat-walk-rtl {
-    from { transform: translateX(calc(100vw + 20px)); }
-    to { transform: translateX(-80px); }
+    from { transform: translateX(calc(100vw + 30px)); }
+    to { transform: translateX(-90px); }
 }
-#walking-cat .cat-leg {
+.walking-cat .cat-leg,
+.running-cat .cat-leg {
     transform-box: fill-box;
     transform-origin: top center;
     animation: cat-step 0.4s ease-in-out infinite alternate;
 }
-#walking-cat .leg-b {
+.walking-cat .leg-b,
+.running-cat .leg-b {
     animation-delay: -0.4s;
 }
-#walking-cat .cat-tail {
+.walking-cat .cat-tail,
+.running-cat .cat-tail {
     transform-box: fill-box;
     transform-origin: bottom right;
     animation: cat-tail 0.8s ease-in-out infinite alternate;
 }
-#walking-cat .cat-body {
+.walking-cat .cat-body,
+.running-cat .cat-body {
     animation: cat-bob 0.4s ease-in-out infinite alternate;
 }
 @keyframes cat-step {
@@ -404,6 +418,107 @@
 }
 @keyframes cat-bob {
     to { transform: translateY(-1px); }
+}
+
+/* Clicked: sits still for a moment */
+.walking-cat.sitting {
+    animation-play-state: paused;
+}
+.walking-cat.sitting .cat-leg,
+.walking-cat.sitting .cat-body {
+    animation-play-state: paused;
+}
+.cat-meow {
+    position: absolute;
+    bottom: 44px;
+    left: 30px;
+    padding: 4px 10px;
+    border-radius: 12px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    color: var(--ink, inherit);
+    font-weight: 800;
+    font-size: 13px;
+    white-space: nowrap;
+    animation: meow-pop 0.3s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+@keyframes meow-pop {
+    from { transform: scale(0.4) translateY(8px); opacity: 0; }
+}
+
+/* A ball rolling ahead of the cat */
+.cat-ball {
+    position: absolute;
+    bottom: 0;
+    left: 92px;
+    width: 14px;
+    height: 14px;
+    border-radius: 9999px;
+    background: radial-gradient(circle at 35% 35%, #fff 0 18%, #3b82f6 20%);
+    animation: ball-bounce 0.5s ease-in infinite alternate;
+}
+.from-right .cat-ball {
+    left: auto;
+    right: 92px;
+}
+@keyframes ball-bounce {
+    from { transform: translateY(-14px) rotate(0deg); }
+    to { transform: translateY(0) rotate(180deg); }
+}
+
+/* Night: asleep in the corner */
+.walking-cat.sleeping {
+    left: auto;
+    right: 18px;
+    animation: cat-nap 16s ease forwards;
+}
+.walking-cat.sleeping.from-right {
+    right: auto;
+    left: 18px;
+}
+.walking-cat.sleeping svg {
+    transform: translateY(10px);
+}
+.walking-cat.sleeping.from-right svg {
+    transform: scaleX(-1) translateY(10px);
+}
+.walking-cat.sleeping .cat-body {
+    animation: cat-breathe 2.4s ease-in-out infinite;
+    transform-box: fill-box;
+    transform-origin: bottom center;
+}
+/* Lying down: legs tucked under */
+.walking-cat.sleeping .cat-leg {
+    display: none;
+}
+@keyframes cat-breathe {
+    50% { transform: scaleY(1.06); }
+}
+.walking-cat.sleeping .cat-tail {
+    animation-duration: 2.4s;
+}
+@keyframes cat-nap {
+    0% { opacity: 0; }
+    6%, 92% { opacity: 1; }
+    100% { opacity: 0; }
+}
+.cat-zzz {
+    position: absolute;
+    bottom: 30px;
+    left: 46px;
+    font-weight: 900;
+    color: var(--primary);
+    font-size: 12px;
+    animation: zzz 2s ease-in-out infinite;
+}
+.cat-zzz span {
+    margin-left: 2px;
+    font-size: 1.2em;
+}
+@keyframes zzz {
+    0% { opacity: 0; transform: translate(0, 4px); }
+    50% { opacity: 1; }
+    100% { opacity: 0; transform: translate(6px, -10px); }
 }
 
 /* Retro mode (Konami code) */
