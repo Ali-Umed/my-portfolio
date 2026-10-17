@@ -1,7 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { Icon } from "astro-icon/components";
-import { profileConfig } from "../config";
 import I18nKey from "../i18n/i18nKey";
 import { toLang } from "../i18n/lang";
 import { useTranslations } from "../i18n/translation";
@@ -55,6 +54,7 @@ const hotspots = grid.flatMap((row, r) =>
 		if (!post) return [];
 		return [
 			{
+				icon: url(`/images/icons/${icon}.png`),
 				href: getPostUrlBySlug(post.slug, lang),
 				title: titles.get(post.slug) ?? post.data.title,
 				style: `left:${pct(COLS[c], IMAGE_W)};top:${pct(ROWS[r], IMAGE_H)};width:${pct(ICON, IMAGE_W)};height:${pct(ICON + LABEL, IMAGE_H)}`,
@@ -63,22 +63,19 @@ const hotspots = grid.flatMap((row, r) =>
 	}),
 );
 
-const email = profileConfig.links.find((link) =>
-	link.url.startsWith("mailto:"),
+// Dock: favourite apps (the dock area of projects.png is empty, these sit on top of it)
+const DOCK_SLUGS = ["moon", "gwllabaybun", "spectramindgpt"];
+const DOCK_CENTER = 323;
+const DOCK_GAP = 40;
+const dockApps = DOCK_SLUGS.map((slug) => projects.find((p) => p.slug === slug)).filter(
+	(post): post is CollectionEntry<"posts"> => !!post?.data.icon,
 );
-// Dock: Safari opens all projects, Messages opens email
-const dock = [
-	{
-		href: localeUrl("/projects/", lang),
-		title: t(I18nKey.seeAllProjects),
-		left: 208,
-	},
-	...(email
-		? [{ href: email.url, title: t(I18nKey.getInTouch), left: 343 }]
-		: []),
-].map((item) => ({
-	...item,
-	style: `left:${pct(item.left, IMAGE_W)};top:${pct(1198, IMAGE_H)};width:${pct(ICON, IMAGE_W)};height:${pct(ICON, IMAGE_H)}`,
+const dockStart = DOCK_CENTER - (dockApps.length * ICON + (dockApps.length - 1) * DOCK_GAP) / 2;
+const dock = dockApps.map((post, index) => ({
+	icon: url(post.data.icon as string),
+	href: getPostUrlBySlug(post.slug, lang),
+	title: titles.get(post.slug) ?? post.data.title,
+	style: `left:${pct(dockStart + index * (ICON + DOCK_GAP), IMAGE_W)};top:${pct(1198, IMAGE_H)};width:${pct(ICON, IMAGE_W)};height:${pct(ICON, IMAGE_H)}`,
 }));
 ---
 <section class="card-base p-6 md:p-8">
@@ -93,13 +90,16 @@ const dock = [
     </h2>
     <p class="text-base font-medium text-50 text-center mb-6">{t(I18nKey.showcaseHint)}</p>
     <div class="flex justify-center">
-        <div class="phone relative w-3/4 sm:w-2/3 md:w-1/2 max-w-4xl">
+        <!-- Tilts with the visitor's phone or mouse; holding an app makes the icons wiggle (setupPhone in Layout.astro) -->
+        <div class="phone relative w-3/4 sm:w-2/3 md:w-1/2 max-w-4xl" data-phone>
             <img src={url("/images/projects.png")} alt={t(I18nKey.showcaseImageAlt)}
                  class="w-full select-none" draggable="false" />
             {[...hotspots, ...dock].map((spot) => (
                 <a href={spot.href} title={spot.title} aria-label={spot.title}
-                   class="app-hotspot absolute group" style={spot.style}>
-                    <span class="app-hotspot-icon"></span>
+                   class="app-hotspot absolute group" style={spot.style} draggable="false">
+                    <span class="app-hotspot-icon">
+                        <img src={spot.icon} alt="" width="96" height="96" draggable="false" class="w-full h-full rounded-[23%] select-none" />
+                    </span>
                 </a>
             ))}
         </div>
@@ -114,7 +114,13 @@ const dock = [
 </section>
 
 <style>
+    .app-hotspot {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }
     .app-hotspot-icon {
+        display: block;
         position: absolute;
         left: 0;
         top: 0;
@@ -142,5 +148,26 @@ const dock = [
     @keyframes hint {
         0%, 100% { box-shadow: 0 0 0 0 transparent; }
         40% { box-shadow: 0 0 0 3px var(--primary); }
+    }
+</style>
+
+<style is:global>
+    /* Wiggle while an app is held, like editing an iPhone home screen */
+    [data-phone] {
+        transition: transform 0.25s ease-out;
+        transform-style: preserve-3d;
+    }
+    [data-phone].jiggle .app-hotspot-icon {
+        animation: jiggle 0.28s ease-in-out infinite alternate;
+    }
+    [data-phone].jiggle .app-hotspot:nth-child(odd) .app-hotspot-icon {
+        animation-delay: -0.14s;
+    }
+    @keyframes jiggle {
+        from { transform: rotate(-2.5deg); }
+        to { transform: rotate(2.5deg); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        [data-phone].jiggle .app-hotspot-icon { animation: none; }
     }
 </style>

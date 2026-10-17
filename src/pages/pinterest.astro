@@ -53,7 +53,7 @@ const filters = [
                     <button type="button" data-filter={filter.id} aria-pressed={index === 0 ? "true" : "false"}
                             class="pin-filter px-4 h-10 inline-flex items-center rounded-full border border-[var(--card-border)] text-sm font-extrabold text-[var(--ink)] hover:text-[var(--primary)] transition">
                         {filter.label}
-                        <span class="ms-1.5 text-xs opacity-60">{filter.count}</span>
+                        <span class="ms-1.5 text-xs font-black text-[var(--primary)] tabular-nums" data-count-to={filter.count}>{filter.count}</span>
                     </button>
                 ))}
             </div>
@@ -95,6 +95,9 @@ const filters = [
     #pin-grid > :global(.pin-column) {
         flex: 1 1 0;
         min-width: 0;
+    }
+    .pin-filter[aria-pressed="true"] [data-count-to] {
+        color: inherit;
     }
     .pin-filter[aria-pressed="true"] {
         background: var(--primary-solid);

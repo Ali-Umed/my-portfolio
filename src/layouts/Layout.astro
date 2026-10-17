@@ -939,6 +939,126 @@ async function setupGithubCalendar() {
 	}
 }
 
+// Home-page phone ([data-phone]): tilts with the visitor's phone or the mouse, and holding an app
+// makes all icons wiggle (letting go opens the app, like a normal tap)
+function setupPhone() {
+	const phone = document.querySelector<HTMLElement>("[data-phone]")
+	if (!phone || phone.dataset.ready) return
+	phone.dataset.ready = "true"
+	const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches
+	const tilt = (x: number, y: number) => {
+		if (!phone.isConnected) return
+		phone.style.transform = `perspective(1200px) rotateY(${x.toFixed(2)}deg) rotateX(${y.toFixed(2)}deg)`
+	}
+	if (!reduce) {
+		phone.addEventListener("pointermove", (event) => {
+			if (event.pointerType !== "mouse") return
+			const rect = phone.getBoundingClientRect()
+			tilt(((event.clientX - rect.left) / rect.width - 0.5) * 12, -((event.clientY - rect.top) / rect.height - 0.5) * 8)
+		})
+		phone.addEventListener("pointerleave", () => tilt(0, 0))
+		// Phones: follow the device's own tilt (Android; iPhones only allow this after a permission prompt, so they skip it)
+		let base: number | null = null
+		window.addEventListener("deviceorientation", (event) => {
+			if (event.gamma == null || event.beta == null || !phone.isConnected) return
+			base ??= event.beta
+			const clamp = (v: number) => Math.max(-10, Math.min(10, v))
+			tilt(clamp(event.gamma / 3), clamp(-(event.beta - base) / 4))
+		})
+	}
+	let holdTimer: number | undefined
+	let stopTimer: number | undefined
+	phone.addEventListener("pointerdown", (event) => {
+		if (!(event.target as HTMLElement).closest(".app-hotspot")) return
+		clearTimeout(holdTimer)
+		holdTimer = window.setTimeout(() => {
+			phone.classList.add("jiggle")
+			navigator.vibrate?.(15)
+		}, 450)
+	})
+	const release = () => {
+		clearTimeout(holdTimer)
+		clearTimeout(stopTimer)
+		stopTimer = window.setTimeout(() => phone.classList.remove("jiggle"), 1200)
+	}
+	phone.addEventListener("pointerup", release)
+	phone.addEventListener("pointercancel", release)
+	phone.addEventListener("contextmenu", (event) => event.preventDefault())
+}
+
+// Project pages: arrow keys and side swipes go to the project card on that side ([data-project-nav])
+function goToProject(side: "left" | "right") {
+	const cards = [...document.querySelectorAll<HTMLAnchorElement>("[data-project-nav]")]
+	if (cards.length === 0) return
+	const centre = window.innerWidth / 2
+	const card = cards.find((el) => {
+		const rect = el.getBoundingClientRect()
+		const middle = rect.left + rect.width / 2
+		return side === "left" ? middle < centre : middle >= centre
+	})
+	card?.click()
+}
+document.addEventListener("keydown", (event) => {
+	if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return
+	if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return
+	const target = event.target as HTMLElement | null
+	if (target?.closest("input, textarea, select, [contenteditable]") || document.querySelector(".pswp--open")) return
+	goToProject(event.key === "ArrowLeft" ? "left" : "right")
+})
+let swipeStart: { x: number; y: number; t: number } | null = null
+document.addEventListener("touchstart", (event) => {
+	const target = event.target as HTMLElement | null
+	// Not on things that scroll sideways themselves
+	if (event.touches.length !== 1 || target?.closest("#screenshots, .pswp, .gh-grid, input, [data-phone]")) {
+		swipeStart = null
+		return
+	}
+	swipeStart = { x: event.touches[0].clientX, y: event.touches[0].clientY, t: Date.now() }
+}, { passive: true })
+document.addEventListener("touchend", (event) => {
+	if (!swipeStart || !document.querySelector("[data-project-nav]")) return
+	const dx = event.changedTouches[0].clientX - swipeStart.x
+	const dy = event.changedTouches[0].clientY - swipeStart.y
+	const quick = Date.now() - swipeStart.t < 600
+	swipeStart = null
+	// A finger moving left brings in the card on the right, like turning a page
+	if (quick && Math.abs(dx) > 90 && Math.abs(dx) > Math.abs(dy) * 2) goToProject(dx < 0 ? "right" : "left")
+}, { passive: true })
+
+// Soft click sounds, when turned on in display settings; made with the Web Audio API, no sound files
+let audio: AudioContext | undefined
+document.addEventListener("pointerdown", (event) => {
+	let on = false
+	try {
+		on = localStorage.getItem("sounds") === "on"
+	} catch {}
+	if (!on || !(event.target as HTMLElement | null)?.closest?.("a, button, label, [role='button'], [role='switch']")) return
+	audio ??= new AudioContext()
+	const now = audio.currentTime
+	const osc = audio.createOscillator()
+	const gain = audio.createGain()
+	osc.type = "sine"
+	osc.frequency.setValueAtTime(880, now)
+	osc.frequency.exponentialRampToValueAtTime(440, now + 0.06)
+	gain.gain.setValueAtTime(0.06, now)
+	gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.08)
+	osc.connect(gain).connect(audio.destination)
+	osc.start(now)
+	osc.stop(now + 0.09)
+}, { passive: true })
+
+// The home icon in the navbar bounces when arriving on the home page
+function bounceHomeIcon() {
+	const icon = document.querySelector<HTMLElement>("#navbar .home-icon")
+	const path = window.location.pathname
+	if (!icon || (path !== "/" && path !== "/ku/")) return
+	icon.classList.remove("home-bounce")
+	void icon.offsetWidth
+	icon.classList.add("home-bounce")
+}
+
+onEveryPage(setupPhone)
+onEveryPage(bounceHomeIcon)
 onEveryPage(setupReveal)
 onEveryPage(updateReadingProgress)
 onEveryPage(setupPins)

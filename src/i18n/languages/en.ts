@@ -126,6 +126,8 @@ export const en: Translation = {
 	[Key.githubActivity]: "GitHub activity",
 	[Key.contributionsLastYear]: "{count} contributions in the last year",
 	[Key.onThisPage]: "On this page",
+	[Key.clickSounds]: "Click sounds",
+	[Key.scanToOpen]: "Scan with your phone",
 
 	[Key.notFoundTitle]: "Page not found",
 	[Key.notFoundHeading]: "This page doesn't exist",

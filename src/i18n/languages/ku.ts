@@ -128,6 +128,8 @@ export const ku: Translation = {
 	[Key.githubActivity]: "چالاکیی GitHub",
 	[Key.contributionsLastYear]: "{count} بەشداری لە ساڵی ڕابردوودا",
 	[Key.onThisPage]: "لەم پەڕەیەدا",
+	[Key.clickSounds]: "دەنگی کلیک",
+	[Key.scanToOpen]: "بە مۆبایلەکەت سکانی بکە",
 
 	[Key.notFoundTitle]: "پەڕەکە نەدۆزرایەوە",
 	[Key.notFoundHeading]: "ئەم پەڕەیە بوونی نییە",

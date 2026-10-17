@@ -99,7 +99,7 @@ const jsonLd = {
 
     <nav class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         {neighbours.map((item) => item ? (
-            <a href={getPostUrlBySlug(item.post.slug, lang)}
+            <a href={getPostUrlBySlug(item.post.slug, lang)} data-project-nav
                class:list={["card-base group flex items-center gap-3 p-4 active:scale-[0.98] transition", {"md:col-start-2 flex-row-reverse text-end": item.side === "next"}]}>
                 <Icon name={item.side === "prev" ? "material-symbols:chevron-left-rounded" : "material-symbols:chevron-right-rounded"}
                       class="text-3xl shrink-0 text-[var(--primary)] rtl:-scale-x-100" />

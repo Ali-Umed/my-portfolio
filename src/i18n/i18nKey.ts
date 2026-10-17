@@ -130,6 +130,8 @@ enum I18nKey {
 	githubActivity = "githubActivity",
 	contributionsLastYear = "contributionsLastYear",
 	onThisPage = "onThisPage",
+	clickSounds = "clickSounds",
+	scanToOpen = "scanToOpen",
 
 	// 404
 	notFoundTitle = "notFoundTitle",

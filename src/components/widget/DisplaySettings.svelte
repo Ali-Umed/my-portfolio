@@ -17,6 +17,18 @@ function resetHue() {
 $: if (hue || hue === 0) {
 	setHue(hue);
 }
+
+// Soft click sounds, off unless the visitor turns them on (played by Layout.astro)
+let sounds = false;
+try {
+	sounds = localStorage.getItem("sounds") === "on";
+} catch {}
+function toggleSounds() {
+	sounds = !sounds;
+	try {
+		localStorage.setItem("sounds", sounds ? "on" : "off");
+	} catch {}
+}
 </script>
 
 <div id="display-setting" class="float-panel float-panel-closed absolute transition-all w-80 end-4 px-4 py-4">
@@ -45,6 +57,13 @@ $: if (hue || hue === 0) {
         <input aria-label={i18n(I18nKey.themeColor, lang)} dir="ltr" type="range" min="0" max="360" bind:value={hue}
                class="slider" id="colorSlider" step="5" style="width: 100%">
     </div>
+    <button type="button" role="switch" aria-checked={sounds} on:click={toggleSounds}
+            class="mt-4 w-full flex items-center !justify-between gap-3 rounded-lg px-3 h-10 btn-plain font-bold">
+        <span>{i18n(I18nKey.clickSounds, lang)}</span>
+        <span class="relative w-10 h-6 rounded-full transition {sounds ? 'bg-[var(--primary)]' : 'bg-[var(--btn-regular-bg)]'}">
+            <span class="absolute top-1 w-4 h-4 rounded-full bg-white transition-all {sounds ? 'start-5' : 'start-1'}"></span>
+        </span>
+    </button>
 </div>
 
 
