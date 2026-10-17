@@ -66,16 +66,20 @@ const hotspots = grid.flatMap((row, r) =>
 // Dock: favourite apps (the dock area of projects.png is empty, these sit on top of it)
 const DOCK_SLUGS = ["moon", "gwllabaybun", "spectramindgpt"];
 const DOCK_CENTER = 323;
-const DOCK_GAP = 40;
+// Dock runs from y 1163 to about 1292 in the picture; icons are a bit smaller than the grid's and centred in it
+const DOCK_ICON = 84;
+const DOCK_TOP = 1186;
+const DOCK_GAP = 36;
 const dockApps = DOCK_SLUGS.map((slug) => projects.find((p) => p.slug === slug)).filter(
 	(post): post is CollectionEntry<"posts"> => !!post?.data.icon,
 );
-const dockStart = DOCK_CENTER - (dockApps.length * ICON + (dockApps.length - 1) * DOCK_GAP) / 2;
+const dockStart = DOCK_CENTER - (dockApps.length * DOCK_ICON + (dockApps.length - 1) * DOCK_GAP) / 2;
 const dock = dockApps.map((post, index) => ({
 	icon: url(post.data.icon as string),
 	href: getPostUrlBySlug(post.slug, lang),
 	title: titles.get(post.slug) ?? post.data.title,
-	style: `left:${pct(dockStart + index * (ICON + DOCK_GAP), IMAGE_W)};top:${pct(1198, IMAGE_H)};width:${pct(ICON, IMAGE_W)};height:${pct(ICON, IMAGE_H)}`,
+	style: `left:${pct(dockStart + index * (DOCK_ICON + DOCK_GAP), IMAGE_W)};top:${pct(DOCK_TOP, IMAGE_H)};width:${pct(DOCK_ICON, IMAGE_W)};height:${pct(DOCK_ICON, IMAGE_H)}`,
+	dock: true,
 }));
 ---
 <section class="card-base p-6 md:p-8">
@@ -96,7 +100,7 @@ const dock = dockApps.map((post, index) => ({
                  class="w-full select-none" draggable="false" />
             {[...hotspots, ...dock].map((spot) => (
                 <a href={spot.href} title={spot.title} aria-label={spot.title}
-                   class="app-hotspot absolute group" style={spot.style} draggable="false">
+                   class:list={["app-hotspot absolute group", { "dock-app": "dock" in spot }]} style={spot.style} draggable="false">
                     <span class="app-hotspot-icon">
                         <img src={spot.icon} alt="" width="96" height="96" draggable="false" class="w-full h-full rounded-[23%] select-none" />
                     </span>
@@ -128,6 +132,15 @@ const dock = dockApps.map((post, index) => ({
         aspect-ratio: 1;
         border-radius: 23%;
         transition: transform 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+    }
+    /* Dock icons: iPhone-style rounded corners, clipped cleanly, with a soft shadow on the dock */
+    .dock-app .app-hotspot-icon {
+        border-radius: 22.5%;
+        overflow: hidden;
+        box-shadow: 0 2px 6px rgb(0 0 0 / 0.18), 0 0 0 0.5px rgb(0 0 0 / 0.12);
+    }
+    .dock-app .app-hotspot-icon img {
+        border-radius: 0;
     }
     .app-hotspot:hover .app-hotspot-icon,
     .app-hotspot:focus-visible .app-hotspot-icon {
