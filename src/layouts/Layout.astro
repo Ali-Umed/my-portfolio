@@ -1121,7 +1121,7 @@ document.addEventListener("keydown", (event) => {
 })
 
 // A little cat walks along the bottom of the screen now and then (not with reduced motion).
-// Each walk picks a colour; sometimes it chases a ball; at night it sleeps in the corner instead;
+// Each walk picks a colour; sometimes it chases a ball;
 // clicking it makes it sit and meow. Typing "cat" sends a whole group running across.
 const CAT_PAUSE = 5000
 const catColours = [
@@ -1147,10 +1147,6 @@ function catSvg(colour: (typeof catColours)[number]) {
 	</svg>`
 }
 const isRtl = () => document.documentElement.dir === "rtl"
-const isNight = () => {
-	const hour = new Date().getHours()
-	return hour >= 22 || hour < 6
-}
 function makeCat(className: string) {
 	const cat = document.createElement("div")
 	cat.className = className
@@ -1170,11 +1166,7 @@ function walkCat() {
 	}
 	const cat = makeCat("walking-cat")
 	cat.id = "walking-cat"
-	if (isNight()) {
-		// Night: curled up asleep in the bottom corner for a while
-		cat.classList.add("sleeping")
-		cat.insertAdjacentHTML("beforeend", '<span class="cat-zzz">z<span>z</span><span>z</span></span>')
-	} else if (Math.random() < 0.35) {
+	if (Math.random() < 0.35) {
 		// Sometimes there's a ball rolling ahead to chase
 		cat.insertAdjacentHTML("afterbegin", '<span class="cat-ball"></span>')
 	}
@@ -1186,7 +1178,7 @@ function walkCat() {
 	cat.addEventListener("animationend", done)
 	// Click: sit, meow, then carry on
 	cat.addEventListener("click", () => {
-		if (cat.classList.contains("sitting") || cat.classList.contains("sleeping")) return
+		if (cat.classList.contains("sitting")) return
 		cat.classList.add("sitting")
 		const bubble = document.createElement("span")
 		bubble.className = "cat-meow"

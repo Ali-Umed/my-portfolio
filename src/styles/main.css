@@ -466,61 +466,6 @@
     to { transform: translateY(0) rotate(180deg); }
 }
 
-/* Night: asleep in the corner */
-.walking-cat.sleeping {
-    left: auto;
-    right: 18px;
-    animation: cat-nap 16s ease forwards;
-}
-.walking-cat.sleeping.from-right {
-    right: auto;
-    left: 18px;
-}
-.walking-cat.sleeping svg {
-    transform: translateY(10px);
-}
-.walking-cat.sleeping.from-right svg {
-    transform: scaleX(-1) translateY(10px);
-}
-.walking-cat.sleeping .cat-body {
-    animation: cat-breathe 2.4s ease-in-out infinite;
-    transform-box: fill-box;
-    transform-origin: bottom center;
-}
-/* Lying down: legs tucked under */
-.walking-cat.sleeping .cat-leg {
-    display: none;
-}
-@keyframes cat-breathe {
-    50% { transform: scaleY(1.06); }
-}
-.walking-cat.sleeping .cat-tail {
-    animation-duration: 2.4s;
-}
-@keyframes cat-nap {
-    0% { opacity: 0; }
-    6%, 92% { opacity: 1; }
-    100% { opacity: 0; }
-}
-.cat-zzz {
-    position: absolute;
-    bottom: 30px;
-    left: 46px;
-    font-weight: 900;
-    color: var(--primary);
-    font-size: 12px;
-    animation: zzz 2s ease-in-out infinite;
-}
-.cat-zzz span {
-    margin-left: 2px;
-    font-size: 1.2em;
-}
-@keyframes zzz {
-    0% { opacity: 0; transform: translate(0, 4px); }
-    50% { opacity: 1; }
-    100% { opacity: 0; transform: translate(6px, -10px); }
-}
-
 /* Retro mode (Konami code) */
 html.retro {
     image-rendering: pixelated;
