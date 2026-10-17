@@ -38,8 +38,17 @@ const actions = [
 
 const date = formatDate(published, lang, { year: "numeric", month: "short" });
 const goUrl = new URL(`/go/${entry.slug}/`, Astro.site).href;
+const qrSrc = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&margin=0&data=${encodeURIComponent(goUrl)}`;
 ---
-<header class="mb-6">
+<header class="relative mb-6">
+    <!-- Phones and tablets: the app's QR code in the top corner, across from the icon; tapping it opens the right store -->
+    {(appStore || playStore) && (
+        <a href={goUrl} target="_blank" rel="noopener" aria-label={t(I18nKey.getTheApp)} title={t(I18nKey.getTheApp)}
+           class="md:hidden absolute top-0 end-0 flex flex-col items-center gap-1 rounded-xl border border-[var(--card-border)] p-1.5 active:scale-95 transition">
+            <img src={qrSrc} alt="" width="64" height="64" loading="lazy" class="w-16 h-16 rounded-md bg-white p-0.5" />
+            <span class="text-[0.625rem] font-extrabold text-50 leading-none pb-0.5">{t(I18nKey.getTheApp)}</span>
+        </a>
+    )}
     <div class="flex flex-col sm:flex-row sm:items-center gap-5">
         {icon
             ? <img src={url(icon)} alt={t(I18nKey.appIconAlt, { name })} width="112" height="112"
@@ -47,7 +56,7 @@ const goUrl = new URL(`/go/${entry.slug}/`, Astro.site).href;
             : <div class="w-24 h-24 md:w-28 md:h-28 shrink-0 rounded-[22%] bg-[var(--primary-solid)] text-[var(--on-primary)] font-black text-5xl flex items-center justify-center">
                 {name.charAt(0)}
               </div>}
-        <div class="min-w-0">
+        <div class:list={["min-w-0", { "pe-24 md:pe-0": appStore || playStore }]}>
             <h1 data-pagefind-body data-pagefind-weight="10" data-pagefind-meta={`title:${title}`}
                 class="font-black tracking-tight text-3xl md:text-4xl leading-tight text-[var(--ink)]">
                 {name}
@@ -88,7 +97,7 @@ const goUrl = new URL(`/go/${entry.slug}/`, Astro.site).href;
         <div class="hidden md:flex mt-5">
             <a href={goUrl} target="_blank" rel="noopener"
                class="flex items-center gap-3 rounded-2xl border border-[var(--card-border)] p-2 pe-4 hover:border-[var(--primary)] transition">
-                <img src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&margin=0&data=${encodeURIComponent(goUrl)}`}
+                <img src={qrSrc}
                      alt="" width="72" height="72" loading="lazy" class="w-[4.5rem] h-[4.5rem] rounded-lg bg-white p-1" />
                 <span class="text-sm">
                     <span class="flex items-center gap-1.5 font-extrabold text-[var(--ink)]">
