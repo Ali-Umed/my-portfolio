@@ -30,7 +30,8 @@ const fallback = new URL(`/posts/${post.slug}/`, Astro.site).href;
         const target = (ios && appStore) || (android && playStore) || (!ios && !android ? null : appStore || playStore || fallback);
         if (target) location.replace(target);
     </script>
-    <style>
+    <!-- is:inline keeps these styles on this page only; bundled, the body rules would reach every page -->
+    <style is:inline>
         body { margin: 0; min-height: 100vh; display: grid; place-items: center; font-family: system-ui, sans-serif; background: #f7f3ef; color: #1c1917; }
         main { text-align: center; padding: 24px; }
         img { width: 88px; height: 88px; border-radius: 22.5%; }
