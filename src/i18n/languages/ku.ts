@@ -124,6 +124,11 @@ export const ku: Translation = {
 	[Key.relatedArticles]: "وتاری پەیوەندیدار",
 	[Key.notFoundJoke]: "لە هەموو فۆڵدەرێک بۆی گەڕام، تەنانەت لە node_modules یش.",
 
+	[Key.shuffle]: "تێکەڵکردن",
+	[Key.githubActivity]: "چالاکیی GitHub",
+	[Key.contributionsLastYear]: "{count} بەشداری لە ساڵی ڕابردوودا",
+	[Key.onThisPage]: "لەم پەڕەیەدا",
+
 	[Key.notFoundTitle]: "پەڕەکە نەدۆزرایەوە",
 	[Key.notFoundHeading]: "ئەم پەڕەیە بوونی نییە",
 	[Key.notFoundChip]: "بەستەری شکاو یان کۆن",

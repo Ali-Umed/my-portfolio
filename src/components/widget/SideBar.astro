@@ -1,5 +1,8 @@
 ---
 import type { MarkdownHeading } from "astro";
+import I18nKey from "../../i18n/i18nKey";
+import { toLang } from "../../i18n/lang";
+import { useTranslations } from "../../i18n/translation";
 import Categories from "./Categories.astro";
 import Profile from "./Profile.astro";
 import Tag from "./Tags.astro";
@@ -10,12 +13,29 @@ interface Props {
 }
 
 const className = Astro.props.class;
+const t = useTranslations(toLang(Astro.currentLocale));
+
+// Article contents: the top two heading levels of the page, highlighted while reading (updateArticleToc in Layout.astro)
+const allHeadings = Astro.props.headings ?? [];
+const minDepth = Math.min(...allHeadings.map((heading) => heading.depth));
+const tocHeadings = allHeadings.filter((heading) => heading.depth <= minDepth + 1);
 ---
 <div id="sidebar" class:list={[className, "w-full"]}>
     <div class="flex flex-col w-full gap-4 mb-4">
         <Profile></Profile>
     </div>
-    <div id="sidebar-sticky" class="transition-all duration-700 flex flex-col w-full gap-4 top-4 sticky top-4">
+    <div id="sidebar-sticky" class="transition-all duration-700 flex flex-col w-full gap-4 sticky top-24">
+        {tocHeadings.length > 1 && (
+            <nav data-article-toc class="card-base onload-animation hidden lg:block 2xl:hidden p-4 max-h-[calc(100vh-8rem)] overflow-y-auto" aria-label={t(I18nKey.onThisPage)}>
+                <div class="font-black tracking-tight text-lg text-[var(--ink)] mb-2 px-2">{t(I18nKey.onThisPage)}</div>
+                {tocHeadings.map((heading) => (
+                    <a href={`#${heading.slug}`}
+                       class:list={["toc-link block rounded-lg py-1.5 text-sm font-bold text-50 hover:text-[var(--primary)] transition", heading.depth > minDepth ? "ps-6 pe-2" : "px-2"]}>
+                        {heading.text.replace(/#$/, "")}
+                    </a>
+                ))}
+            </nav>
+        )}
         <Categories class="onload-animation" style="animation-delay: 150ms"></Categories>
         <Tag class="onload-animation" style="animation-delay: 200ms"></Tag>
     </div>

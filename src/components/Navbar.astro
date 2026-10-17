@@ -27,10 +27,13 @@ const links = getNavBarLinks(lang);
                 {siteConfig.title}
             </div>
         </a>
-        <div class="hidden md:flex">
+        <div id="nav-links" class="hidden md:flex relative">
+            <!-- Pill behind the current tab; moved by moveNavPill() in Layout.astro -->
+            <span id="nav-pill" aria-hidden="true" class="absolute left-0 top-0 h-11 rounded-full bg-[var(--btn-plain-bg-hover)] opacity-0 pointer-events-none"></span>
             {links.map((l) => {
                 return <a aria-label={l.name} href={l.external ? l.url : localeUrl(l.url, lang)} target={l.external ? "_blank" : null}
-                          class="btn-plain scale-animation rounded-full h-11 font-extrabold px-3 lg:px-5 active:scale-95"
+                          data-nav-path={l.external ? undefined : localeUrl(l.url, lang)}
+                          class="relative btn-plain !bg-transparent scale-animation rounded-full h-11 font-extrabold px-3 lg:px-5 active:scale-95"
                 >
                     <div class="flex items-center">
                         {l.name}

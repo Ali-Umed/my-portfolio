@@ -572,8 +572,43 @@ const galleryOptions = {
 	bgOpacity: 0.92,
 }
 
+// Average colour of a picture, darkened for a viewer background. Needs the image host to allow
+// reading pixels (CORS); when it doesn't, the default background stays.
+const colorCache = new Map<string, Promise<string | null>>()
+function averageColor(src: string): Promise<string | null> {
+	if (!colorCache.has(src)) {
+		colorCache.set(src, new Promise((resolve) => {
+			const img = new Image()
+			img.crossOrigin = "anonymous"
+			img.referrerPolicy = "no-referrer"
+			img.onload = () => {
+				try {
+					const canvas = document.createElement("canvas")
+					canvas.width = canvas.height = 8
+					const ctx = canvas.getContext("2d")
+					if (!ctx) return resolve(null)
+					ctx.drawImage(img, 0, 0, 8, 8)
+					const px = ctx.getImageData(0, 0, 8, 8).data
+					let r = 0, g = 0, b = 0
+					for (let i = 0; i < px.length; i += 4) { r += px[i]; g += px[i + 1]; b += px[i + 2] }
+					const n = px.length / 4, k = 0.35
+					resolve(`rgb(${Math.round((r / n) * k)}, ${Math.round((g / n) * k)}, ${Math.round((b / n) * k)})`)
+				} catch {
+					resolve(null)
+				}
+			}
+			img.onerror = () => resolve(null)
+			img.src = src
+		}))
+	}
+	return colorCache.get(src) as Promise<string | null>
+}
+
 async function openGallery(gallery: HTMLElement, clicked: HTMLImageElement) {
-	const order = (img: HTMLImageElement) => Number(img.closest<HTMLElement>("[data-index]")?.dataset.index ?? 0)
+	const order = (img: HTMLImageElement) => {
+		const item = img.closest<HTMLElement>("[data-index]")
+		return Number(item?.dataset.order ?? item?.dataset.index ?? 0)
+	}
 	const images = [...gallery.querySelectorAll<HTMLImageElement>("img")]
 		.filter((img) => img.offsetParent !== null)
 		.sort((a, b) => order(a) - order(b))
@@ -598,6 +633,17 @@ async function openGallery(gallery: HTMLElement, clicked: HTMLImageElement) {
 	viewer.on("contentLoadImage", ({ content }) => {
 		if (content.element instanceof HTMLImageElement) content.element.referrerPolicy = "no-referrer"
 	})
+	// Tint the background with the picture's own colour
+	const tint = () => {
+		const src = viewer.currSlide?.data.src
+		const bg = viewer.element?.querySelector<HTMLElement>(".pswp__bg")
+		if (!src || !bg) return
+		averageColor(src).then((color) => {
+			if (color && viewer.currSlide?.data.src === src) bg.style.background = color
+		})
+	}
+	viewer.on("change", tint)
+	viewer.on("afterInit", tint)
 	viewer.on("loadComplete", ({ content, slide }) => {
 		const img = content.element as HTMLImageElement | undefined
 		const data = content.data as { w?: number; h?: number }
@@ -628,6 +674,26 @@ function updateReadingProgress() {
 window.addEventListener("scroll", updateReadingProgress, { passive: true })
 window.addEventListener("resize", updateReadingProgress, { passive: true })
 
+// Small burst of dots from an element, used when a link is copied
+function burst(el: HTMLElement) {
+	if (matchMedia("(prefers-reduced-motion: reduce)").matches) return
+	const rect = el.getBoundingClientRect()
+	const colors = ["var(--primary)", "#f59e0b", "#10b981", "#3b82f6", "#ec4899"]
+	for (let i = 0; i < 14; i++) {
+		const dot = document.createElement("span")
+		const angle = (Math.PI * 2 * i) / 14 + Math.random() * 0.4
+		const distance = 28 + Math.random() * 26
+		dot.className = "burst-dot"
+		dot.style.left = `${rect.left + rect.width / 2}px`
+		dot.style.top = `${rect.top + rect.height / 2}px`
+		dot.style.background = colors[i % colors.length]
+		dot.style.setProperty("--dx", `${Math.cos(angle) * distance}px`)
+		dot.style.setProperty("--dy", `${Math.sin(angle) * distance}px`)
+		document.body.appendChild(dot)
+		setTimeout(() => dot.remove(), 700)
+	}
+}
+
 // "Copy link" buttons (CopyLinkButton.astro): copy the page address and say so for two seconds
 document.addEventListener("click", async (event) => {
 	const button = (event.target as HTMLElement | null)?.closest?.<HTMLElement>("[data-copy-link]")
@@ -644,6 +710,7 @@ document.addEventListener("click", async (event) => {
 	if (label) label.textContent = button.dataset.copiedLabel ?? original
 	button.querySelector(".copy-icon")?.classList.add("hidden")
 	button.querySelector(".done-icon")?.classList.remove("hidden")
+	burst(button)
 	setTimeout(() => {
 		if (label) label.textContent = original
 		button.querySelector(".copy-icon")?.classList.remove("hidden")
@@ -717,6 +784,7 @@ function setupPins() {
         }
         for (const item of items) item.hidden = true;
         shown.forEach((item, index) => {
+            item.dataset.order = String(index);
             // Appending in order keeps the pictures already placed where they are
             columns[index % columns.length]?.appendChild(item);
             item.hidden = false;
@@ -745,6 +813,17 @@ function setupPins() {
         render();
     });
 
+    // Shuffle: a new random order, starting again from the top
+    root.querySelector("#pins-shuffle")?.addEventListener("click", () => {
+        for (let i = items.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [items[i], items[j]] = [items[j], items[i]];
+        }
+        limit = pageSize;
+        for (const column of columns) column.replaceChildren();
+        render();
+    });
+
     // Load the next pictures on their own when the button scrolls into view
     observer?.disconnect();
     if (more && "IntersectionObserver" in window) {
@@ -757,9 +836,169 @@ function setupPins() {
     render();
 }
 
+// Navbar: smaller and see-through once the page is scrolled, with a pill sliding under the current tab
+function updateNavbar() {
+	document.getElementById("navbar")?.classList.toggle("scrolled", window.scrollY > 24)
+}
+function moveNavPill() {
+	const pill = document.getElementById("nav-pill")
+	const links = [...document.querySelectorAll<HTMLAnchorElement>("#nav-links a[data-nav-path]")]
+	if (!pill) return
+	const path = window.location.pathname
+	const active = links
+		.filter((link) => {
+			const target = link.dataset.navPath ?? ""
+			return target === path || (target.split("/").filter(Boolean).length > (target.startsWith("/ku/") ? 1 : 0) && path.startsWith(target))
+		})
+		.sort((a, b) => (b.dataset.navPath?.length ?? 0) - (a.dataset.navPath?.length ?? 0))[0]
+	for (const link of links) link.classList.toggle("nav-active", link === active)
+	if (!active) {
+		pill.style.opacity = "0"
+		return
+	}
+	pill.style.opacity = "1"
+	pill.style.width = `${active.offsetWidth}px`
+	pill.style.transform = `translateX(${active.offsetLeft}px)`
+}
+window.addEventListener("scroll", updateNavbar, { passive: true })
+window.addEventListener("resize", moveNavPill, { passive: true })
+document.fonts?.ready.then(moveNavPill)
+
+// Back-to-top ring: fills as the page is scrolled
+function updateScrollRing() {
+	const ring = document.querySelector<SVGCircleElement>("#back-to-top-ring circle")
+	if (!ring) return
+	const max = document.documentElement.scrollHeight - window.innerHeight
+	const progress = max > 0 ? Math.min(1, window.scrollY / max) : 0
+	ring.style.strokeDashoffset = String(100 - progress * 100)
+}
+window.addEventListener("scroll", updateScrollRing, { passive: true })
+
+// Numbers count up from 0 when they come into view ([data-count-to], with an optional data-count-suffix)
+function setupCountUp() {
+	const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches
+	for (const el of document.querySelectorAll<HTMLElement>("[data-count-to]")) {
+		const target = Number(el.dataset.countTo)
+		const suffix = el.dataset.countSuffix ?? ""
+		if (reduce || !("IntersectionObserver" in window)) continue
+		el.textContent = `0${suffix}`
+		const observer = new IntersectionObserver((entries) => {
+			if (!entries.some((entry) => entry.isIntersecting)) return
+			observer.disconnect()
+			const start = performance.now()
+			const step = (now: number) => {
+				const t = Math.min(1, (now - start) / 1200)
+				const eased = 1 - (1 - t) ** 3
+				el.textContent = `${Math.round(target * eased)}${suffix}`
+				if (t < 1) requestAnimationFrame(step)
+			}
+			requestAnimationFrame(step)
+		})
+		observer.observe(el)
+	}
+}
+
+// Shimmering placeholder behind pictures until they arrive (Pinterest pictures have their own)
+function setupImageSkeletons() {
+	for (const img of document.querySelectorAll<HTMLImageElement>("#swup-container img")) {
+		if (img.complete || img.closest(".pin-item")) continue
+		img.classList.add("img-loading")
+		const done = () => img.classList.remove("img-loading")
+		img.addEventListener("load", done, { once: true })
+		img.addEventListener("error", done, { once: true })
+	}
+}
+
+// GitHub contribution calendar on the About page ([data-github-calendar]), from a public API; hidden if it can't load
+async function setupGithubCalendar() {
+	const box = document.querySelector<HTMLElement>("[data-github-calendar]")
+	if (!box || box.dataset.ready) return
+	box.dataset.ready = "true"
+	try {
+		const res = await fetch(`https://github-contributions-api.jogruber.de/v4/${box.dataset.githubCalendar}?y=last`)
+		if (!res.ok) throw new Error(String(res.status))
+		const data: { total: Record<string, number>; contributions: { date: string; count: number; level: number }[] } = await res.json()
+		const days = data.contributions
+		const grid = box.querySelector<HTMLElement>(".gh-grid")
+		const total = box.querySelector<HTMLElement>(".gh-total")
+		if (!grid || !days.length) throw new Error("empty")
+		// Weeks are columns, starting on Sunday like GitHub
+		const pad = new Date(days[0].date).getDay()
+		const cells = [...Array(pad).fill(null), ...days]
+		grid.innerHTML = cells
+			.map((day) => day
+				? `<span class="gh-day" data-level="${day.level}" title="${day.count} · ${day.date}"></span>`
+				: `<span class="gh-day gh-empty"></span>`)
+			.join("")
+		const count = Object.values(data.total).reduce((a, b) => a + b, 0)
+		if (total) total.textContent = (total.dataset.template ?? "{count}").replace("{count}", String(count))
+		box.hidden = false
+		grid.scrollLeft = grid.scrollWidth
+	} catch {
+		box.hidden = true
+	}
+}
+
 onEveryPage(setupReveal)
 onEveryPage(updateReadingProgress)
 onEveryPage(setupPins)
+onEveryPage(updateNavbar)
+onEveryPage(moveNavPill)
+onEveryPage(updateScrollRing)
+onEveryPage(setupCountUp)
+onEveryPage(setupImageSkeletons)
+onEveryPage(setupGithubCalendar)
+onEveryPage(updateArticleToc)
+
+// Article contents in the sidebar ([data-article-toc]): highlights the section being read,
+// the last heading above the upper third of the screen
+function updateArticleToc() {
+	const toc = document.querySelector<HTMLElement>("[data-article-toc]")
+	if (!toc) return
+	const links = [...toc.querySelectorAll<HTMLAnchorElement>("a[href^='#']")]
+	const line = window.innerHeight / 3
+	let current: HTMLAnchorElement | undefined = links[0]
+	for (const link of links) {
+		const heading = document.getElementById(decodeURIComponent(link.hash.slice(1)))
+		if (heading && heading.getBoundingClientRect().top < line) current = link
+	}
+	for (const link of links) link.classList.toggle("toc-active", link === current)
+}
+window.addEventListener("scroll", updateArticleToc, { passive: true })
+
+// Custom cursor on mouse devices: a ring that follows the pointer and grows over things you can click
+function setupCursor() {
+	if (!matchMedia("(pointer: fine)").matches || matchMedia("(prefers-reduced-motion: reduce)").matches) return
+	const ring = document.createElement("div")
+	ring.id = "cursor-ring"
+	ring.setAttribute("aria-hidden", "true")
+	document.body.appendChild(ring)
+	let x = -100, y = -100, rx = -100, ry = -100
+	window.addEventListener("pointermove", (event) => {
+		x = event.clientX
+		y = event.clientY
+		const target = event.target as HTMLElement | null
+		ring.classList.toggle("cursor-hover", !!target?.closest?.("a, button, label, [role='button'], img, input, select, textarea"))
+		ring.classList.add("cursor-visible")
+	}, { passive: true })
+	document.addEventListener("pointerleave", () => ring.classList.remove("cursor-visible"))
+	document.addEventListener("pointerdown", () => ring.classList.add("cursor-down"))
+	document.addEventListener("pointerup", () => ring.classList.remove("cursor-down"))
+	const follow = () => {
+		rx += (x - rx) * 0.22
+		ry += (y - ry) * 0.22
+		ring.style.transform = `translate(${rx}px, ${ry}px)`
+		requestAnimationFrame(follow)
+	}
+	requestAnimationFrame(follow)
+}
+setupCursor()
+
+// A tiny vibration when tapping buttons and links on phones that support it
+document.addEventListener("pointerdown", (event) => {
+	if (event.pointerType !== "touch") return
+	if ((event.target as HTMLElement | null)?.closest?.("a, button, label, [role='button']")) navigator.vibrate?.(8)
+}, { passive: true })
 
 document.addEventListener("click", (event) => {
 	const img = (event.target as HTMLElement | null)?.closest?.("img")

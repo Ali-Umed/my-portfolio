@@ -77,7 +77,7 @@ const jsonLd = {
         ]}>
             <div class="onload-animation">
                 <ProjectHeader entry={entry} title={localized.title} minutes={remarkPluginFrontmatter.minutes} />
-                <ProjectScreenshots screenshots={entry.data.screenshots} name={shortName(localized.title)} />
+                <ProjectScreenshots screenshots={entry.data.screenshots} name={shortName(localized.title)} phone={entry.data.category === "Mobile Application"} />
             </div>
 
             <!-- always show cover as long as it has one -->

@@ -122,6 +122,11 @@ export const en: Translation = {
 	[Key.relatedArticles]: "Related articles",
 	[Key.notFoundJoke]: "I searched every folder for it. Even node_modules.",
 
+	[Key.shuffle]: "Shuffle",
+	[Key.githubActivity]: "GitHub activity",
+	[Key.contributionsLastYear]: "{count} contributions in the last year",
+	[Key.onThisPage]: "On this page",
+
 	[Key.notFoundTitle]: "Page not found",
 	[Key.notFoundHeading]: "This page doesn't exist",
 	[Key.notFoundChip]: "Broken or old link",

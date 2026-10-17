@@ -8,15 +8,23 @@ import { useTranslations } from "../i18n/translation";
 interface Props {
 	screenshots: ImageMetadata[];
 	name: string;
+	// App screenshots sit inside a phone frame
+	phone?: boolean;
 }
 
-const { screenshots, name } = Astro.props;
+const { screenshots, name, phone = false } = Astro.props;
 const t = useTranslations(toLang(Astro.currentLocale));
 ---
 {screenshots.length > 0 && (
     <!-- Swipeable strip on phones, one even row on wider screens; images open in the lightbox (see Layout.astro) -->
-    <div id="screenshots" data-gallery class="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-3 mb-6 -mx-6 px-6 md:mx-0 md:px-0 md:overflow-visible">
-        {screenshots.map((shot, index) => (
+    <div id="screenshots" data-gallery class:list={["flex overflow-x-auto snap-x snap-mandatory pb-3 mb-6 -mx-6 px-6 md:mx-0 md:px-0 md:overflow-visible", phone ? "gap-4 pt-2" : "gap-3"]}>
+        {screenshots.map((shot, index) => phone ? (
+            <div class="phone-frame shrink-0 snap-center md:w-0 md:flex-1 md:min-w-0">
+                <span class="phone-notch" aria-hidden="true"></span>
+                <Image src={shot} alt={t(I18nKey.screenshotAlt, { name, number: index + 1 })} width={640} loading="lazy"
+                       class="h-80 w-auto md:h-auto md:w-full rounded-[1.35rem] cursor-zoom-in" />
+            </div>
+        ) : (
             <Image src={shot} alt={t(I18nKey.screenshotAlt, { name, number: index + 1 })} width={640} loading="lazy"
                    class="shrink-0 h-80 w-auto snap-center rounded-2xl border border-[var(--card-border)] cursor-zoom-in md:h-auto md:w-0 md:flex-1 md:min-w-0" />
         ))}

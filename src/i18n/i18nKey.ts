@@ -126,6 +126,10 @@ enum I18nKey {
 	linkCopied = "linkCopied",
 	relatedArticles = "relatedArticles",
 	notFoundJoke = "notFoundJoke",
+	shuffle = "shuffle",
+	githubActivity = "githubActivity",
+	contributionsLastYear = "contributionsLastYear",
+	onThisPage = "onThisPage",
 
 	// 404
 	notFoundTitle = "notFoundTitle",

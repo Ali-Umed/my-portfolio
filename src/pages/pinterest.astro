@@ -45,6 +45,10 @@ const filters = [
                 </a>
             </div>
             <div class="flex flex-wrap gap-1" role="group">
+                <button type="button" id="pins-shuffle" title={t(I18nKey.shuffle)} aria-label={t(I18nKey.shuffle)}
+                        class="w-10 h-10 inline-flex items-center justify-center rounded-full border border-[var(--card-border)] text-[var(--ink)] hover:text-[var(--primary)] active:rotate-180 transition duration-300">
+                    <Icon name="material-symbols:shuffle-rounded" class="text-xl"></Icon>
+                </button>
                 {filters.map((filter, index) => (
                     <button type="button" data-filter={filter.id} aria-pressed={index === 0 ? "true" : "false"}
                             class="pin-filter px-4 h-10 inline-flex items-center rounded-full border border-[var(--card-border)] text-sm font-extrabold text-[var(--ink)] hover:text-[var(--primary)] transition">
