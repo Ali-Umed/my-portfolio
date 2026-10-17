@@ -98,6 +98,10 @@ const dock = dockApps.map((post, index) => ({
         <div class="phone relative w-3/4 sm:w-2/3 md:w-1/2 max-w-4xl" data-phone>
             <img src={url("/images/projects.png")} alt={t(I18nKey.showcaseImageAlt)}
                  class="w-full select-none" draggable="false" />
+            <!-- Live clock in the status bar, where the picture's own clock was (setupPhone in Layout.astro) -->
+            <time data-phone-clock dir="ltr" aria-hidden="true"
+                  class="absolute font-semibold text-white leading-none tabular-nums pointer-events-none select-none"
+                  style="left:13.7%;top:4.46%;transform:translateY(-50%);font-size:3.8cqw;letter-spacing:-0.01em">00:00</time>
             {[...hotspots, ...dock].map((spot) => (
                 <a href={spot.href} title={spot.title} aria-label={spot.title}
                    class:list={["app-hotspot absolute group", { "dock-app": "dock" in spot }]} style={spot.style} draggable="false">
@@ -167,6 +171,7 @@ const dock = dockApps.map((post, index) => ({
 <style is:global>
     /* Wiggle while an app is held, like editing an iPhone home screen */
     [data-phone] {
+        container-type: inline-size;
         transition: transform 0.25s ease-out;
         transform-style: preserve-3d;
     }

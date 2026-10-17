@@ -565,6 +565,9 @@ function createPhotoSwipe() {
 // Only the pictures shown right now are in the set, so a filtered Pinterest page only shows that board.
 const galleryOptions = {
 	padding: { top: 20, bottom: 20, left: 20, right: 20 },
+	// Two-finger zoom on phones goes up to 4x; double tap zooms to 2x
+	secondaryZoomLevel: 2,
+	maxZoomLevel: 4,
 	wheelToZoom: true,
 	imageClickAction: "close" as const,
 	tapAction: "close" as const,
@@ -604,6 +607,26 @@ function averageColor(src: string): Promise<string | null> {
 	return colorCache.get(src) as Promise<string | null>
 }
 
+// Saves a picture. Pictures from other sites can only be saved when the site allows it (CORS);
+// otherwise the picture opens in a new tab, where it can be saved from the browser.
+async function downloadImage(src: string) {
+	const name = src.split("/").pop()?.split("?")[0] || "picture.jpg"
+	try {
+		const res = await fetch(src, { referrerPolicy: "no-referrer" })
+		if (!res.ok) throw new Error(String(res.status))
+		const blob = URL.createObjectURL(await res.blob())
+		const link = document.createElement("a")
+		link.href = blob
+		link.download = name
+		document.body.appendChild(link)
+		link.click()
+		link.remove()
+		setTimeout(() => URL.revokeObjectURL(blob), 1000)
+	} catch {
+		window.open(src, "_blank", "noopener,noreferrer")
+	}
+}
+
 async function openGallery(gallery: HTMLElement, clicked: HTMLImageElement) {
 	const order = (img: HTMLImageElement) => {
 		const item = img.closest<HTMLElement>("[data-index]")
@@ -631,6 +654,20 @@ async function openGallery(gallery: HTMLElement, clicked: HTMLImageElement) {
 		zoomSVG: lightbox?.options.zoomSVG,
 	})
 	// Same as the page's pictures: Pinterest's CDN can refuse images requested with another site's address
+	// Download button in the top bar
+	viewer.on("uiRegister", () => {
+		viewer.ui?.registerElement({
+			name: "download",
+			order: 8,
+			isButton: true,
+			title: "Download",
+			html: '<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#fff"><path d="M480-337q-8 0-15-2.5t-13-8.5L308-492q-12-12-11.5-28t11.5-28q12-12 28.5-12.5T365-549l75 75v-286q0-17 11.5-28.5T480-800q17 0 28.5 11.5T520-760v286l75-75q12-12 28.5-11.5T652-548q11 12 11.5 28T652-492L508-348q-6 6-13 8.5t-15 2.5ZM240-160q-33 0-56.5-23.5T160-240v-80q0-17 11.5-28.5T200-360q17 0 28.5 11.5T240-320v80h480v-80q0-17 11.5-28.5T760-360q17 0 28.5 11.5T800-320v80q0 33-23.5 56.5T720-160H240Z"/></svg>',
+			onClick: () => {
+				const src = viewer.currSlide?.data.src
+				if (src) downloadImage(src)
+			},
+		})
+	})
 	viewer.on("contentLoadImage", ({ content }) => {
 		if (content.element instanceof HTMLImageElement) content.element.referrerPolicy = "no-referrer"
 	})
@@ -967,6 +1004,15 @@ function setupPhone() {
 			tilt(clamp(event.gamma / 3), clamp(-(event.beta - base) / 4))
 		})
 	}
+	// Live clock, 24-hour like the picture had
+	const clock = phone.querySelector<HTMLElement>("[data-phone-clock]")
+	const tick = () => {
+		if (!clock?.isConnected) return
+		const now = new Date()
+		clock.textContent = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`
+		window.setTimeout(tick, (60 - now.getSeconds()) * 1000)
+	}
+	tick()
 	let holdTimer: number | undefined
 	let stopTimer: number | undefined
 	phone.addEventListener("pointerdown", (event) => {
@@ -1056,6 +1102,51 @@ function bounceHomeIcon() {
 	icon.classList.remove("home-bounce")
 	void icon.offsetWidth
 	icon.classList.add("home-bounce")
+}
+
+// Secret: ↑ ↑ ↓ ↓ ← → ← → B A turns on a retro pixel look (the same again turns it off)
+const konami = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"]
+let konamiStep = 0
+document.addEventListener("keydown", (event) => {
+	const key = event.key.length === 1 ? event.key.toLowerCase() : event.key
+	konamiStep = key === konami[konamiStep] ? konamiStep + 1 : key === konami[0] ? 1 : 0
+	if (konamiStep < konami.length) return
+	konamiStep = 0
+	const on = document.documentElement.classList.toggle("retro")
+	const toast = document.createElement("div")
+	toast.className = "retro-toast"
+	toast.textContent = on ? "★ RETRO MODE ★" : "Back to normal"
+	document.body.appendChild(toast)
+	setTimeout(() => toast.remove(), 2200)
+})
+
+// A little cat walks along the bottom of the screen now and then (not with reduced motion)
+function walkCat() {
+	if (document.hidden || document.getElementById("walking-cat")) return
+	const cat = document.createElement("div")
+	cat.id = "walking-cat"
+	cat.setAttribute("aria-hidden", "true")
+	const rtl = document.documentElement.dir === "rtl"
+	if (rtl) cat.classList.add("from-right")
+	cat.innerHTML = `<svg viewBox="0 0 64 40" width="64" height="40">
+		<g class="cat-body" fill="currentColor">
+			<path class="cat-tail" d="M8 20 q-8 -6 -4 -16" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+			<ellipse cx="26" cy="22" rx="18" ry="9"/>
+			<circle cx="46" cy="15" r="8"/>
+			<path d="M40 10 l2 -8 l5 6 z M47 8 l5 -6 l1 8 z"/>
+			<rect class="cat-leg leg-a" x="13" y="27" width="4" height="11" rx="2"/>
+			<rect class="cat-leg leg-b" x="20" y="27" width="4" height="11" rx="2"/>
+			<rect class="cat-leg leg-a" x="31" y="27" width="4" height="11" rx="2"/>
+			<rect class="cat-leg leg-b" x="38" y="27" width="4" height="11" rx="2"/>
+		</g>
+		<circle cx="49" cy="14" r="1.4" fill="var(--page-bg, #fff)"/>
+	</svg>`
+	document.body.appendChild(cat)
+	cat.addEventListener("animationend", () => cat.remove())
+}
+if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+	window.setTimeout(walkCat, 25000)
+	window.setInterval(walkCat, 120000)
 }
 
 onEveryPage(setupPhone)
