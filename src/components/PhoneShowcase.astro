@@ -23,12 +23,25 @@ const ROWS = [145, 297, 449, 601];
 const ICON = 95;
 const LABEL = 30;
 
-// Icon file in each grid cell, matched to a post through its `icon` frontmatter
-const grid = [
-	["gula-baibun", "mang", "sawda-pro", "spectramind"],
-	["ocean-road", "quote", "noon1968", "nilnuts"],
-	["weather", "change-life-travels", "quiz", "fast-order"],
-	["panel-line", "calculator", "sawda-web"],
+// Home screen, in order (4 per row). The grid area of projects.png is empty wallpaper, so the icons
+// and names are drawn here; each icon file is matched to a post through its `icon` frontmatter.
+const apps = [
+	{ icon: "nexa", label: "Nexa" },
+	{ icon: "gula-baibun", label: "گوڵە بەیبوون" },
+	{ icon: "mang", label: "مانگ" },
+	{ icon: "sawda-pro", label: "SawdaPro" },
+	{ icon: "spectramind", label: "SpectraMindGPT" },
+	{ icon: "ocean-road", label: "Ocean Road" },
+	{ icon: "quote", label: "Quote App" },
+	{ icon: "noon1968", label: "noon1968" },
+	{ icon: "nilnuts", label: "Nilnuts" },
+	{ icon: "weather", label: "Weather Web" },
+	{ icon: "change-life-travels", label: "ChangeLifeTravels" },
+	{ icon: "quiz", label: "QuizApp" },
+	{ icon: "fast-order", label: "Fast Order" },
+	{ icon: "panel-line", label: "Panel Line" },
+	{ icon: "calculator", label: "Friendly Calc" },
+	{ icon: "sawda-web", label: "Sawda WebPage" },
 ];
 
 const pct = (value: number, total: number) => `${(value / total) * 100}%`;
@@ -42,8 +55,9 @@ const titles = new Map(
 	),
 );
 
-const hotspots = grid.flatMap((row, r) =>
-	row.flatMap((icon, c) => {
+const hotspots = apps.flatMap(({ icon, label }, index) => {
+		const r = Math.floor(index / COLS.length);
+		const c = index % COLS.length;
 		// Gula Baibun has a mobile and a web post; the phone icon opens the app
 		const post =
 			projects.find(
@@ -55,13 +69,13 @@ const hotspots = grid.flatMap((row, r) =>
 		return [
 			{
 				icon: url(`/images/icons/${icon}.png`),
+				label,
 				href: getPostUrlBySlug(post.slug, lang),
 				title: titles.get(post.slug) ?? post.data.title,
 				style: `left:${pct(COLS[c], IMAGE_W)};top:${pct(ROWS[r], IMAGE_H)};width:${pct(ICON, IMAGE_W)};height:${pct(ICON + LABEL, IMAGE_H)}`,
 			},
 		];
-	}),
-);
+	});
 
 // Dock: favourite apps (the dock area of projects.png is empty, these sit on top of it)
 const DOCK_SLUGS = ["moon", "gwllabaybun", "spectramindgpt"];
@@ -108,6 +122,7 @@ const dock = dockApps.map((post, index) => ({
                     <span class="app-hotspot-icon">
                         <img src={spot.icon} alt="" width="96" height="96" draggable="false" class="w-full h-full rounded-[23%] select-none" />
                     </span>
+                    {"label" in spot && <span class="app-label" dir="auto">{spot.label}</span>}
                 </a>
             ))}
         </div>
@@ -126,6 +141,22 @@ const dock = dockApps.map((post, index) => ({
         -webkit-touch-callout: none;
         -webkit-user-select: none;
         user-select: none;
+    }
+    /* App name under the icon, white like iOS */
+    .app-label {
+        position: absolute;
+        left: -15%;
+        right: -15%;
+        bottom: 0;
+        text-align: center;
+        color: #fff;
+        font-size: 2.15cqw;
+        font-weight: 500;
+        line-height: 1.2;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-shadow: 0 1px 2px rgb(0 0 0 / 0.25);
     }
     .app-hotspot-icon {
         display: block;

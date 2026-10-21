@@ -13,6 +13,8 @@ const kurdishTagNames: Record<string, string> = {
 	"E-commerce": "بازرگانیی ئەلیکترۆنی",
 	Education: "فێرکاری",
 	Gamification: "فێربوون بە یاری",
+	"E-Learning": "فێربوونی ئەلیکترۆنی",
+	"Online Payments": "پارەدانی ئۆنلاین",
 	Industrial: "پیشەسازی",
 	Kurdish: "کوردی",
 	Kurmanji: "کورمانجی",
