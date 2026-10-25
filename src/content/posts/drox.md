@@ -17,7 +17,7 @@ playStore: "https://play.google.com/store/apps/details?id=com.sawda.drox"
 website: "https://drox.cards"
 draft: false
 pinned: true
-weight: 101
+weight: 103
 ---
 
 **Drox (درۆکس)** puts every loyalty card in one app. Customers collect stamps with a single QR code and unlock real rewards, while businesses run their loyalty programs, offers, team and live stats from one dashboard. No plastic cards, no paper stamps.

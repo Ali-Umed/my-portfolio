@@ -26,8 +26,8 @@ const LABEL = 30;
 // Home screen, in order (4 per row). The grid area of projects.png is empty wallpaper, so the icons
 // and names are drawn here; each icon file is matched to a post through its `icon` frontmatter.
 const apps = [
-	{ icon: "nexa", label: "Nexa" },
 	{ icon: "drox", label: "Drox" },
+	{ icon: "nexa", label: "Nexa" },
 	{ icon: "gula-baibun", label: "گوڵە بەیبوون" },
 	{ icon: "mang", label: "مانگ" },
 	{ icon: "sawda-pro", label: "SawdaPro" },
@@ -79,12 +79,12 @@ const hotspots = apps.flatMap(({ icon, label }, index) => {
 	});
 
 // Dock: favourite apps (the dock area of projects.png is empty, these sit on top of it)
-const DOCK_SLUGS = ["moon", "gwllabaybun", "spectramindgpt"];
+const DOCK_SLUGS = ["drox", "moon", "gwllabaybun", "spectramindgpt"];
 const DOCK_CENTER = 323;
 // Dock runs from y 1163 to about 1292 in the picture; icons are a bit smaller than the grid's and centred in it
 const DOCK_ICON = 84;
 const DOCK_TOP = 1186;
-const DOCK_GAP = 36;
+const DOCK_GAP = 30;
 const dockApps = DOCK_SLUGS.map((slug) => projects.find((p) => p.slug === slug)).filter(
 	(post): post is CollectionEntry<"posts"> => !!post?.data.icon,
 );
