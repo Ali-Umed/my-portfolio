@@ -2,7 +2,7 @@
 title: "Nexa Edu - Official Website"
 published: 2026-10-12
 description: "The nexa-iq.com website: a three-language home for the Nexa Edu app with features, store downloads, contact and the legal pages the stores require."
-tags: [Next.js, React, Tailwind CSS, Framer Motion, Multilingual, Dark Mode, Responsive Design]
+tags: [Next.js, React, Team Project, Tailwind CSS, Framer Motion, Multilingual, Dark Mode, Responsive Design]
 category: Website
 icon: /images/icons/nexa.png
 website: "https://nexa-iq.com"
@@ -13,7 +13,7 @@ weight: 102
 
 **nexa-iq.com** is the official website of the **Nexa Edu** education app. It introduces the app to students and schools, shows its real screens and sends visitors to the App Store or Google Play.
 
-I designed and built the whole site with **Next.js 16** and **React 19**.
+Nexa was built **as a team**; on this website I was the **web developer**, building it with **Next.js 16** and **React 19**. On the [Nexa Edu app](/posts/nexa-edu/) I worked as the Flutter developer.
 
 ---
 

@@ -14,6 +14,7 @@ const kurdishTagNames: Record<string, string> = {
 	Education: "فێرکاری",
 	Gamification: "فێربوون بە یاری",
 	"E-Learning": "فێربوونی ئەلیکترۆنی",
+	"Team Project": "پڕۆژەی تیمی",
 	"Loyalty Cards": "کارتی دڵسۆزی",
 	"QR Code": "کۆدی QR",
 	Offers: "ئۆفەر",

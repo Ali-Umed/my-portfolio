@@ -2,7 +2,7 @@
 title: "Nexa Edu - Education & Online Courses App"
 published: 2026-10-12
 description: "A school and online-learning app: courses by stage, timed practice quizzes, teacher questions and in-app course purchases with FIB and FastPay."
-tags: [Next.js, Education, E-Learning, Quiz, Online Payments, Kurdish, Arabic, Dark Mode]
+tags: [Flutter, Dart, Team Project, Education, E-Learning, Quiz, Online Payments, Kurdish, Arabic, Dark Mode]
 category: Mobile Application
 icon: /images/icons/nexa.png
 screenshots:
@@ -21,7 +21,7 @@ weight: 102
 
 **Nexa Edu (نێکسا)** is an education platform that brings school courses, practice and teachers together in one mobile app. Students follow lessons by stage and semester, test themselves with timed quizzes, ask their teacher directly and buy new courses inside the app.
 
-I built the whole product: the **iOS and Android app** and the **Nexa website** with its legal and account pages.
+Nexa was built **as a team**. I worked as the **Flutter developer** on the mobile app for iOS and Android, and as the web developer on the [Nexa website](/posts/nexa-web/).
 
 ---
 
@@ -53,7 +53,7 @@ I built the whole product: the **iOS and Android app** and the **Nexa website** 
 
 | Part | Technologies |
 | :--- | :--- |
-| **Mobile app** | iOS and Android, published on the App Store and Google Play |
+| **Mobile app** | Flutter (Dart) for iOS and Android, published on the App Store and Google Play |
 | **Website** | Next.js 16, React 19, TypeScript, Tailwind CSS 4, Framer Motion |
 | **Languages** | next-intl with Kurdish, Arabic and English, right-to-left support |
 | **Payments** | FIB and FastPay |
