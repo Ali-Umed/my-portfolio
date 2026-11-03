@@ -1,0 +1,131 @@
+---
+import { getCollection } from "astro:content";
+import { Icon } from "astro-icon/components";
+import MainGridLayout from "../../layouts/MainGridLayout.astro";
+import { toLang } from "../../i18n/lang";
+import { localeUrl, url } from "../../utils/url-utils";
+
+export async function getStaticPaths() {
+	const skills = await getCollection("skills");
+	return skills.map((post) => ({
+		params: { slug: post.slug },
+		props: { post },
+	}));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+const { title, description, published, tags, category, download } = post.data;
+---
+
+<MainGridLayout title={title} description={description || ""} headings={[]}>
+  <div class="card-base pt-2">
+    <div class="pt-6 px-6 md:px-8">
+      <header class="mb-0">
+        <div class="flex flex-wrap gap-2  mb-0">
+          {category && (
+            <span class="chip h-8 px-3 text-sm !bg-[var(--primary-solid)] !text-[var(--on-primary)] !border-transparent">
+              {category}
+            </span>
+          )}
+          {tags && tags.map(tag => (
+            <span class="chip h-8 px-3 text-sm">
+              {tag}
+            </span>
+          ))}
+        </div>
+        
+        <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4 pt-4 text-[var(--ink)]">{title}</h1>
+        
+        <p class="text-base md:text-lg font-medium text-75 mb-4">{description}</p>
+        <div class="flex flex-wrap items-center gap-4 text-sm font-bold text-50">
+          <a href={url(download)} download class="inline-flex items-center gap-2 h-11 px-5 rounded-[var(--radius-btn)] bg-[var(--primary-solid)] text-[var(--on-primary)] font-extrabold">
+            <Icon name="material-symbols:download-rounded" class="text-xl"></Icon>
+            Download skill (.zip)
+          </a>
+          <time datetime={published.toISOString()}>
+            {published.toLocaleDateString("en-US", { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            })}
+          </time>
+        </div>
+      </header>
+    </div>
+
+    <div class="p-6 md:p-8 ">
+      <div class="prose dark:prose-invert   markdown-content">
+        <Content 
+        
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-4 mt-4 mb-4">
+    <a href={localeUrl("/skills/", toLang(Astro.currentLocale))} class="btn-outline self-start ms-4 md:ms-0">
+      <Icon name="material-symbols:arrow-back-rounded" class="text-xl"></Icon>
+      All skills
+    </a>
+  </div>
+</MainGridLayout>
+
+<style>
+  .markdown-content {
+    @apply space-y-6;
+  }
+  .markdown-content h2 {
+    @apply text-2xl font-extrabold tracking-tight mt-8 mb-4;
+  }
+  .markdown-content h3 {
+    @apply text-xl font-semibold mt-6 mb-3;
+  }
+  .markdown-content p {
+    @apply my-4 leading-relaxed;
+  }
+  .markdown-content ul, 
+  .markdown-content ol {
+    @apply my-4 ps-6;
+  }
+  .markdown-content li {
+    @apply mb-2;
+  }
+  .markdown-content a {
+    @apply text-[var(--primary)];
+  }
+  .markdown-content img {
+    @apply rounded-xl w-full;
+  }
+  .markdown-content blockquote {
+    @apply border-s-4 border-[var(--primary)] ps-4 py-1 my-4 text-black/75 dark:text-white/75;
+  }
+</style>
+
+<style is:global>
+  /* rehype-autolink-headings anchors: only show while hovering the heading */
+  .markdown-content :is(h1, h2, h3, h4) .anchor {
+    opacity: 0;
+    margin-inline-start: 0.35em;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+  .markdown-content :is(h1, h2, h3, h4):hover .anchor {
+    opacity: 1;
+  }
+
+  /* Inline code as small chips; code blocks are styled by expressive-code */
+  .markdown-content :not(pre) > code {
+    padding: 0.1em 0.4em;
+    border: 1px solid var(--card-border);
+    border-radius: 6px;
+    background: var(--inline-code-bg);
+    color: var(--inline-code-color);
+    font-size: 0.875em;
+    font-weight: 700;
+  }
+  .markdown-content :not(pre) > code::before,
+  .markdown-content :not(pre) > code::after {
+    content: none;
+  }
+</style>

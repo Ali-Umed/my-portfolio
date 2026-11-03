@@ -11,6 +11,7 @@ const presets: { [key in LinkPreset]: { name: I18nKey; url: string } } = {
 	[LinkPreset.Projects]: { name: I18nKey.projects, url: "/projects/" },
 	[LinkPreset.Blogs]: { name: I18nKey.blogs, url: "/blogs/" },
 	[LinkPreset.Pinterest]: { name: I18nKey.pinterest, url: "/pinterest/" },
+	[LinkPreset.Skills]: { name: I18nKey.navSkills, url: "/skills/" },
 };
 
 // Navbar links with preset names translated; `url` is still unprefixed, see localeUrl()

@@ -1,0 +1,38 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { Icon } from "astro-icon/components";
+import { toLang } from "../i18n/lang";
+import { localeUrl } from "../utils/url-utils";
+
+interface Props {
+	entry: CollectionEntry<"skills">;
+	class?: string;
+	style?: string;
+}
+
+const { entry, style } = Astro.props;
+const className = Astro.props.class;
+const { title, description, category, image, tags } = entry.data;
+---
+<a href={localeUrl(`/skills/${entry.slug}/`, toLang(Astro.currentLocale))}
+   class:list={["card-base group flex flex-col sm:flex-row overflow-hidden active:scale-[0.99] transition", className]}
+   style={style}>
+    {image && (
+        <img src={image} alt={title} loading="lazy"
+             class="w-full sm:w-48 md:w-56 aspect-[4/5] object-cover shrink-0" />
+    )}
+    <div class="min-w-0 flex-1 flex flex-col gap-2 p-5 md:p-6">
+        {category && <span class="chip h-7 px-2.5 text-xs self-start">{category}</span>}
+        <h2 class="font-extrabold tracking-tight text-xl md:text-2xl leading-snug text-[var(--ink)] group-hover:text-[var(--primary)] transition">
+            {title}
+        </h2>
+        <p class="text-sm md:text-base font-medium text-75 line-clamp-3">{description}</p>
+        <div class="flex flex-wrap items-center gap-2 mt-auto pt-2">
+            {tags.slice(0, 3).map((tag) => <span class="chip h-7 px-2.5 text-xs">{tag}</span>)}
+            <span class="ms-auto inline-flex items-center gap-1 text-sm font-extrabold h-9 px-4 rounded-[var(--radius-btn)] bg-[var(--primary-solid)] text-[var(--on-primary)]">
+                Open
+                <Icon name="material-symbols:arrow-forward-rounded" class="text-base transition group-hover:translate-x-1"></Icon>
+            </span>
+        </div>
+    </div>
+</a>

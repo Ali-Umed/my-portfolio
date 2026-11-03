@@ -63,8 +63,17 @@ const postsKuCollection = defineCollection({
 	}),
 });
 
+// Claude skills I share: a write-up page plus a downloadable zip of the skill folder
+const skillsCollection = defineCollection({
+	schema: z.object({
+		...blogSchema,
+		download: z.string(),
+	}),
+});
+
 export const collections = {
 	posts: postsCollection,
 	blogs: blogsCollection,
 	"posts-ku": postsKuCollection,
+	skills: skillsCollection,
 };

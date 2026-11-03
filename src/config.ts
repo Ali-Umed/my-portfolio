@@ -44,6 +44,7 @@ export const navBarConfig: NavBarConfig = {
 		LinkPreset.Home,
 		LinkPreset.Projects,
 		LinkPreset.Blogs,
+		LinkPreset.Skills,
 		// LinkPreset.Archive, // hidden for now; /archive/ still serves tag and category filters
 		LinkPreset.About,
 		LinkPreset.Pinterest,

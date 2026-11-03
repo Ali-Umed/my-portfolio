@@ -1,0 +1,29 @@
+---
+import { getCollection } from "astro:content";
+import SkillCard from "../../components/SkillCard.astro";
+import MainGridLayout from "../../layouts/MainGridLayout.astro";
+
+const skills = (await getCollection("skills"))
+	.filter((skill) => !skill.data.draft)
+	.sort((a, b) => b.data.published.getTime() - a.data.published.getTime());
+
+let delay = 0;
+const interval = 50;
+---
+
+<MainGridLayout title="Skills" description="Claude skills and prompts I use, free to download">
+    <div class="card-base onload-animation flex flex-wrap items-center justify-between gap-3 p-4 mb-4">
+        <div class="text-lg font-extrabold text-[var(--ink)] px-1">Claude skills &amp; prompts</div>
+        <div class="text-sm font-bold text-50 px-1">Free to download and use with Claude</div>
+    </div>
+
+    <div class="flex flex-col gap-4 mb-4">
+        {skills.map((skill) => (
+            <SkillCard
+                entry={skill}
+                class="onload-animation"
+                style={`animation-delay: calc(var(--content-delay) + ${delay++ * interval}ms);`}
+            />
+        ))}
+    </div>
+</MainGridLayout>

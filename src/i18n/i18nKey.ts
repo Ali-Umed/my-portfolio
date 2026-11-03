@@ -5,6 +5,7 @@ enum I18nKey {
 	search = "search",
 	projects = "projects",
 	blogs = "blogs",
+	navSkills = "navSkills",
 
 	tags = "tags",
 	categories = "categories",

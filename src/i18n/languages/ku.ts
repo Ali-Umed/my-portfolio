@@ -9,6 +9,7 @@ export const ku: Translation = {
 	[Key.search]: "گەڕان",
 	[Key.projects]: "پڕۆژەکان",
 	[Key.blogs]: "بلۆگ",
+	[Key.navSkills]: "سکیڵەکان",
 
 	[Key.tags]: "تاگەکان",
 	[Key.categories]: "پۆلەکان",
