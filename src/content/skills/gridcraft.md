@@ -3,7 +3,7 @@ title: "GridCraft Spreadsheets with Code"
 published: 2026-11-16
 draft: false
 description: "A Claude skill that builds real Excel spreadsheets in GridCraft with code. Episode 1 of my series \"One car, 17 apps\": one prompt builds a hypercar spec sheet where every number is a formula. Here is the skill, the prompt, and the files."
-image: "/images/skills/gridcraft-ep01/thumb.jpg"
+image: "/images/skills/gridcraft-ep01/cover.jpg"
 tags: ["GridCraft", "Spreadsheet", "Prompt", "YouTube"]
 category: "Claude Skill"
 download: "/skills/gridcraft.zip"
